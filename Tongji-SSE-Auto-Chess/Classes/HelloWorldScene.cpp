@@ -86,7 +86,7 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    auto Show_Designer = Label::createWithTTF("Designed By L1KEAB0T&Ethebest777&Rock1ey&CoArrayLiu", "fonts/AaJiuZhongXiao-2.ttf", 8);
+    auto Show_Designer = Label::createWithTTF("Designed By L1KEAB0T&Ethebest777&Rock1ey&CoArrayLiu", "fonts/AaJiuZhongXiao-2.ttf", 24);
     if (Show_Designer == nullptr)
     {
         problemLoading("'fonts/AaJiuZhongXiao-2.ttf'");
