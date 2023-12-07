@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include <proj.win32/Show_Chinese.h>
 
 USING_NS_CC;
 
@@ -85,35 +86,35 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    /**/
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
+    auto Show_Designer = Label::createWithTTF("Designed By L1KEAB0T&Ethebest777&Rock1ey&CoArrayLiu", "fonts/AaJiuZhongXiao-2.ttf", 8);
+    if (Show_Designer == nullptr)
     {
-        problemLoading("'fonts/Marker Felt.ttf'");
+        problemLoading("'fonts/AaJiuZhongXiao-2.ttf'");
     }
     else
     {
+        Show_Designer->setColor(Color3B(249, 194, 111));
         // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
+        Show_Designer->setPosition(Vec2(origin.x + Show_Designer->getContentSize().width/2,
+                                origin.y + visibleSize.height - Show_Designer->getContentSize().height/2));
 
         // add the label as a child to this layer
-        this->addChild(label, 1);
+        this->addChild(Show_Designer, 1);
     }
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("Start_Screen.png");
-    if (sprite == nullptr)
+    auto Start_Screen = Sprite::create("Start_Screen.png");
+    if (Start_Screen == nullptr)
     {
         problemLoading("'Start_Screen.png'");
     }
     else
     {
         // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+        Start_Screen->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
         // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
+        this->addChild(Start_Screen, 0);
     }
     return true;
 }
@@ -128,6 +129,4 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
 }
