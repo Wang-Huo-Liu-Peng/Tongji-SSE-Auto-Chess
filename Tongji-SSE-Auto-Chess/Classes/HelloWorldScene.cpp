@@ -22,9 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
+//#include "HelloWorldScene.h"
+//#include "SimpleAudioEngine.h"
 #include <proj.win32/Show_Chinese.h>
+#include "Test.h"
 
 USING_NS_CC;
 
@@ -116,6 +117,66 @@ bool HelloWorld::init()
         // add the sprite as a child to this layer
         this->addChild(Start_Screen, 0);
     }
+
+    //创建菜单(用标签创建)
+    //创建一个TTFConfig对象来设置标签的共同属性
+    TTFConfig labelConfig;
+    labelConfig.fontFilePath = "fonts/Marker Felt.ttf";
+    labelConfig.fontSize = 52;
+    labelConfig.glyphs = GlyphCollection::DYNAMIC;
+    labelConfig.outlineSize = 0;
+    labelConfig.customGlyphs = nullptr;
+    labelConfig.distanceFieldEnabled = false;
+
+    //菜单所需要的标签
+    auto GameLabel   = Label::createWithTTF(labelConfig, "Game");
+    auto TestLabel_1 = Label::createWithTTF(labelConfig, "Test_Scene_1");
+    auto TestLabel_2 = Label::createWithTTF(labelConfig, "Test_Scene_2");
+    auto TestLabel_3 = Label::createWithTTF(labelConfig, "Test_Scene_3");
+    auto TestLabel_4 = Label::createWithTTF(labelConfig, "Test_Scene_4");
+
+    // creating a Menu from a Vector of items
+    Vector<MenuItem*> MenuItems;
+    auto GameItem = MenuItemLabel::create(GameLabel,
+        [&](Ref* sender) {
+            //自定义回调函数，下同
+        });
+    auto TestItem_1 = MenuItemLabel::create(TestLabel_1,
+        [&](Ref* sender) {
+            Test_Scene_1();
+        });
+    auto TestItem_2 = MenuItemLabel::create(TestLabel_2,
+        [&](Ref* sender) {
+            Test_Scene_2();
+        });
+    auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
+        [&](Ref* sender) {
+            Test_Scene_3();
+        });
+    auto TestItem_4 = MenuItemLabel::create(TestLabel_4,
+        [&](Ref* sender) {
+            Test_Scene_4();
+        });
+
+    //设置各个标签的间距
+    const int height = GameItem->getContentSize().height;
+    GameItem->setPosition(Vec2(origin.x , origin.y));
+    TestItem_1->setPosition(Vec2(origin.x ,origin.y  -height));
+    TestItem_2->setPosition(Vec2(origin.x ,origin.y  -height*2));
+    TestItem_3->setPosition(Vec2(origin.x, origin.y - height * 3));
+    TestItem_4->setPosition(Vec2(origin.x, origin.y - height * 4));
+
+    MenuItems.pushBack(GameItem);
+    MenuItems.pushBack(TestItem_1);
+    MenuItems.pushBack(TestItem_2);
+    MenuItems.pushBack(TestItem_3);
+    MenuItems.pushBack(TestItem_4);
+
+    auto GameMenu = Menu::createWithArray(MenuItems);
+    GameMenu->setPosition(Vec2(origin.x + visibleSize.width / 2,
+        origin.y + visibleSize.height / 2 - height * 2));
+    this->addChild(GameMenu, 1);//将整个菜单加入场景中
+
     return true;
 }
 
