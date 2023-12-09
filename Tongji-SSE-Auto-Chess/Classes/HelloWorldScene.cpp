@@ -22,10 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-//#include "HelloWorldScene.h"
-//#include "SimpleAudioEngine.h"
+#include "HelloWorldScene.h"
+#include "SimpleAudioEngine.h"
 #include <proj.win32/Show_Chinese.h>
-#include "Test.h"
+#include <proj.win32/Test.h>
 
 USING_NS_CC;
 
