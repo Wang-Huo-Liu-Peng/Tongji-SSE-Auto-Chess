@@ -16,6 +16,7 @@ void Test_Scene_1()
         origin.y+ visibleSize.height/2));
     mySprite->setScale(0.5f);
     myScene->addChild(mySprite, 1);//º”»Î≥°æ∞
+    
 
     ///////////////////////////////
 

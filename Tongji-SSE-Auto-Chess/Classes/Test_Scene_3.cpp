@@ -10,7 +10,35 @@ void Test_Scene_3()
 
     //以下为你的测试代码（场景为myScene）
     ///////////////////////////////
-    //...
+    auto mySprite = Sprite::create("mingrixiang.png");//创建精灵
+    mySprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
+        origin.y + visibleSize.height / 2));
+    mySprite->setScale(0.5f);
+    myScene->addChild(mySprite, 1);//加入场景
+    
+    //动作测试
+   /******************************************/
+  
+    mySprite->setPosition(50, 56);
+
+    // create a few Actions
+    auto moveBy = MoveBy::create(2.0f, Vec2(500, 0));
+    auto scaleBy = ScaleBy::create(2.0f, 2.0f);
+    auto delay = DelayTime::create(2.0f);
+
+    // create a sequence
+    auto delaySequence = Sequence::create(delay, delay->clone(), delay->clone(),
+        delay->clone(), nullptr);
+
+    auto sequence = Sequence::create(moveBy, delay, scaleBy, delaySequence, nullptr);
+
+    // run it
+    mySprite->runAction(sequence);
+
+    // reverse it
+    mySprite->runAction(sequence->reverse());
+    /*****************************************/
+    
     ///////////////////////////////
 
 
