@@ -24,8 +24,8 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include <proj.win32/Show_Chinese.h>
-#include <proj.win32/Test.h>
+#include <Show_Chinese.h>
+#include <Test.h>
 
 USING_NS_CC;
 
