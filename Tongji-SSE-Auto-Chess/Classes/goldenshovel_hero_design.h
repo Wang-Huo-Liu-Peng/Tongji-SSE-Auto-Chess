@@ -8,6 +8,9 @@ class goldenshovel_hero {
 public:
 	goldenshovel_hero();
 
+	goldenshovel_hero* attacking_hero;//目前正在攻击的英雄
+
+	int number;						 //同时上场两个同一英雄时用编号分开
 	string hero_name;                //英雄名
 	string ace_name;                 //大招名称
 	int belongs_to;					 //当前卡牌属于的小小英雄的编号
