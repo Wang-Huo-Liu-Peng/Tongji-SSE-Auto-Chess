@@ -99,6 +99,22 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
     auto frameSize = glview->getFrameSize();
+
+    // 计算缩放比例
+    float scaleX = frameSize.width / designResolutionSize.width;
+    float scaleY = frameSize.height / designResolutionSize.height;
+
+    // 设置缩放
+    director->setContentScaleFactor(MIN(scaleX, scaleY));
+
+    // 在Windows平台上实现全屏窗口
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    HWND hwnd = static_cast<HWND>(glview->getWin32Window());
+    ShowWindow(hwnd, SW_SHOWNORMAL);
+    SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_OVERLAPPEDWINDOW);
+    SetWindowPos(hwnd, HWND_TOP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
+#endif
+
     // if the frame's height is larger than the height of medium size.
     if (frameSize.height > mediumResolutionSize.height)
     {        
