@@ -9,6 +9,7 @@ static void problemLoading(const char* filename)
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
+
 vector <goldenshovel_hero> Hero_on_court_1;
 vector <goldenshovel_hero> Hero_on_court_2;
 vector <goldenshovel_hero> Hero_select_1;
@@ -30,16 +31,16 @@ void make_a_random_hero(int fee[], string Hero_in_shop[]) {
         //one_fee暂时代表一费英雄池
         //hero_compose[i] = one_fee[std::rand() % sizeof(one_fee) + 1];
     }
-    for (; i < fee[2]; i++) {
+    for (; i < fee[1]+fee[2]; i++) {
         //同
     }
-    for (; i < fee[3]; i++) {
+    for (; i < fee[1] + fee[2]+fee[3]; i++) {
         //同
     }
-    for (; i < fee[4]; i++) {
+    for (; i < fee[1] + fee[2] + fee[3] +fee[4]; i++) {
         //同
     }
-    for (; i < fee[5]; i++) {
+    for (; i < fee[1] + fee[2] + fee[3] + fee[4] +fee[5]; i++) {
         //同
     }
     for (int i = 0; i < 5; i++) {
@@ -51,7 +52,7 @@ void make_a_random_hero(int fee[], string Hero_in_shop[]) {
 
 
 //将一个新英雄从商店中选出
-void set_a_hero(string hero_name,string Hero_in_shop[], vector<goldenshovel_hero>& Hero, vector<cocos2d::Sprite*>& Sprite_set) {
+void set_a_hero(string hero_name, string Hero_in_shop[], vector<goldenshovel_hero>& Hero, vector<cocos2d::Sprite*>& Sprite_set) {
     for (int i = 0; i < 5; i++) {
         if (Hero_in_shop[i] == hero_name) {
             Hero_in_shop[i] = "";
@@ -59,12 +60,12 @@ void set_a_hero(string hero_name,string Hero_in_shop[], vector<goldenshovel_hero
     }
     //扣钱
 
-    string filename=hero_name+".png";
-    goldenshovel_hero new_hero;
+    string filename = hero_name + ".png";
+    //goldenshovel_hero set_a_new_hero; 此处报错原因未知
     //缺少new_hero赋值
     auto new_hero_Sprite = Sprite::create(filename);
     //缺少放置
-    Hero.push_back(new_hero);
+    //Hero.push_back(set_a_new_hero);
     Sprite_set.push_back(new_hero_Sprite);
     //可视化，并给position赋值
 
@@ -87,7 +88,7 @@ void Seek_the_enemy(goldenshovel_hero hero, vector <goldenshovel_hero>& Hero_on_
                     find = 1;
                     break;
                 }
-                if (find = 1)
+                if (find == 1)
                     break;
             }
         }
