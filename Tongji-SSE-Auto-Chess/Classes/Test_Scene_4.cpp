@@ -51,25 +51,25 @@ void make_a_random_hero(int fee[], string Hero_in_shop[]) {
 
 
 //将一个新英雄从商店中选出
-void set_a_hero(string hero_name,string Hero_in_shop[], vector<goldenshovel_hero>& Hero, vector<cocos2d::Sprite*>& Sprite_set) {
-    for (int i = 0; i < 5; i++) {
-        if (Hero_in_shop[i] == hero_name) {
-            Hero_in_shop[i] = "";
-        }
-    }
-    //扣钱
-
-    string filename=hero_name+".png";
-    goldenshovel_hero new_hero;
-    //缺少new_hero赋值
-    auto new_hero_Sprite = Sprite::create(filename);
-    //缺少放置
-    Hero.push_back(new_hero);
-    Sprite_set.push_back(new_hero_Sprite);
-    //可视化，并给position赋值
-
-
-}
+//void set_a_hero(string hero_name,string Hero_in_shop[], vector<goldenshovel_hero>& Hero, vector<cocos2d::Sprite*>& Sprite_set) {
+//    for (int i = 0; i < 5; i++) {
+//        if (Hero_in_shop[i] == hero_name) {
+//            Hero_in_shop[i] = "";
+//        }
+//    }
+//    //扣钱
+//
+//    string filename=hero_name+".png";
+//    goldenshovel_hero new_hero;
+//    //缺少new_hero赋值
+//    auto new_hero_Sprite = Sprite::create(filename);
+//    //缺少放置
+//    Hero.push_back(new_hero);
+//    Sprite_set.push_back(new_hero_Sprite);
+//    //可视化，并给position赋值
+//
+//
+//}
 
 //英雄索敌
 void Seek_the_enemy(goldenshovel_hero hero, vector <goldenshovel_hero>& Hero_on_court, vector <cocos2d::Sprite*>& Sprite_on_court) {
