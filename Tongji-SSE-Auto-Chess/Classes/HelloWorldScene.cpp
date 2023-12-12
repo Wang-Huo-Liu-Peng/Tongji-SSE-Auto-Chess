@@ -72,8 +72,8 @@ bool HelloWorld::init()
     }
     else
     {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
+        float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
+        float y = origin.y + closeItem->getContentSize().height;
         closeItem->setPosition(Vec2(x,y));
     }
 

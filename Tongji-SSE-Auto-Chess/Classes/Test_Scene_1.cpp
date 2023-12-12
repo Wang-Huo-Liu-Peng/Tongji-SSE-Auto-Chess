@@ -20,7 +20,6 @@ void Test_Scene_1()
 
     ///////////////////////////////
 
-
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
@@ -28,8 +27,8 @@ void Test_Scene_1()
         [&](Ref* sender) {
             Director::getInstance()->popScene();//释放当前场景，再从场景栈中弹出栈顶的场景，并将其设置为当前运行场景。
         });
-    float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-    float y = origin.y + closeItem->getContentSize().height / 2;
+    float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
+    float y = origin.y + closeItem->getContentSize().height;
     closeItem->setPosition(Vec2(x, y));
 
     auto exitMenu = Menu::create(closeItem, NULL);
