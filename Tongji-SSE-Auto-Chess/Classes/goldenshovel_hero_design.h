@@ -2,40 +2,53 @@
 #include<iostream>
 using namespace std;
 
-#define max_hero_grade 3            //英雄最高星级 
-
-class goldenshovel_hero {
+/*====================基类====================*/
+//注意：该基类为抽象基类，不可直接生成对象
+class MyObject{
 public:
-	goldenshovel_hero();
+	MyObject(int hp, int xp, int av, int x = -1, int y = -1) :                             // 构造函数
+		current_hp(hp), current_xp(xp), armor_value(av), location_x(x), location_y(y) {};
 
-	goldenshovel_hero* attacking_hero;//目前正在攻击的英雄
+	virtual void my_move(int new_x, int new_y) = 0;                                        // 移动函数（纯虚函数）
 
-	int number;						 //同时上场两个同一英雄时用编号分开
-	string hero_name;                //英雄名
-	string ace_name;                 //大招名称
-	int belongs_to;					 //当前卡牌属于的小小英雄的编号
-	
-	//int star_rating;                 //英雄星级
-	int gold_cost;                   //英雄花费 
 
-	int needed_charge_round;         //大招所需蓄力轮数
-	int current_charge_round;        //当前蓄力轮数
+protected:
+	int current_hp;                               // 当前血量
+	int current_xp;                               // 当前蓝条
+	int armor_value;                              // 护甲值
 
-	int attack_speed;                //攻击速度 
-	int attack_distance;             //攻击距离
-	int attack_power;                //攻击力
-	int ace_attck_power;             //大招攻击力
+	int location_x;			                      // 横坐标
+	int location_y;                               // 纵坐标
+};
 
-	int full_hp;                     //满血血量
-	int current_hp;                  //当前血量
-	//int magic_resistance;            //魔抗 
-	//int physical_resistance;         //物抗 
-	//int armor_value;                 //护甲值 
+/*====================精灵类====================*/
+class MySprite:public MyObject  {
+public:
+	MySprite(int level, int hp, int xp, int av, int x = -1, int y = -1) :        // 构造函数
+		MyObject(hp, xp, av, x, y), star_level(level) {};
+	virtual void my_move(int new_x, int new_y);                                  // 移动函数
 
-	//int search_enemy_num=1;          //索敌数量 
-	
-	//记录当前英雄在棋盘上的位置
-	int location_x = -1;			 //横坐标
-	int location_y = -1;             //纵坐标
 private:
+	int star_level;     // 星级
+};
+
+/*====================英雄类====================*/
+class MyHero : public MyObject {
+public:
+	MyHero(int index, int cost, int level, int power, int a_power, int n_c_r, int c_c_r, int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
+		MyObject(hp, xp, av, x, y),
+		battle_index(index), gold_cost(cost), star_level(level), attack_power(power), ace_attack_power(a_power),
+		needed_cooldown_round(n_c_r), current_cooldown_round(c_c_r) {};
+	virtual void my_move(int new_x, int new_y);  // 移动函数
+    void seek_enemy();                           // 索敌函数
+	void hero_ultimate();                        // 大招函数
+
+private:
+	bool battle_index;                 // 判断是否在场
+	int gold_cost;                     // 英雄花费 
+    int star_level;                    // 星级
+	int attack_power;                  // 攻击力
+	int ace_attack_power;               // 大招攻击力
+	int needed_cooldown_round;         // 大招所需冷却轮数
+    int current_cooldown_round;        // 当前冷却轮数
 };
