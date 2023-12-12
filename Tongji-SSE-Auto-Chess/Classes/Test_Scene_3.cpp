@@ -44,33 +44,33 @@ void Test_Scene_3()
 #include <iostream>
 using namespace std;
 
-class Object {
-public:
-    Object();
-    virtual void move(int new_x, int new_y);
-protected:
-    int health;
-    int experience;
-    int armor;
-    int x;
-    int y;
-};
-
-class HeroBranch : public Object {
-public:
-    HeroBranch();
-    void attack();
-    void displayInfo();
-
-private:
-    int attack_damage;
-    int star_level;
-};
-
-class SpriteBranch : public Object {
-public:
-    SpriteBranch();
-    void displayInfo();
-private:
-    int star_level;
-};
+//class Object {
+//public:
+//    Object();
+//    virtual void move(int new_x, int new_y);
+//protected:
+//    int health;
+//    int experience;
+//    int armor;
+//    int x;
+//    int y;
+//};
+//
+//class HeroBranch : public Object {
+//public:
+//    HeroBranch();
+//    void attack();
+//    void displayInfo();
+//
+//private:
+//    int attack_damage;
+//    int star_level;
+//};
+//
+//class SpriteBranch : public Object {
+//public:
+//    SpriteBranch();
+//    void displayInfo();
+//private:
+//    int star_level;
+//};
