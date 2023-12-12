@@ -1,4 +1,7 @@
 #include "Test.h"
+#include <goldenshovel_hero_design.h>
+
+USING_NS_CC;
 
 void Test_Scene_1()
 {
@@ -16,8 +19,7 @@ void Test_Scene_1()
         origin.y+ visibleSize.height/2));
     mySprite->setScale(0.5f);
     myScene->addChild(mySprite, 1);//加入场景
-    
-
+   
     ///////////////////////////////
 
     //退出当前场景的按钮
@@ -35,3 +37,4 @@ void Test_Scene_1()
     exitMenu->setPosition(Vec2::ZERO);
     myScene->addChild(exitMenu, 1);
 }
+

@@ -26,6 +26,7 @@
 #include "SimpleAudioEngine.h"
 #include <Show_Chinese.h>
 #include <Test.h>
+#include <Game.h>
 
 USING_NS_CC;
 
@@ -140,6 +141,7 @@ bool HelloWorld::init()
     auto GameItem = MenuItemLabel::create(GameLabel,
         [&](Ref* sender) {
             //自定义回调函数，下同
+            slectMode();
         });
     auto TestItem_1 = MenuItemLabel::create(TestLabel_1,
         [&](Ref* sender) {
