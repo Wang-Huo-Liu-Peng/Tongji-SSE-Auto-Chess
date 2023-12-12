@@ -10,35 +10,17 @@ void Test_Scene_3()
 
     //以下为你的测试代码（场景为myScene）
     ///////////////////////////////
-    auto mySprite = Sprite::create("mingrixiang.png");//创建精灵
-    mySprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
-        origin.y + visibleSize.height / 2));
-    mySprite->setScale(0.5f);
-    myScene->addChild(mySprite, 1);//加入场景
     
-    //动作测试
-   /******************************************/
-  
-    mySprite->setPosition(50, 56);
 
-    // create a few Actions
-    auto moveBy = MoveBy::create(2.0f, Vec2(500, 0));
-    auto scaleBy = ScaleBy::create(2.0f, 2.0f);
-    auto delay = DelayTime::create(2.0f);
+    auto label1 = Label::createWithTTF("My Game", "fonts/Marker Felt.ttf", 36);
+    label1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
 
-    // create a sequence
-    auto delaySequence = Sequence::create(delay, delay->clone(), delay->clone(),
-        delay->clone(), nullptr);
+    myScene->addChild(label1);
 
-    auto sequence = Sequence::create(moveBy, delay, scaleBy, delaySequence, nullptr);
+    auto sprite1 = Sprite::create("mingrixiang.png");
+    sprite1->setPosition(Vec2(100, 100));
 
-    // run it
-    mySprite->runAction(sequence);
-
-    // reverse it
-    mySprite->runAction(sequence->reverse());
-    /*****************************************/
-    
+    myScene->addChild(sprite1);
     ///////////////////////////////
 
 
@@ -57,3 +39,38 @@ void Test_Scene_3()
     exitMenu->setPosition(Vec2::ZERO);
     myScene->addChild(exitMenu, 1);
 }
+
+/***********************************************************************************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Object {
+public:
+    Object();
+    virtual void move(int new_x, int new_y);
+protected:
+    int health;
+    int experience;
+    int armor;
+    int x;
+    int y;
+};
+
+class HeroBranch : public Object {
+public:
+    HeroBranch();
+    void attack();
+    void displayInfo();
+
+private:
+    int attack_damage;
+    int star_level;
+};
+
+class SpriteBranch : public Object {
+public:
+    SpriteBranch();
+    void displayInfo();
+private:
+    int star_level;
+};
