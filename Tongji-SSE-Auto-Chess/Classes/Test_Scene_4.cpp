@@ -9,7 +9,7 @@ static void problemLoading(const char* filename)
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
-
+/*从这里开始注释，到最后一行结束
 vector <goldenshovel_hero> Hero_on_court_1;
 vector <goldenshovel_hero> Hero_on_court_2;
 vector <goldenshovel_hero> Hero_select_1;
@@ -144,4 +144,4 @@ void Test_Scene_4()
     auto exitMenu = Menu::create(closeItem, NULL);
     exitMenu->setPosition(Vec2::ZERO);
     myScene->addChild(exitMenu, 1);
-}
+}*/
