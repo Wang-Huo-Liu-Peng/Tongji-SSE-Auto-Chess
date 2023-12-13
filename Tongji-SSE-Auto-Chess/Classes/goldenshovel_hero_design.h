@@ -48,7 +48,7 @@ private:
 	int gold_cost;                     // 英雄花费 
     int star_level;                    // 星级
 	int attack_power;                  // 攻击力
-	int ace_attack_power;               // 大招攻击力
+	int ace_attack_power;              // 大招攻击力
 	int needed_cooldown_round;         // 大招所需冷却轮数
     int current_cooldown_round;        // 当前冷却轮数
 };
