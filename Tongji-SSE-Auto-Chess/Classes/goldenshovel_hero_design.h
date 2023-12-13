@@ -13,12 +13,15 @@ public:
 
 
 protected:
+	int full_hp;                                  // 满血
 	int current_hp;                               // 当前血量
 	int current_xp;                               // 当前蓝条
 	int armor_value;                              // 护甲值
 
 	int location_x;			                      // 横坐标
 	int location_y;                               // 纵坐标
+
+	Sprite* sprite;
 };
 
 /*====================精灵类====================*/
