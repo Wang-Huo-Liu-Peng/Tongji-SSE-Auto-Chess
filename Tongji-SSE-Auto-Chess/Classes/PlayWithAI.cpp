@@ -1,27 +1,22 @@
-#include "HelloWorldScene.h"
-#include "Test_Scene_1.h"
+#include "PlayWithAI.h"
 
 USING_NS_CC;
 
-Scene* Test_Scene_1::createScene()
+Scene* PlayWithAI::createScene()
 {
-    return Test_Scene_1::create();
+    return PlayWithAI::create();
 }
 
-bool Test_Scene_1::init()
+bool PlayWithAI::init()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+
+    ///////////////////////////////
+    //...
     ///////////////////////////////
 
-    auto mySprite = Sprite::create("kunkun.png");//创建精灵
-    mySprite->setPosition(Vec2(origin.x+ visibleSize.width/2,
-        origin.y+ visibleSize.height/2));
-    mySprite->setScale(0.5f);
-    this->addChild(mySprite, 1);//加入场景
-   
-    ///////////////////////////////
 
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
@@ -41,7 +36,7 @@ bool Test_Scene_1::init()
     return true;
 }
 
-void Test_Scene_1::menuCloseCallback(Ref* pSender)
+void PlayWithAI::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
@@ -51,4 +46,3 @@ void Test_Scene_1::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
-

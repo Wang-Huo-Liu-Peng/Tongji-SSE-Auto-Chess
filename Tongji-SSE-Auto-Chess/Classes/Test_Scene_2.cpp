@@ -13,7 +13,7 @@ bool Test_Scene_2::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    //以下为你的测试代码（场景为myScene）
+
     ///////////////////////////////
     //...
     ///////////////////////////////

@@ -13,10 +13,8 @@ bool Test_Scene_3::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    //以下为你的测试代码（场景为myScene）
-    ///////////////////////////////
-    
 
+    ///////////////////////////////
     auto label1 = Label::createWithTTF("My Game", "fonts/Marker Felt.ttf", 36);
     label1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
 

@@ -1,12 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "Test_Scene_1.h"
-#include "Test_Scene_2.h"
-#include "Test_Scene_3.h"
-#include "Test_Scene_4.h"
+#include "Test.h"
 #include <Show_Chinese.h>
-#include <Test.h>
-#include <Game.h>
 
 USING_NS_CC;
 
@@ -121,7 +116,7 @@ bool HelloWorld::init()
     auto GameItem = MenuItemLabel::create(GameLabel,
         [&](Ref* sender) {
             //自定义回调函数，下同
-            slectMode();
+            Director::getInstance()->pushScene(SelectModeScene::createScene());
         });
     auto TestItem_1 = MenuItemLabel::create(TestLabel_1,
         [&](Ref* sender) {
