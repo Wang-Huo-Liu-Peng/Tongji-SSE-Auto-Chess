@@ -1,10 +1,15 @@
-#include "Test.h"
+#include "HelloWorldScene.h"
+#include "Test_Scene_3.h"
 
-void Test_Scene_3()
+USING_NS_CC;
+
+Scene* Test_Scene_3::createScene()
 {
-    auto myScene = Scene::create();//创建新场景
-    Director::getInstance()->pushScene(myScene);//将当前运行中的场景暂停并压入到场景栈中，并将传入的场景设置为当前运行场景
+    return Test_Scene_3::create();
+}
 
+bool Test_Scene_3::init()
+{
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -15,12 +20,12 @@ void Test_Scene_3()
     auto label1 = Label::createWithTTF("My Game", "fonts/Marker Felt.ttf", 36);
     label1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
 
-    myScene->addChild(label1);
+    this->addChild(label1);
 
     auto sprite1 = Sprite::create("mingrixiang.png");
     sprite1->setPosition(Vec2(100, 100));
 
-    myScene->addChild(sprite1);
+    this->addChild(sprite1);
     ///////////////////////////////
 
 
@@ -37,7 +42,20 @@ void Test_Scene_3()
 
     auto exitMenu = Menu::create(closeItem, NULL);
     exitMenu->setPosition(Vec2::ZERO);
-    myScene->addChild(exitMenu, 1);
+    this->addChild(exitMenu, 1);
+
+    return true;
+}
+
+void Test_Scene_3::menuCloseCallback(Ref* pSender)
+{
+    //Close the cocos2d-x game scene and quit the application
+    Director::getInstance()->end();
+
+    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+
+    //EventCustom customEndEvent("game_scene_close_event");
+    //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
 
 /***********************************************************************************************************************************************/

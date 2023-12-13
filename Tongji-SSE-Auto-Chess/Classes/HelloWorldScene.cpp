@@ -2,6 +2,8 @@
 #include "SimpleAudioEngine.h"
 #include "Test_Scene_1.h"
 #include "Test_Scene_2.h"
+#include "Test_Scene_3.h"
+#include "Test_Scene_4.h"
 #include <Show_Chinese.h>
 #include <Test.h>
 #include <Game.h>
@@ -131,11 +133,11 @@ bool HelloWorld::init()
         });
     auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
         [&](Ref* sender) {
-            Test_Scene_3();
+            Director::getInstance()->pushScene(Test_Scene_3::createScene());
         });
     auto TestItem_4 = MenuItemLabel::create(TestLabel_4,
         [&](Ref* sender) {
-            //Test_Scene_4();
+            Director::getInstance()->pushScene(Test_Scene_4::createScene());
         });
 
     //设置各个标签的间距

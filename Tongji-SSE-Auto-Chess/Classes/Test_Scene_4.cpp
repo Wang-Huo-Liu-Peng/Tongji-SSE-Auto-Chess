@@ -1,19 +1,28 @@
-#include "Test.h"
+#include "HelloWorldScene.h"
+#include "Test_Scene_4.h"
 #include <goldenshovel_hero_design.h>
 using namespace std;
 
 #define plaid_width 256
 #define plaid_height 200
+
+USING_NS_CC;
+
+Scene* Test_Scene_4::createScene()
+{
+    return Test_Scene_4::create();
+}
+
 static void problemLoading(const char* filename)
 {
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
-/*从这里开始注释，到最后一行结束
-vector <goldenshovel_hero> Hero_on_court_1;
-vector <goldenshovel_hero> Hero_on_court_2;
-vector <goldenshovel_hero> Hero_select_1;
-vector <goldenshovel_hero> Hero_select_2;
+
+vector <MyHero> Hero_on_court_1;
+vector <MyHero> Hero_on_court_2;
+vector <MyHero> Hero_select_1;
+vector <MyHero> Hero_select_2;
 
 //数组大小代表随机刷新的商店个数
 string Hero_1[5];
@@ -52,7 +61,7 @@ void make_a_random_hero(int fee[], string Hero_in_shop[]) {
 
 
 //将一个新英雄从商店中选出
-void set_a_hero(string hero_name, string Hero_in_shop[], vector<goldenshovel_hero>& Hero, vector<cocos2d::Sprite*>& Sprite_set) {
+void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero, vector<cocos2d::Sprite*>& Sprite_set) {
     for (int i = 0; i < 5; i++) {
         if (Hero_in_shop[i] == hero_name) {
             Hero_in_shop[i] = "";
@@ -72,8 +81,9 @@ void set_a_hero(string hero_name, string Hero_in_shop[], vector<goldenshovel_her
 
 }
 
+/*
 //英雄索敌
-void Seek_the_enemy(goldenshovel_hero hero, vector <goldenshovel_hero>& Hero_on_court, vector <cocos2d::Sprite*>& Sprite_on_court) {
+void Seek_the_enemy(MyHero hero, vector <MyHero>& Hero_on_court, vector <cocos2d::Sprite*>& Sprite_on_court) {
     BOOL find;
     int distance = 1;
     int i;
@@ -95,22 +105,18 @@ void Seek_the_enemy(goldenshovel_hero hero, vector <goldenshovel_hero>& Hero_on_
         distance++;
     }
     if (distance > hero.attack_distance) {
-        vector<goldenshovel_hero>::iterator it = Hero_on_court.begin();
+        vector<MyHero>::iterator it = Hero_on_court.begin();
         for (; it != Hero_on_court.end(); ++it);
         int num = it - Hero_on_court.end();
         Hero_on_court[num].location_x = hero.location_x + (distance - hero.attack_distance) * i * plaid_width, hero.location_y + j * plaid_height * (distance - hero.attack_distance);
         //设计moveby和moveto，还没写
         Sprite_on_court[num];
     }
-}
+}*/
 
 
-void Test_Scene_4()
+bool Test_Scene_4::init()
 {
-
-    auto myScene = Scene::create();//创建新场景
-    Director::getInstance()->pushScene(myScene);//将当前运行中的场景暂停并压入到场景栈中，并将传入的场景设置为当前运行场景
-
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -126,7 +132,7 @@ void Test_Scene_4()
         fight_map->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
         // add the sprite as a child to this layer
-        myScene->addChild(fight_map, 0);
+        this->addChild(fight_map, 0);
     }
 
     
@@ -143,5 +149,18 @@ void Test_Scene_4()
 
     auto exitMenu = Menu::create(closeItem, NULL);
     exitMenu->setPosition(Vec2::ZERO);
-    myScene->addChild(exitMenu, 1);
-}*/
+    this->addChild(exitMenu, 1);
+
+    return true;
+}
+
+void Test_Scene_4::menuCloseCallback(Ref* pSender)
+{
+    //Close the cocos2d-x game scene and quit the application
+    Director::getInstance()->end();
+
+    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+
+    //EventCustom customEndEvent("game_scene_close_event");
+    //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
