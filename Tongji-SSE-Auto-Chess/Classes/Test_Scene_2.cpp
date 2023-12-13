@@ -1,10 +1,22 @@
-#include "Test.h"
+#include "HelloWorldScene.h"
+#include "Test_Scene_2.h"
 
-void Test_Scene_2()
+USING_NS_CC;
+
+Scene* Test_Scene_2::createScene()
 {
-    auto myScene = Scene::create();//创建新场景
-    Director::getInstance()->pushScene(myScene);//将当前运行中的场景暂停并压入到场景栈中，并将传入的场景设置为当前运行场景
+    return Test_Scene_2::create();
+}
 
+// Print useful error message instead of segfaulting when files are not there.
+static void problemLoading(const char* filename)
+{
+    printf("Error while loading: %s\n", filename);
+    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+}
+
+bool Test_Scene_2::init()
+{
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -27,5 +39,18 @@ void Test_Scene_2()
 
     auto exitMenu = Menu::create(closeItem, NULL);
     exitMenu->setPosition(Vec2::ZERO);
-    myScene->addChild(exitMenu, 1);
+    this->addChild(exitMenu, 1);
+
+    return true;
+}
+
+void Test_Scene_2::menuCloseCallback(Ref* pSender)
+{
+    //Close the cocos2d-x game scene and quit the application
+    Director::getInstance()->end();
+
+    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+
+    //EventCustom customEndEvent("game_scene_close_event");
+    //_eventDispatcher->dispatchEvent(&customEndEvent);
 }

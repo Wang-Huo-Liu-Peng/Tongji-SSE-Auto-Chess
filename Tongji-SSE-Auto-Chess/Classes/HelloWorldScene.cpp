@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Test_Scene_1.h"
+#include "Test_Scene_2.h"
 #include <Show_Chinese.h>
 #include <Test.h>
 #include <Game.h>
@@ -126,7 +127,7 @@ bool HelloWorld::init()
         });
     auto TestItem_2 = MenuItemLabel::create(TestLabel_2,
         [&](Ref* sender) {
-            Test_Scene_2();
+            Director::getInstance()->pushScene(Test_Scene_2::createScene());
         });
     auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
         [&](Ref* sender) {
