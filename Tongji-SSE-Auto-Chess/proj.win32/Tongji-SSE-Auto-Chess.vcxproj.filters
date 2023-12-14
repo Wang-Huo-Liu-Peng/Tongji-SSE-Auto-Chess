@@ -10,27 +10,105 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Test_Scene_4">
+      <UniqueIdentifier>{8581e557-2c8e-4ddf-951b-3e37364a008c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\AppDelegate">
+      <UniqueIdentifier>{d7670255-1c7a-4baa-a35b-39404d75cc49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\HelloWorldScene">
+      <UniqueIdentifier>{17719663-1f26-480d-a0f4-5061f47a29dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Test_Scene_3">
+      <UniqueIdentifier>{0e50130e-7550-46e1-8a28-b116fa5aae43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Test_Scene_2">
+      <UniqueIdentifier>{cba44d36-7770-4f33-bf65-3563dafcac71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Test_Scene_1">
+      <UniqueIdentifier>{0d3f3324-286c-481d-b0df-5dbd61780006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PlayerWithAI">
+      <UniqueIdentifier>{926b9f0c-e937-4d5c-a155-86ed10fb3386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PlayerWithPlayer">
+      <UniqueIdentifier>{a00dfbe2-5584-4bab-bca3-25cf9c81d3d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\SelectModeScene">
+      <UniqueIdentifier>{bb1e3df8-938f-4afc-a0e0-a40fce2006ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Test_Scene_1.cpp">
+      <Filter>src\Test_Scene_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Test_Scene_2.cpp">
+      <Filter>src\Test_Scene_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Test_Scene_3.cpp">
+      <Filter>src\Test_Scene_3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Test_Scene_4.cpp">
+      <Filter>src\Test_Scene_4</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
+      <Filter>src\AppDelegate</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\HelloWorldScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayWithAI.cpp">
+      <Filter>src\PlayerWithAI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayWithPlayer.cpp">
+      <Filter>src\PlayerWithPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SelectModeScene.cpp">
+      <Filter>src\SelectModeScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
+    <ClInclude Include="..\Classes\Test.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
+    <ClInclude Include="..\Classes\goldenshovel_hero_design.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Show_Chinese.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Test_Scene_1.h">
+      <Filter>src\Test_Scene_1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Test_Scene_2.h">
+      <Filter>src\Test_Scene_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Test_Scene_3.h">
+      <Filter>src\Test_Scene_3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Test_Scene_4.h">
+      <Filter>src\Test_Scene_4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src\AppDelegate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>src\HelloWorldScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayWithAI.h">
+      <Filter>src\PlayerWithAI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayWithPlayer.h">
+      <Filter>src\PlayerWithPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SelectModeScene.h">
+      <Filter>src\SelectModeScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
