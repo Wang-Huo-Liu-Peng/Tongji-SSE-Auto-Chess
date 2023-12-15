@@ -1,10 +1,11 @@
 #pragma once
 #include<iostream>
+#include"HelloWorldScene.h"
 using namespace std;
 
 /*====================基类====================*/
 //注意：该基类为抽象基类，不可直接生成对象
-class MyObject{
+class MyObject {
 public:
 	MyObject(int hp, int xp, int av, int x = -1, int y = -1) :                             // 构造函数
 		current_hp(hp), current_xp(xp), armor_value(av), location_x(x), location_y(y) {};
@@ -13,12 +14,15 @@ public:
 
 
 protected:
+	int full_hp;                                  // 满血
 	int current_hp;                               // 当前血量
 	int current_xp;                               // 当前蓝条
 	int armor_value;                              // 护甲值
 
 	int location_x;			                      // 横坐标
 	int location_y;                               // 纵坐标
+
+	cocos2d::Sprite* sprite;
 };
 
 /*====================精灵类====================*/
