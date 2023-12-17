@@ -37,6 +37,12 @@
     <Filter Include="src\SelectModeScene">
       <UniqueIdentifier>{bb1e3df8-938f-4afc-a0e0-a40fce2006ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\BackGroundLayer">
+      <UniqueIdentifier>{cf728a60-6023-47a3-b852-5f34cda2d91c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\HeroLayer">
+      <UniqueIdentifier>{9b34603a-1535-4fc3-90f2-1bb7212a83a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -68,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\SelectModeScene.cpp">
       <Filter>src\SelectModeScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BackGroundLayer.cpp">
+      <Filter>src\BackGroundLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HeroLayer.cpp">
+      <Filter>src\HeroLayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SelectModeScene.h">
       <Filter>src\SelectModeScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BackGroundLayer.h">
+      <Filter>src\BackGroundLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HeroLayer.h">
+      <Filter>src\HeroLayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
