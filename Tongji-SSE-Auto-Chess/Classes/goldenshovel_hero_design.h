@@ -43,11 +43,11 @@ private:
 class MyHero : public MyObject {
 public:
 	MyHero() {};
-	MyHero(int battle_index, int gold_cost, int star_level, int attack_power, int ace_attack_power,
+	MyHero(int on_court, int gold_cost, int star_level, int attack_power, int ace_attack_power,
         int needed_cooldown_round, int current_cooldown_round, int attack_distance,double attack_cd, 
         int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
 		MyObject(hp,/* xp, av,*/ x, y),
-		battle_index(battle_index), gold_cost(gold_cost), star_level(star_level), attack_power(attack_power), ace_attack_power(ace_attack_power),
+        on_court(on_court), gold_cost(gold_cost), star_level(star_level), attack_power(attack_power), ace_attack_power(ace_attack_power),
 		needed_cooldown_round(needed_cooldown_round), current_cooldown_round(current_cooldown_round), attack_distance(attack_distance),
         attack_cd(attack_cd){};
 	//virtual void my_move(int new_x, int new_y);  // 移动函数
@@ -57,7 +57,7 @@ public:
 
 	MyHero* current_enemy;
 private:
-	bool battle_index;                 // 判断是否在场
+	bool on_court;                 // 判断是否在场
 	int gold_cost;                     // 英雄花费 
 	int star_level;                    // 星级
 	int attack_power;                  // 攻击力
