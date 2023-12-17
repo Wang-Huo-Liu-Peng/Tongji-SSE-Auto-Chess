@@ -1,4 +1,4 @@
-#include"goldenshovel_hero_design.h"
+//#include <goldenshovel_hero_design.h>
 #include "HelloWorldScene.h"
 #include "Test_Scene_2.h"
 

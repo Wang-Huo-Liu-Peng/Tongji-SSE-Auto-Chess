@@ -27,10 +27,6 @@ vector <MyHero> Hero_select_2;
 //数组大小代表随机刷新的商店个数
 string Hero_1[5];
 string Hero_2[5];
-vector <cocos2d::Sprite*> Sprite_on_court_1;
-vector <cocos2d::Sprite*> Sprite_on_court_2;
-vector <cocos2d::Sprite*> Sprite_select_1;
-vector <cocos2d::Sprite*> Sprite_select_2;
 
 //刷新商店英雄
 void make_a_random_hero(int fee[], string Hero_in_shop[]) {
@@ -61,58 +57,26 @@ void make_a_random_hero(int fee[], string Hero_in_shop[]) {
 
 
 //将一个新英雄从商店中选出
-void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero, vector<cocos2d::Sprite*>& Sprite_set) {
+void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
     for (int i = 0; i < 5; i++) {
         if (Hero_in_shop[i] == hero_name) {
             Hero_in_shop[i] = "";
         }
     }
+
     //扣钱
 
     string filename = hero_name + ".png";
-    //goldenshovel_hero set_a_new_hero; 此处报错原因未知
-    //缺少new_hero赋值
+    MyHero set_a_new_hero;
     auto new_hero_Sprite = Sprite::create(filename);
-    //缺少放置
-    //Hero.push_back(set_a_new_hero);
-    Sprite_set.push_back(new_hero_Sprite);
+    set_a_new_hero.sprite = new_hero_Sprite;
+
+    Hero.push_back(set_a_new_hero);
     //可视化，并给position赋值
 
 
 }
 
-/*
-//英雄索敌
-void Seek_the_enemy(MyHero hero, vector <MyHero>& Hero_on_court, vector <cocos2d::Sprite*>& Sprite_on_court) {
-    BOOL find;
-    int distance = 1;
-    int i;
-    int j;
-    while (find) {
-        for (i = -1; i < 1; i++) {
-            for (j = -1; j < 1; j++) {
-                if (i == 0 && j == 0) continue;
-                if (hero.location_x + distance * i * plaid_width, hero.location_y + j * distance * plaid_height)//这段应该是判断这个像素上有英雄，没写完整
-                {
-                    hero.attacking_hero = &hero;//此处第二个hero应该改成上面找到的这个英雄
-                    find = 1;
-                    break;
-                }
-                if (find == 1)
-                    break;
-            }
-        }
-        distance++;
-    }
-    if (distance > hero.attack_distance) {
-        vector<MyHero>::iterator it = Hero_on_court.begin();
-        for (; it != Hero_on_court.end(); ++it);
-        int num = it - Hero_on_court.end();
-        Hero_on_court[num].location_x = hero.location_x + (distance - hero.attack_distance) * i * plaid_width, hero.location_y + j * plaid_height * (distance - hero.attack_distance);
-        //设计moveby和moveto，还没写
-        Sprite_on_court[num];
-    }
-}*/
 
 
 bool Test_Scene_4::init()
