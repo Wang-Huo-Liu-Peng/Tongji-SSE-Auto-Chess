@@ -4,7 +4,7 @@
 #include <goldenshovel_hero_design.h>
 using namespace std;
 
-
+//²Î¿¼ÍøÕ¾ https://tftactics.gg/champions  https://lol.qq.com/tft/#/champion
 //°²ÄÝ https://lol.qq.com/tft/#/championDetail/1
 MyHero Annie(0, 1, 1, 40, 70, 7, 0, 4, 0.7, 500, -1, -1);
 //¿âÆæ https://lol.qq.com/tft/#/championDetail/42
