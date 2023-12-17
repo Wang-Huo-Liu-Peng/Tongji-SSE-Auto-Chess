@@ -1,3 +1,4 @@
+#include "SimpleAudioEngine.h"
 #include "SelectModeScene.h"
 #include "PlayWithAI.h"
 #include "PlayWithPlayer.h"
@@ -11,6 +12,7 @@ Scene* SelectModeScene::createScene()
 
 bool SelectModeScene::init()
 {
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -58,7 +60,9 @@ bool SelectModeScene::init()
         "CloseNormal.png",
         "CloseSelected.png",
         [&](Ref* sender) {
-            Director::getInstance()->popScene();//释放当前场景，再从场景栈中弹出栈顶的场景，并将其设置为当前运行场景。
+            menuCloseCallback(this);
+            //Director::getInstance()->popScene();//释放当前场景，再从场景栈中弹出栈顶的场景，并将其设置为当前运行场景。
+            //CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
         });
     float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
     float y = origin.y + closeItem->getContentSize().height;
@@ -74,6 +78,7 @@ bool SelectModeScene::init()
 void SelectModeScene::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
     Director::getInstance()->end();
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
