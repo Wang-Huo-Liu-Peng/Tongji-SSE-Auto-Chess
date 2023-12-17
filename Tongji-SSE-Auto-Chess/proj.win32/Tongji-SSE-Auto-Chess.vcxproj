@@ -166,6 +166,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\Hero.h" />
     <ClInclude Include="..\Classes\PlayWithAI.h" />
     <ClInclude Include="..\Classes\PlayWithPlayer.h" />
     <ClInclude Include="..\Classes\SelectModeScene.h" />
@@ -175,7 +176,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Test_Scene_2.h" />
     <ClInclude Include="..\Classes\Test_Scene_3.h" />
     <ClInclude Include="..\Classes\Test_Scene_4.h" />
-    <ClInclude Include="Hero.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

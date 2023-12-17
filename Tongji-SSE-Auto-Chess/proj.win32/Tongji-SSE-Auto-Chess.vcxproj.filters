@@ -110,7 +110,7 @@
     <ClInclude Include="..\Classes\SelectModeScene.h">
       <Filter>src\SelectModeScene</Filter>
     </ClInclude>
-    <ClInclude Include="Hero.h">
+    <ClInclude Include="..\Classes\Hero.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
