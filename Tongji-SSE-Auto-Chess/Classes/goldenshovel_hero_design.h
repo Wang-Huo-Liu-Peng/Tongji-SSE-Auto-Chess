@@ -13,7 +13,7 @@ class MyObject {
 public:
 	MyObject() {};
 	MyObject(int hp, int xp, int av, int x = -1, int y = -1) :                             // 构造函数
-		current_hp(hp), current_xp(xp), armor_value(av), location_x(x), location_y(y) {};
+		current_hp(hp), /*current_xp(xp), armor_value(av),*/ location_x(x), location_y(y) {};
 
 	//virtual void my_move(int new_x, int new_y) = 0;                                        // 移动函数（纯虚函数）
 
@@ -22,8 +22,6 @@ public:
 protected:
 	int full_hp;                                  // 满血
 	int current_hp;                               // 当前血量
-	int current_xp;                               // 当前蓝条
-	int armor_value;                              // 护甲值
 
     int location_x;			                      // 横坐标
     int location_y;                               // 纵坐标
@@ -45,10 +43,13 @@ private:
 class MyHero : public MyObject {
 public:
 	MyHero() {};
-	MyHero(int index, int cost, int level, int power, int a_power, int n_c_r, int c_c_r, int ad, int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
-		MyObject(hp, xp, av, x, y),
-		battle_index(index), gold_cost(cost), star_level(level), attack_power(power), ace_attack_power(a_power),
-		needed_cooldown_round(n_c_r), current_cooldown_round(c_c_r), attack_distance(ad) {};
+	MyHero(int battle_index, int gold_cost, int star_level, int attack_power, int ace_attack_power,
+        int needed_cooldown_round, int current_cooldown_round, int attack_distance,double attack_cd, 
+        int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
+		MyObject(hp,/* xp, av,*/ x, y),
+		battle_index(battle_index), gold_cost(gold_cost), star_level(star_level), attack_power(attack_power), ace_attack_power(ace_attack_power),
+		needed_cooldown_round(needed_cooldown_round), current_cooldown_round(current_cooldown_round), attack_distance(attack_distance),
+        attack_cd(attack_cd){};
 	//virtual void my_move(int new_x, int new_y);  // 移动函数
     void seek_enemy(MyHero hero);                           // 索敌函数
     void hero_attack();                           //攻击函数
@@ -63,7 +64,7 @@ private:
 	int ace_attack_power;              // 大招攻击力
 	int needed_cooldown_round;         // 大招所需冷却轮数
     int current_cooldown_round;        // 当前冷却轮数
-    int attack_cd;                     //攻击cd
+    double attack_cd;                     //攻击cd
     int attack_distance;
     // 攻击距离
 };

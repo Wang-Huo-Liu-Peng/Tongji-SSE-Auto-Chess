@@ -68,6 +68,7 @@ void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
 
     string filename = hero_name + ".png";
     MyHero set_a_new_hero;
+    Hero.push_back(set_a_new_hero);
     auto new_hero_Sprite = Sprite::create(filename);
     set_a_new_hero.sprite = new_hero_Sprite;
 
