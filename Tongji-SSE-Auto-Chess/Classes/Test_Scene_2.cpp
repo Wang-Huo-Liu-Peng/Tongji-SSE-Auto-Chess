@@ -88,3 +88,8 @@ void Test_Scene_2::menuCloseCallback(Ref* pSender)
 //        }
 //    }
 //}
+
+
+void attack() {
+
+}
