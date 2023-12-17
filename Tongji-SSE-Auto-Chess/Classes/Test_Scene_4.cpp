@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_4.h"
 #include <goldenshovel_hero_design.h>
+#include <Hero.h>
 using namespace std;
 
 #define plaid_width 256
@@ -67,7 +68,7 @@ void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
     //¿ÛÇ®
 
     string filename = hero_name + ".png";
-    MyHero set_a_new_hero;
+    MyHero set_a_new_hero=Hero_list[hero_name];
     Hero.push_back(set_a_new_hero);
     auto new_hero_Sprite = Sprite::create(filename);
     set_a_new_hero.sprite = new_hero_Sprite;
