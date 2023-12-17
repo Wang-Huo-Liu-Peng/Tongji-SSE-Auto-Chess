@@ -1,6 +1,6 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_1.h"
-#include "goldenshovel_hero_design.h"
+//#include <goldenshovel_hero_design.h>
 
 USING_NS_CC;
 
