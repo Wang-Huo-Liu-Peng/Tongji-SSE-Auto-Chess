@@ -7,11 +7,13 @@ using namespace std;
 //注意：该基类为抽象基类，不可直接生成对象
 class MyObject {
 public:
+	MyObject() {};
 	MyObject(int hp, int xp, int av, int x = -1, int y = -1) :                             // 构造函数
 		current_hp(hp), current_xp(xp), armor_value(av), location_x(x), location_y(y) {};
 
 	virtual void my_move(int new_x, int new_y) = 0;                                        // 移动函数（纯虚函数）
 
+	cocos2d::Sprite* sprite;                                                               // 指针
 
 protected:
 	int full_hp;                                  // 满血
@@ -22,12 +24,12 @@ protected:
 	int location_x;			                      // 横坐标
 	int location_y;                               // 纵坐标
 
-	cocos2d::Sprite* sprite;
 };
 
 /*====================精灵类====================*/
 class MySprite:public MyObject  {
 public:
+	MySprite() {};
 	MySprite(int level, int hp, int xp, int av, int x = -1, int y = -1) :        // 构造函数
 		MyObject(hp, xp, av, x, y), star_level(level) {};
 	virtual void my_move(int new_x, int new_y);                                  // 移动函数
@@ -39,6 +41,7 @@ private:
 /*====================英雄类====================*/
 class MyHero : public MyObject {
 public:
+	MyHero() {};
 	MyHero(int index, int cost, int level, int power, int a_power, int n_c_r, int c_c_r, int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
 		MyObject(hp, xp, av, x, y),
 		battle_index(index), gold_cost(cost), star_level(level), attack_power(power), ace_attack_power(a_power),
