@@ -42,25 +42,24 @@ private:
 class MyHero : public MyObject {
 public:
 	MyHero() {};
-	MyHero(int index, int cost, int level, int power, int a_power, int n_c_r, int c_c_r, int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
+	MyHero(int index, int cost, int level, int power, int a_power, int n_c_r, int c_c_r, int ad, int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
 		MyObject(hp, xp, av, x, y),
 		battle_index(index), gold_cost(cost), star_level(level), attack_power(power), ace_attack_power(a_power),
-		needed_cooldown_round(n_c_r), current_cooldown_round(c_c_r) {};
+		needed_cooldown_round(n_c_r), current_cooldown_round(c_c_r), attack_distance(ad) {};
 	//virtual void my_move(int new_x, int new_y);  // 移动函数
-    void seek_enemy(MyHero hero, vector<MyHero>& Hero_on_court);                           // 索敌函数
+	void seek_enemy(MyHero hero, vector<MyHero>& Hero_on_court);                           // 索敌函数
 	void hero_ultimate();                        // 大招函数
 
 	MyHero* current_enemy;
 private:
 	bool battle_index;                 // 判断是否在场
 	int gold_cost;                     // 英雄花费 
-    int star_level;                    // 星级
+	int star_level;                    // 星级
 	int attack_power;                  // 攻击力
 	int ace_attack_power;              // 大招攻击力
 	int needed_cooldown_round;         // 大招所需冷却轮数
-    int current_cooldown_round;        // 当前冷却轮数
-    int attack_distance;
-    // 攻击距离
+	int current_cooldown_round;        // 当前冷却轮数
+	int attack_distance;               // 攻击距离
 };
 
 //英雄索敌
