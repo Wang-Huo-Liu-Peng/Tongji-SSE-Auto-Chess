@@ -35,3 +35,17 @@ Hero_list["Twitch"] = Twitch;
 MyHero Senna(0, 2, 1, 40, 80, 12, 0, 6, 0.7, 600, -1, -1);
 Hero_list["Senna"] = Senna;
 MyHero two_fee[4] = { Kayle,Garen,Twitch,Senna };
+
+//°¢Ä¾Ä¾ https://tftactics.gg/champions/amumu
+MyHero Amumu(0, 3, 1, 45, 100, 12, 0, 1, 0.65, 550, -1, -1);
+Hero_list["Amumu"] = Amumu;
+//Â¬¿¨Ë¹ https://tftactics.gg/champions/lux
+MyHero Lux(0, 3, 1, 40, 100, 12, 0, 4, 0.7, 700, -1, -1);
+Hero_list["Lux"] = Lux;
+//ÈûÃ×¶û https://tftactics.gg/champions/samira
+MyHero Samira(0, 3, 1, 60, 100, 12, 0, 4, 0.7, 600, -1, -1);
+Hero_list["Samira"] = Samira;
+//Äá¿Ë https://tftactics.gg/champions/neeko
+MyHero Neeko(0, 3, 1, 50, 100, 12, 0, 4, 0.6, 850, -1, -1);
+Hero_list["Neeko"] = Neeko;
+MyHero three_fee[4] = { Amumu,Lux,Samira,Neeko };
