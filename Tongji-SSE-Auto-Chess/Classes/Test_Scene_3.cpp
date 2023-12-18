@@ -3,6 +3,7 @@
 
 USING_NS_CC;
 
+
 Scene* Test_Scene_3::createScene()
 {
     return Test_Scene_3::create();
@@ -15,15 +16,33 @@ bool Test_Scene_3::init()
 
 
     ///////////////////////////////
-    auto label1 = Label::createWithTTF("My Game", "fonts/Marker Felt.ttf", 36);
-    label1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+    /*
+    创建事件监听器
+    指定监听器的回调接口实现方法
+    将设定好的监听器 注册到分发器内
+    */
+    auto mySprite = Sprite::create("kunkun.png");//创建精灵
+    mySprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
+        origin.y + visibleSize.height / 2));
+    mySprite->setScale(0.5f);
+    this->addChild(mySprite, 0);
 
-    this->addChild(label1);
+    auto player1 = LayerColor::create(Color4B::RED, 100, 100);
+    player1->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 + 100));
+    addChild(player1);
+    
+    auto listener1 = EventListenerTouchOneByOne::create();
+    listener1->onTouchBegan = [](Touch* t, Event* e)->bool {
+        log("成功检测到点击了");
+       
+        
+        return true;
+    };
 
-    auto sprite1 = Sprite::create("mingrixiang.png");
-    sprite1->setPosition(Vec2(100, 100));
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, player1);
 
-    this->addChild(sprite1);
+
+
     ///////////////////////////////
 
 
