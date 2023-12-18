@@ -81,6 +81,9 @@
     <ClCompile Include="..\Classes\HeroLayer.cpp">
       <Filter>src\HeroLayer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Hero.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -121,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SelectModeScene.h">
       <Filter>src\SelectModeScene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Hero.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BackGroundLayer.h">
       <Filter>src\BackGroundLayer</Filter>
