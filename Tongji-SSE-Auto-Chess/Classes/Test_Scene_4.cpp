@@ -1,7 +1,7 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_4.h"
 #include <goldenshovel_hero_design.h>
-#include <Hero.h>
+#include <Hero.cpp>
 using namespace std;
 
 #define plaid_width 256
