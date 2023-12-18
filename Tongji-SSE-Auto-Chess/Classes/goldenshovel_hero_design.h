@@ -51,9 +51,9 @@ public:
 		needed_cooldown_round(needed_cooldown_round), current_cooldown_round(current_cooldown_round), attack_distance(attack_distance),
         attack_cd(attack_cd){};
 	//virtual void my_move(int new_x, int new_y);  // 移动函数
-    void seek_enemy(MyHero hero);                           // 索敌函数
-    void hero_attack();                           //攻击函数
-    void hero_ultimate(int ace_mode);                       // 大招函数
+    inline void seek_enemy(MyHero hero);                           // 索敌函数
+    inline void hero_attack();                           //攻击函数
+    inline void hero_ultimate(int ace_mode);                       // 大招函数
 
 	MyHero* current_enemy;
 private:
@@ -70,7 +70,7 @@ private:
 };
 
 //英雄索敌
-void MyHero::seek_enemy(MyHero hero) {
+inline void MyHero::seek_enemy(MyHero hero) {
     BOOL find = 0;
     int distance = 1;
     int i;
@@ -101,7 +101,7 @@ void MyHero::seek_enemy(MyHero hero) {
     }
 }
 
-void MyHero::hero_attack() {
+inline void MyHero::hero_attack() {
     if (current_enemy == NULL) {   //没有攻击目标或者攻击目标死亡后未重新寻找目标
         seek_enemy(*this);
     }
@@ -128,7 +128,7 @@ void MyHero::hero_attack() {
     }
 }
 
-void MyHero::hero_ultimate(int ace_mode)                        // 大招函数
+inline void MyHero::hero_ultimate(int ace_mode)                        // 大招函数
 {
     if (current_enemy == NULL) {
         seek_enemy(*this);  //调用索敌函数
@@ -156,3 +156,5 @@ void MyHero::hero_ultimate(int ace_mode)                        // 大招函数
         }
     }
 }
+
+extern std::map<std::string, MyHero> Hero_list;
