@@ -1,7 +1,6 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_4.h"
-#include <goldenshovel_hero_design.h>
-#include <Hero.cpp>
+#include "goldenshovel_hero_design.h" 
 using namespace std;
 
 #define plaid_width 256
@@ -58,7 +57,7 @@ void make_a_random_hero(int fee[], string Hero_in_shop[]) {
 
 
 //将一个新英雄从商店中选出
-void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
+MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
     for (int i = 0; i < 5; i++) {
         if (Hero_in_shop[i] == hero_name) {
             Hero_in_shop[i] = "";
@@ -68,7 +67,7 @@ void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
     //扣钱
 
     string filename = hero_name + ".png";
-    MyHero set_a_new_hero=Hero_list[hero_name];
+    MyHero set_a_new_hero= Hero_list.at(hero_name);
     Hero.push_back(set_a_new_hero);
     auto new_hero_Sprite = Sprite::create(filename);
     set_a_new_hero.sprite = new_hero_Sprite;
@@ -76,7 +75,7 @@ void set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
     Hero.push_back(set_a_new_hero);
     //可视化，并给position赋值
 
-
+    return set_a_new_hero;
 }
 
 
@@ -101,6 +100,16 @@ bool Test_Scene_4::init()
         this->addChild(fight_map, 0);
     }
 
+    //添加新英雄
+    {
+        Hero_1[1] = "Annie";
+        MyHero new_hero;
+        new_hero=set_a_hero("Annie", Hero_1, Hero_on_court_1);
+        new_hero.sprite->setPosition(Vec2(1400, 600));
+        this->addChild(new_hero.sprite, 0);
+
+
+    }
     
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
@@ -112,6 +121,9 @@ bool Test_Scene_4::init()
     float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
     float y = origin.y + closeItem->getContentSize().height;
     closeItem->setPosition(Vec2(x, y));
+
+
+
 
     auto exitMenu = Menu::create(closeItem, NULL);
     exitMenu->setPosition(Vec2::ZERO);

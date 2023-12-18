@@ -75,37 +75,107 @@ void Test_Scene_3::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
 
-/***********************************************************************************************************************************************/
-#include <iostream>
-using namespace std;
+/**************下面是拖动的代码****************************/
+/*
+#ifndef __HERO_LAYER_H__
+#define __HERO_LAYER_H__
 
-//class Object {
-//public:
-//    Object();
-//    virtual void move(int new_x, int new_y);
-//protected:
-//    int health;
-//    int experience;
-//    int armor;
-//    int x;
-//    int y;
-//};
-//
-//class HeroBranch : public Object {
-//public:
-//    HeroBranch();
-//    void attack();
-//    void displayInfo();
-//
-//private:
-//    int attack_damage;
-//    int star_level;
-//};
-//
-//class SpriteBranch : public Object {
-//public:
-//    SpriteBranch();
-//    void displayInfo();
-//private:
-//    int star_level;
-//};
+#include "cocos2d.h"
+
+class TestLayer : public cocos2d::Layer
+{
+public:
+    virtual bool init();
+    // a selector callback
+    //void menuCloseCallback(cocos2d::Ref* pSender);
+
+    // implement the "static create()" method manually
+    CREATE_FUNC(TestLayer);
+
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+};
+
+#endif // __TEST_LAYER_H__
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+#include "HelloWorldScene.h"
+#include "TestLayer.h"
+
+USING_NS_CC;
+
+enum
+{
+    kTagSprite = 1,
+};
+
+bool TestLayer::init()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    ///////////////////////////////
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->onTouchBegan = CC_CALLBACK_2(TestLayer::onTouchBegan, this);
+    listener->onTouchMoved = CC_CALLBACK_2(TestLayer::onTouchMoved, this);  // Added onTouchMoved
+    listener->onTouchEnded = CC_CALLBACK_2(TestLayer::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+    auto mySprite = Sprite::create("grossini.png");
+    mySprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
+        origin.y + visibleSize.height / 2));
+    mySprite->setScale(0.5f);
+
+    this->addChild(mySprite, 0, kTagSprite);
+    ///////////////////////////////
+
+    return true;
+}
+
+bool TestLayer::onTouchBegan(Touch* touch, Event* event)
+{
+    auto location = touch->getLocation();
+
+    auto s = getChildByTag(kTagSprite);
+    s->stopAllActions();
+
+    // Optional: Set sprite's position immediately to the touch location when touched
+    s->setPosition(location);
+
+    return true;
+}
+
+void TestLayer::onTouchMoved(Touch* touch, Event* event)
+{
+    auto location = touch->getLocation();
+
+    auto s = getChildByTag(kTagSprite);
+    s->setPosition(location);
+}
+
+void TestLayer::onTouchEnded(Touch* touch, Event* event)
+{
+    auto location = touch->getLocation();
+
+    auto s = getChildByTag(kTagSprite);
+    s->stopAllActions();
+    s->runAction(MoveTo::create(1, Vec2(location.x, location.y)));
+
+    float o = location.x - s->getPosition().x;
+    float a = location.y - s->getPosition().y;
+    float at = (float)CC_RADIANS_TO_DEGREES(atanf(o / a));
+
+    if (a < 0)
+    {
+        if (o < 0)
+            at = 180 + fabs(at);
+        else
+            at = 180 - fabs(at);
+    }
+
+    s->runAction(RotateTo::create(1, at));
+}
+*/

@@ -1,56 +1,44 @@
-#pragma once
-#include"HelloWorldScene.h"
-#include "cocos2d.h"
 #include "goldenshovel_hero_design.h"
 #include <map>
 #include <string>
-using namespace std;
 
-map<string, MyHero> Hero_list;
-int main() {
+std::map<std::string, MyHero> Hero_list = {
 	//参考网站 https://tftactics.gg/champions  https://lol.qq.com/tft/#/champion
+
+
+	//一费
 	//安妮 https://lol.qq.com/tft/#/championDetail/1
-	MyHero Annie(0, 1, 1, 40, 70, 7, 0, 4, 0.7, 500, -1, -1);
-	Hero_list["Annie"] = Annie;
+	{"Annie", MyHero(0, 1, 1, 40, 70, 7, 0, 4, 0.7, 500, -1, -1)},
 	//库奇 https://lol.qq.com/tft/#/championDetail/42
-	MyHero Corki(0, 1, 1, 48, 80, 8, 0, 4, 0.7, 450, -1, -1);
-	Hero_list["Corki"] = Corki;
+	{"Corki", MyHero(0, 1, 1, 48, 80, 8, 0, 4, 0.7, 450, -1, -1)},
 	//塔里克 https://lol.qq.com/tft/#/championDetail/44
-	MyHero Taric(0, 1, 1, 55, 60, 12, 0, 1, 0.55, 650, -1, -1);
-	Hero_list["Taric"] = Taric;
+	{"Taric", MyHero(0, 1, 1, 55, 60, 12, 0, 1, 0.55, 650, -1, -1)},
 	//伊芙琳 https://lol.qq.com/tft/#/championDetail/12
-	MyHero Evelynn(0, 1, 1, 45, 60, 12, 0, 1, 0.7, 550, -1, -1);
-	Hero_list["Evelynn"] = Evelynn;
-	MyHero one_fee[4] = { Annie,Corki,Taric,Evelynn };
+	{"Evelynn", MyHero(0, 1, 1, 45, 60, 12, 0, 1, 0.7, 550, -1, -1)},
 
+
+	//二费
 	//凯尔
-	MyHero Kayle(0, 2, 1, 35, 100, 12, 0, 3, 0.75, 550, -1, -1);
-	Hero_list["Kayle"] = Kayle;
+	{"Kayle", MyHero(0, 2, 1, 35, 100, 12, 0, 3, 0.75, 550, -1, -1)},
 	//盖伦
-	MyHero Garen(0, 2, 1, 55, 90, 12, 0, 1, 0.7, 750, -1, -1);
-	Hero_list["Garen"] = Garen;
+	{"Garen", MyHero(0, 2, 1, 55, 90, 12, 0, 1, 0.7, 750, -1, -1)},
 	//老鼠
-	MyHero Twitch(0, 2, 1, 50, 100, 12, 0, 5, 0.7, 550, -1, -1);
-	Hero_list["Twitch"] = Twitch;
+	{"Twitch", MyHero(0, 2, 1, 50, 100, 12, 0, 5, 0.7, 550, -1, -1)},
 	//塞纳
-	MyHero Senna(0, 2, 1, 40, 80, 12, 0, 6, 0.7, 600, -1, -1);
-	Hero_list["Senna"] = Senna;
-	MyHero two_fee[4] = { Kayle,Garen,Twitch,Senna };
+	{"Senna", MyHero(0, 2, 1, 40, 80, 12, 0, 6, 0.7, 600, -1, -1)},
 
+
+	//三费
 	//阿木木 https://tftactics.gg/champions/amumu
-	MyHero Amumu(0, 3, 1, 45, 100, 12, 0, 1, 0.65, 550, -1, -1);
-	Hero_list["Amumu"] = Amumu;
+	{"Amumu", MyHero(0, 3, 1, 45, 100, 12, 0, 1, 0.65, 550, -1, -1)},
 	//卢卡斯 https://tftactics.gg/champions/lux
-	MyHero Lux(0, 3, 1, 40, 100, 12, 0, 4, 0.7, 700, -1, -1);
-	Hero_list["Lux"] = Lux;
+	{"Lux", MyHero(0, 3, 1, 40, 100, 12, 0, 4, 0.7, 700, -1, -1)},
 	//塞米尔 https://tftactics.gg/champions/samira
-	MyHero Samira(0, 3, 1, 60, 100, 12, 0, 4, 0.7, 600, -1, -1);
-	Hero_list["Samira"] = Samira;
+	{"Samira", MyHero(0, 3, 1, 60, 100, 12, 0, 4, 0.7, 600, -1, -1)},
 	//尼克 https://tftactics.gg/champions/neeko
-	MyHero Neeko(0, 3, 1, 50, 100, 12, 0, 4, 0.6, 850, -1, -1);
-	Hero_list["Neeko"] = Neeko;
-	MyHero three_fee[4] = { Amumu,Lux,Samira,Neeko };
-
-
-	return 0;
-}
+	{"Neeko", MyHero(0, 3, 1, 50, 100, 12, 0, 4, 0.6, 850, -1, -1)}
+	// ... 其他英雄
+};
+const MyHero one_fee[4] = { Hero_list.at("Annie"), Hero_list.at("Corki"), Hero_list.at("Taric"), Hero_list.at("Evelynn") };
+const MyHero two_fee[4] = { Hero_list.at("Kayle"), Hero_list.at("Garen"), Hero_list.at("Twitch"), Hero_list.at("Senna") };
+const MyHero three_fee[4] = { Hero_list.at("Amumu"), Hero_list.at("Lux"), Hero_list.at("Samira"), Hero_list.at("Neeko") };
