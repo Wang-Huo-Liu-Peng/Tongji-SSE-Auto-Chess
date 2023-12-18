@@ -45,7 +45,7 @@ public:
 	MyHero() {};
 	MyHero(int on_court, int gold_cost, int star_level, int attack_power, int ace_attack_power,
         int needed_cooldown_round, int current_cooldown_round, int attack_distance,double attack_cd, 
-        int hp, int xp, int av, int x = -1, int y = -1) : // 构造函数
+        int hp, /*int xp, int av,*/ int x = -1, int y = -1) : // 构造函数
 		MyObject(hp,/* xp, av,*/ x, y),
         on_court(on_court), gold_cost(gold_cost), star_level(star_level), attack_power(attack_power), ace_attack_power(ace_attack_power),
 		needed_cooldown_round(needed_cooldown_round), current_cooldown_round(current_cooldown_round), attack_distance(attack_distance),

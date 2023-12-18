@@ -36,9 +36,34 @@ std::map<std::string, MyHero> Hero_list = {
 	//塞米尔 https://tftactics.gg/champions/samira
 	{"Samira", MyHero(0, 3, 1, 60, 100, 12, 0, 4, 0.7, 600, -1, -1)},
 	//尼克 https://tftactics.gg/champions/neeko
-	{"Neeko", MyHero(0, 3, 1, 50, 100, 12, 0, 4, 0.6, 850, -1, -1)}
+	{"Neeko", MyHero(0, 3, 1, 50, 100, 12, 0, 4, 0.6, 850, -1, -1)},
+
+
+	//四费
+	//卡尔萨斯 https://lol.qq.com/tft/#/championDetail/28
+	{"Karthus",MyHero(0,4,1,50,125,7,0,4,0.65,700,-1,-1)},
+	//佛耶戈 https://lol.qq.com/tft/#/championDetail/234
+	{"Viego",MyHero(0,4,1,80,115,8,0,1,0.85,900,-1,-1)},
+	//伊泽瑞尔 https://lol.qq.com/tft/#/championDetail/81
+	{"Ezreal",MyHero(0,4,1,50,120,6,0,4,0.85,700,-1,-1)},
+	//波比 https://lol.qq.com/tft/#/championDetail/50
+	{"Poppy",MyHero(0,4,1,60,130,7,0,1,0.8,1000,-1,-1)},
+
+	//五费
+	//卢锡安 https://lol.qq.com/tft/#/championDetail/236
+	{"Lucian",MyHero(0,5,1,75,200,6,0,4,0.7,750,-1,-1)},
+	//凯隐 https://lol.qq.com/tft/#/championDetail/141
+	{"Kayn",MyHero(0,5,1,75,180,5,0,1,0.95,1000,-1,-1)},
+	//奇亚娜 https://lol.qq.com/tft/#/championDetail/246
+	{"Qiyana",MyHero(0,5,1,70,190,5,0,1,0.9,950,-1,-1)},
+	//吉格斯 https://lol.qq.com/tft/#/championDetail/115
+	{"Ziggs",MyHero(0,5,1,65,220,5,0,4,0.8,800,-1,-1)}
+	
 	// ... 其他英雄
 };
 const MyHero one_fee[4] = { Hero_list.at("Annie"), Hero_list.at("Corki"), Hero_list.at("Taric"), Hero_list.at("Evelynn") };
 const MyHero two_fee[4] = { Hero_list.at("Kayle"), Hero_list.at("Garen"), Hero_list.at("Twitch"), Hero_list.at("Senna") };
 const MyHero three_fee[4] = { Hero_list.at("Amumu"), Hero_list.at("Lux"), Hero_list.at("Samira"), Hero_list.at("Neeko") };
+const MyHero four_fee[4] = { Hero_list.at("Karthus"), Hero_list.at("Viego"), Hero_list.at("Ezreal"), Hero_list.at("Poppy") };
+const MyHero four_five[4] = { Hero_list.at("Lucian"), Hero_list.at("Kayn"), Hero_list.at("Qiyana"), Hero_list.at("Ziggs") };
+
