@@ -20,7 +20,7 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3",true);
+   
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -31,6 +31,24 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+
+
+
+
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+    bool sound = UserDefault::getInstance()->getBoolForKey("SOUND"); //ÉùÒô±äÁ¿
+    LabelTTF* isSoundBtn; //ÉùÒôÇÐ»»°´Å¥
+    if (sound)
+        isSoundBtn = LabelTTF::create("Sound On", "Arial", 40);
+    else
+        isSoundBtn = LabelTTF::create("Sound Off", "Arial", 40);
+    isSoundBtn->setColor(Color3B(204, 255, 253));
+    float x = origin.x + visibleSize.width - isSoundBtn->getContentSize().width;
+    float y = origin.y + visibleSize.height-isSoundBtn->getContentSize().height;
+    isSoundBtn ->setPosition(Vec2(x, y));
+
+    //isSoundBtn->setPosition(Point(visibleSize.width / 2, 50));
+    this->addChild(isSoundBtn,2);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
