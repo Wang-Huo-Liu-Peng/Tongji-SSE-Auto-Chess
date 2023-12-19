@@ -1,5 +1,6 @@
 #include "PlayWithAI.h"
 #include "BackGroundLayer.h"
+#include "BattleLayer.h"
 
 USING_NS_CC;
 
@@ -17,6 +18,8 @@ bool PlayWithAI::init()
     ///////////////////////////////
     BackGroundLayer* Map = BackGroundLayer::create();
     this->addChild(Map);
+    BattleLayer* HeroBattle = BattleLayer::create();
+    this->addChild(HeroBattle);
     ///////////////////////////////
 
 

@@ -56,4 +56,6 @@ void HeroLayer::onTouchEnded(Touch* touch, Event* event)
     }
 
     s->runAction(RotateTo::create(1, at));//Ðý×ª¶¯×÷
+
+    //this->removeChild(s, true);
 }

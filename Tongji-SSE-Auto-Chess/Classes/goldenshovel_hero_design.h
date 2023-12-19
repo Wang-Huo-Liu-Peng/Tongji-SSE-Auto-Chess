@@ -175,3 +175,6 @@ extern vector <MyHero> Hero_select_2;
 //数组大小代表随机刷新的商店个数
 extern string Hero_1[5];
 extern string Hero_2[5];
+
+void make_a_random_hero(int fee[], string Hero_in_shop[]);
+MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero);

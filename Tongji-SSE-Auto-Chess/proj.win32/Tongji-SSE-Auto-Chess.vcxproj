@@ -153,12 +153,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackGroundLayer.cpp" />
+    <ClCompile Include="..\Classes\BattleLayer.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
     <ClCompile Include="..\Classes\HeroLayer.cpp" />
     <ClCompile Include="..\Classes\PlayWithAI.cpp" />
     <ClCompile Include="..\Classes\PlayWithPlayer.cpp" />
     <ClCompile Include="..\Classes\SelectModeScene.cpp" />
+    <ClCompile Include="..\Classes\Store.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_1.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_2.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_3.cpp" />
@@ -168,6 +170,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackGroundLayer.h" />
+    <ClInclude Include="..\Classes\BattleLayer.h" />
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\HeroLayer.h" />
@@ -175,6 +178,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PlayWithPlayer.h" />
     <ClInclude Include="..\Classes\SelectModeScene.h" />
     <ClInclude Include="..\Classes\Show_Chinese.h" />
+    <ClInclude Include="..\Classes\Store.h" />
     <ClInclude Include="..\Classes\Test.h" />
     <ClInclude Include="..\Classes\Test_Scene_1.h" />
     <ClInclude Include="..\Classes\Test_Scene_2.h" />
