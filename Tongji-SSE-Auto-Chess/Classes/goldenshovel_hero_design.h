@@ -158,3 +158,10 @@ inline void MyHero::hero_ultimate(int ace_mode)                        // ¥Û’–∫Ø
 }
 
 extern std::map<std::string, MyHero> Hero_list;
+extern string one_fee[4];
+extern string two_fee[4];
+extern string three_fee[4];
+extern string four_fee[4];
+extern string five_fee[4];
+
+

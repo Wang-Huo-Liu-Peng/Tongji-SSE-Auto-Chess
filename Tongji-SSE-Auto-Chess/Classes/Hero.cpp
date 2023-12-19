@@ -61,9 +61,8 @@ std::map<std::string, MyHero> Hero_list = {
 	
 	// ... ∆‰À˚”¢–€
 };
-const MyHero one_fee[4] = { Hero_list.at("Annie"), Hero_list.at("Corki"), Hero_list.at("Taric"), Hero_list.at("Evelynn") };
-const MyHero two_fee[4] = { Hero_list.at("Kayle"), Hero_list.at("Garen"), Hero_list.at("Twitch"), Hero_list.at("Senna") };
-const MyHero three_fee[4] = { Hero_list.at("Amumu"), Hero_list.at("Lux"), Hero_list.at("Samira"), Hero_list.at("Neeko") };
-const MyHero four_fee[4] = { Hero_list.at("Karthus"), Hero_list.at("Viego"), Hero_list.at("Ezreal"), Hero_list.at("Poppy") };
-const MyHero four_five[4] = { Hero_list.at("Lucian"), Hero_list.at("Kayn"), Hero_list.at("Qiyana"), Hero_list.at("Ziggs") };
-
+string one_fee[4] = { "Annie", "Corki", "Taric", "Evelynn" };
+string two_fee[4] = { "Kayle", "Garen", "Twitch", "Senna" };
+string three_fee[4] = { "Amumu", "Lux", "Samira", "Neeko" };
+string four_fee[4] = { "Karthus", "Viego", "Ezreal", "Poppy" };
+string four_five[4] = { "Lucian", "Kayn", "Qiyana", "Ziggs" };
