@@ -17,10 +17,18 @@ bool Test_Scene_1::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     ///////////////////////////////
-    HeroLayer* Kun = HeroLayer::create();
-    BackGroundLayer* bg = BackGroundLayer::create();
+    Kun = HeroLayer::create();
+    bg = BackGroundLayer::create();
+    store = StoreLayer::create();
+
+    store->herolayer = Kun;
     this->addChild(Kun,1);
     this->addChild(bg);
+    this->addChild(store,1);
+
+    store->addShop();
+    //addShop();
+
     ///////////////////////////////
 
     //退出当前场景的按钮
@@ -51,3 +59,27 @@ void Test_Scene_1::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
+
+/*
+void Test_Scene_1::addShop()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    //制作英雄卡片
+    auto HeroCard = MenuItemImage::create(
+        "Annie_Card.png",
+        "Annie_Card.png",
+        [&](Ref* sender) {
+            auto Annie = Sprite::create("Annie.png");
+            Annie->setPosition(500,500);
+            this->addChild(Annie, 1);
+        });
+    float x = origin.x + visibleSize.width / 2 - HeroCard->getContentSize().width;
+    float y = origin.y + HeroCard->getContentSize().height;
+    HeroCard->setPosition(Vec2(x, y));
+
+    auto addHero = Menu::create(HeroCard, NULL);
+    addHero->setPosition(Vec2::ZERO);
+    Kun->addChild(addHero, 1);
+}*/

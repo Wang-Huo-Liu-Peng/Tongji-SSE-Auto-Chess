@@ -22,5 +22,9 @@ class Card
 public:
 	MyHero Hero;
 	string CardName;
+	//卡片图片
+	//英雄名字标签（左下角）
+	//英雄花费标签（左上角）
+	void makeCard();      //制作卡片
 
 };

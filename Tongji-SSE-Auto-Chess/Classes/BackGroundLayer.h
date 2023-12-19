@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 
+//此图层用于存放背景图片
 class BackGroundLayer : public cocos2d::Layer
 {
 public:

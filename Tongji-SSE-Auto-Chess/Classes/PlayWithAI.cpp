@@ -23,7 +23,6 @@ bool PlayWithAI::init()
     //HeroBattle->battle();
     ///////////////////////////////
 
-
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",

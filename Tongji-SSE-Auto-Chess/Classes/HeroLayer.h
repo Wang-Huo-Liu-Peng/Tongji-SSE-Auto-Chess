@@ -4,10 +4,13 @@
 
 #include "cocos2d.h"
 
+//此图层拿来测试用的，后期删除
 class HeroLayer : public cocos2d::Layer
 {
 public:
     virtual bool init();
+
+    //void addSprite(Sprite* sprite) { addChild(sprite, 1); };
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
 

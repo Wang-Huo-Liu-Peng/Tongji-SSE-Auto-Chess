@@ -49,6 +49,9 @@
     <Filter Include="src\BattleLayer">
       <UniqueIdentifier>{a4d29402-2b1c-43aa-a67f-a2740e703821}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\StoreLayer">
+      <UniqueIdentifier>{fe3480eb-5749-424f-bbbe-f4fa1af3e112}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -95,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\BattleLayer.cpp">
       <Filter>src\BattleLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StoreLayer.cpp">
+      <Filter>src\StoreLayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\BattleLayer.h">
       <Filter>src\BattleLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StoreLayer.h">
+      <Filter>src\StoreLayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
