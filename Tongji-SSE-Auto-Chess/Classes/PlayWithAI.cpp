@@ -1,4 +1,5 @@
 #include "PlayWithAI.h"
+#include "BackGroundLayer.h"
 
 USING_NS_CC;
 
@@ -14,7 +15,8 @@ bool PlayWithAI::init()
 
 
     ///////////////////////////////
-   
+    BackGroundLayer* Map = BackGroundLayer::create();
+    this->addChild(Map);
     ///////////////////////////////
 
 
