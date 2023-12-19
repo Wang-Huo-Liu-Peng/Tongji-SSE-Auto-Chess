@@ -34,19 +34,23 @@ void make_a_random_hero(int fee[], string Hero_in_shop[]) {
     string hero_compose[100];
     for (i = 0; i < fee[1]; i++) {
         //one_fee暂时代表一费英雄池
-        //hero_compose[i] = one_fee[std::rand() % sizeof(one_fee) + 1];
+        hero_compose[i] = one_fee[std::rand() % sizeof(one_fee) + 1];
     }
     for (; i < fee[1]+fee[2]; i++) {
         //同
+        hero_compose[i] = two_fee[std::rand() % sizeof(two_fee) + 1];
     }
     for (; i < fee[1] + fee[2]+fee[3]; i++) {
         //同
+        hero_compose[i] = three_fee[std::rand() % sizeof(three_fee) + 1];
     }
     for (; i < fee[1] + fee[2] + fee[3] +fee[4]; i++) {
         //同
+        hero_compose[i] = four_fee[std::rand() % sizeof(four_fee) + 1];
     }
     for (; i < fee[1] + fee[2] + fee[3] + fee[4] +fee[5]; i++) {
         //同
+        hero_compose[i] = five_fee[std::rand() % sizeof(five_fee) + 1];
     }
     for (int i = 0; i < 5; i++) {
         if (Hero_in_shop[i] == "") {
