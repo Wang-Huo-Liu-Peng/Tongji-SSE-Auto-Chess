@@ -26,14 +26,32 @@ bool BattleLayer::init()
 
     hero1.current_enemy = &hero2;
     hero2.current_enemy = &hero1;
+
+    //new_hero.hero_attack();
+    //new_hero_2.hero_attack();
+    /*while (1) {
+        Sleep(100);
+        new_hero.decreasehp();
+        if (new_hero.gethp() <= 0) {
+            this->removeChild(new_hero.sprite, true);
+        }
+        if (new_hero_2.gethp() <= 0) {
+            this->removeChild(new_hero_2.sprite, true);
+        }
+    }*/
     ///////////////////////////////
 
-    //按按钮进行攻击
+        //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
         "CloseSelected.png",
         [&](Ref* sender) {
-            hero2.hero_attack();
+            /*hero1.decreasehp();
+            if (hero1.gethp() <= 0) {
+                this->removeChild(hero1.sprite, true);
+            }*/
+            Hero_fighting_1.push_back(hero1);
+            hero2.hero_attack(Hero_fighting_1);
             if (hero1.gethp() <= 0) {
                 this->removeChild(hero1.sprite, true);
             }
@@ -48,4 +66,13 @@ bool BattleLayer::init()
 
     return true;
 }
+
+void BattleLayer::attack()
+{
+}
+
+/*void BattleLayer::onEnter()
+{
+    Layer::onEnter();
+}*/
 
