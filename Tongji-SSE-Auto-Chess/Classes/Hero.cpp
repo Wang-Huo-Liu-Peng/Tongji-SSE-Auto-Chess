@@ -65,4 +65,4 @@ string one_fee[4] = { "Annie", "Corki", "Taric", "Evelynn" };
 string two_fee[4] = { "Kayle", "Garen", "Twitch", "Senna" };
 string three_fee[4] = { "Amumu", "Lux", "Samira", "Neeko" };
 string four_fee[4] = { "Karthus", "Viego", "Ezreal", "Poppy" };
-string four_five[4] = { "Lucian", "Kayn", "Qiyana", "Ziggs" };
+string five_fee[4] = { "Lucian", "Kayn", "Qiyana", "Ziggs" };
