@@ -20,6 +20,7 @@ bool PlayWithAI::init()
     this->addChild(Map);
     BattleLayer* HeroBattle = BattleLayer::create();
     this->addChild(HeroBattle);
+    //HeroBattle->battle();
     ///////////////////////////////
 
 

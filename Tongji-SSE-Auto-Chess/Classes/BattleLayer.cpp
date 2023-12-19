@@ -12,6 +12,14 @@ bool BattleLayer::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     ///////////////////////////////
+    ///////////////////////////////
+
+    return true;
+}
+
+void BattleLayer::onEnter()
+{
+    Layer::onEnter();
     Hero_1[1] = "Annie";
     MyHero new_hero;
     new_hero = set_a_hero("Annie", Hero_1, Hero_on_court_1);
@@ -36,7 +44,4 @@ bool BattleLayer::init()
     if (new_hero_2.gethp() == 0) {
         this->removeChild(new_hero_2.sprite, true);
     }
-    ///////////////////////////////
-
-    return true;
 }
