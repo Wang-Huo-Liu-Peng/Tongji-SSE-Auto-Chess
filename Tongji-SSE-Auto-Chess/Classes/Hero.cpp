@@ -28,6 +28,7 @@ std::map<std::string, MyHero> Hero_list = {
 	{"Senna", MyHero(0, 2, 1, 40, 80, 12, 0, 6, 0.7, 600, -1, -1)},
 
 
+
 	//三费
 	//阿木木 https://tftactics.gg/champions/amumu
 	{"Amumu", MyHero(0, 3, 1, 45, 100, 12, 0, 1, 0.65, 550, -1, -1)},
@@ -57,7 +58,14 @@ std::map<std::string, MyHero> Hero_list = {
 	//奇亚娜 https://lol.qq.com/tft/#/championDetail/246
 	{"Qiyana",MyHero(0,5,1,70,190,5,0,1,0.9,950,-1,-1)},
 	//吉格斯 https://lol.qq.com/tft/#/championDetail/115
-	{"Ziggs",MyHero(0,5,1,65,220,5,0,4,0.8,800,-1,-1)}
+	{"Ziggs",MyHero(0,5,1,65,220,5,0,4,0.8,800,-1,-1)},
+
+	//六费
+	//蔡徐坤
+    {"Kunkun",MyHero(0,6,1,100,300,10,10,10,10,500,-1,-1)},
+
+	//丁真
+	{"Dingzhen",MyHero(0,6,1,100,300,10,10,10,10,500,-1,-1)}
 	
 	// ... 其他英雄
 };
