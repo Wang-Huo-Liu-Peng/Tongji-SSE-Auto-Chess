@@ -14,7 +14,7 @@ std::map<std::string, MyHero> Hero_list = {
 	//塔里克 https://lol.qq.com/tft/#/championDetail/44
 	{"Taric", MyHero(0, 1, 1, 55, 60, 12, 0, 1, 0.55, 650, -1, -1)},
 	//伊芙琳 https://lol.qq.com/tft/#/championDetail/12
-	{"Evelynn", MyHero(0, 1, 1, 45, 60, 12, 0, 1, 0.7, 550, -1, -1)},
+	{"Evelynn", MyHero(0, 1, 1, 45, 60, 12, 0, 1, 0.01, 550, -1, -1)},
 
 
 	//二费

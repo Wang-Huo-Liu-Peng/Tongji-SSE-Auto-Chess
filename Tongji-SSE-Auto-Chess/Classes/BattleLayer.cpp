@@ -12,36 +12,66 @@ bool BattleLayer::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     ///////////////////////////////
+    Hero_1[1] = "Annie";
+    //MyHero new_hero;
+    hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
+    hero1.sprite->setPosition(Vec2(1400, 600));
+    this->addChild(hero1.sprite, 0);
+
+    Hero_2[1] = "Evelynn";
+    //MyHero new_hero_2;
+    hero2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
+    hero2.sprite->setPosition(Vec2(400, 700));
+    this->addChild(hero2.sprite, 0);
+
+    hero1.current_enemy = &hero2;
+    hero2.current_enemy = &hero1;
+
+    //new_hero.hero_attack();
+    //new_hero_2.hero_attack();
+    /*while (1) {
+        Sleep(100);
+        new_hero.decreasehp();
+        if (new_hero.gethp() <= 0) {
+            this->removeChild(new_hero.sprite, true);
+        }
+        if (new_hero_2.gethp() <= 0) {
+            this->removeChild(new_hero_2.sprite, true);
+        }
+    }*/
     ///////////////////////////////
+
+        //退出当前场景的按钮
+    auto closeItem = MenuItemImage::create(
+        "CloseNormal.png",
+        "CloseSelected.png",
+        [&](Ref* sender) {
+            /*hero1.decreasehp();
+            if (hero1.gethp() <= 0) {
+                this->removeChild(hero1.sprite, true);
+            }*/
+            hero2.hero_attack();
+            if (hero1.gethp() <= 0) {
+                this->removeChild(hero1.sprite, true);
+            }
+        });
+    float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
+    float y = origin.y + closeItem->getContentSize().height+500;
+    closeItem->setPosition(Vec2(x, y));
+
+    auto exitMenu = Menu::create(closeItem, NULL);
+    exitMenu->setPosition(Vec2::ZERO);
+    this->addChild(exitMenu, 1);
 
     return true;
 }
 
-void BattleLayer::onEnter()
+void BattleLayer::attack()
+{
+}
+
+/*void BattleLayer::onEnter()
 {
     Layer::onEnter();
-    Hero_1[1] = "Annie";
-    MyHero new_hero;
-    new_hero = set_a_hero("Annie", Hero_1, Hero_on_court_1);
-    new_hero.sprite->setPosition(Vec2(1400, 600));
-    this->addChild(new_hero.sprite, 0);
+}*/
 
-    Hero_2[1] = "Evelynn";
-    MyHero new_hero_2;
-    new_hero_2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
-    new_hero_2.sprite->setPosition(Vec2(400, 700));
-    this->addChild(new_hero_2.sprite, 0);
-
-    new_hero.current_enemy = &new_hero_2;
-    new_hero_2.current_enemy = &new_hero;
-
-    new_hero.hero_attack();
-    new_hero_2.hero_attack();
-
-    if (new_hero.gethp() == 0) {
-        this->removeChild(new_hero.sprite, true);
-    }
-    if (new_hero_2.gethp() == 0) {
-        this->removeChild(new_hero_2.sprite, true);
-    }
-}

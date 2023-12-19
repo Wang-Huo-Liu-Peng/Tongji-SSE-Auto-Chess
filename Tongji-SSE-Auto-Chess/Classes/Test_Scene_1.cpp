@@ -19,7 +19,7 @@ bool Test_Scene_1::init()
     ///////////////////////////////
     HeroLayer* Kun = HeroLayer::create();
     BackGroundLayer* bg = BackGroundLayer::create();
-    this->addChild(Kun);
+    this->addChild(Kun,1);
     this->addChild(bg);
     ///////////////////////////////
 

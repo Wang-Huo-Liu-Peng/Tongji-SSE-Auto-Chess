@@ -3,12 +3,16 @@
 #define __BATTLE_LAYER_H__
 
 #include "cocos2d.h"
+#include "goldenshovel_hero_design.h"
 
 class BattleLayer : public cocos2d::Layer
 {
 public:
+    MyHero hero1;
+    MyHero hero2;
     virtual bool init();
-    void onEnter();
+    void attack();
+    //virtual void onEnter();
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
 

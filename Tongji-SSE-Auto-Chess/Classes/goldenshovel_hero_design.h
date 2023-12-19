@@ -57,6 +57,7 @@ public:
     inline void hero_attack();                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int gethp() { return this->current_hp; };
+    void decreasehp() { this->current_hp -= 100; };
 	MyHero* current_enemy;
 private:
 	bool on_court;                 // 判断是否在场
