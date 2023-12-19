@@ -27,21 +27,36 @@ bool Test_Scene_3::init()
     mySprite->setScale(0.5f);
     this->addChild(mySprite, 0);
 
-    auto player1 = LayerColor::create(Color4B::RED, 100, 100);
-    player1->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 + 100));
-    addChild(player1);
-    
-    auto listener1 = EventListenerTouchOneByOne::create();
-    listener1->onTouchBegan = [](Touch* t, Event* e)->bool {
-        log("成功检测到点击了");
-       
-        
-        return true;
-    };
+    /*****************************************************************************/
+    // 创建血条
+    auto healthBar = ProgressTimer::create(Sprite::create("red_bar.png"));
+    healthBar->setType(ProgressTimer::Type::BAR);
+    healthBar->setMidpoint(Vec2(0, 0.5));
+    healthBar->setBarChangeRate(Vec2(1, 0));
+    healthBar->setPercentage(100); // 初始百分比
 
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, player1);
+    // 创建蓝条
+    auto manaBar = ProgressTimer::create(Sprite::create("blue_bar.png"));
+    manaBar->setType(ProgressTimer::Type::BAR);
+    manaBar->setMidpoint(Vec2(0, 0.5));
+    manaBar->setBarChangeRate(Vec2(1, 0));
+    manaBar->setPercentage(100); // 初始百分比
 
+    // 设置血条位置
+    healthBar->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 10));
+    this->addChild(healthBar);
 
+    // 设置蓝条位置
+    manaBar->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 20));
+    this->addChild(manaBar);
+
+    // 更新血条和蓝条的数值
+    float currentHealth = 80.0; // 替换成精灵的当前生命值
+    float currentMana = 160.0;   // 替换成精灵的当前蓝量
+
+    healthBar->setPercentage(currentHealth);
+    manaBar->setPercentage(currentMana);
+    /*****************************************************************************/
 
     ///////////////////////////////
 
@@ -68,6 +83,7 @@ void Test_Scene_3::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
+
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
 
