@@ -112,7 +112,24 @@ bool Test_Scene_4::init()
         new_hero.sprite->setPosition(Vec2(1400, 600));
         this->addChild(new_hero.sprite, 0);
 
+        Hero_2[1] = "Evelynn";
+        MyHero new_hero_2;
+        new_hero_2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
+        new_hero_2.sprite->setPosition(Vec2(400, 700));
+        this->addChild(new_hero_2.sprite, 0);
+        
+        new_hero.current_enemy = &new_hero_2;
+        new_hero_2.current_enemy = &new_hero;
 
+        new_hero.hero_attack();
+        new_hero_2.hero_attack();
+        
+        if (new_hero.gethp() == 0) {
+            this->removeChild(new_hero.sprite, true);
+        }
+        if(new_hero_2.gethp() == 0) {
+            this->removeChild(new_hero_2.sprite, true);
+        }
     }
     
     //退出当前场景的按钮

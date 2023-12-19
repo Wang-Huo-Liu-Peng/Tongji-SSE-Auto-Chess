@@ -35,6 +35,7 @@ public:
 		MyObject(hp, xp, av, x, y), star_level(level) {};
 	//virtual void my_move(int new_x, int new_y);                                  // 移动函数
 
+    
 private:
 	int star_level;     // 星级
 };
@@ -54,7 +55,7 @@ public:
     inline void seek_enemy(MyHero hero);                           // 索敌函数
     inline void hero_attack();                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
-
+    int gethp() { return this->current_hp; };
 	MyHero* current_enemy;
 private:
 	bool on_court;                 // 判断是否在场
@@ -103,10 +104,11 @@ inline void MyHero::seek_enemy(MyHero hero) {
 
 inline void MyHero::hero_attack() {
     if (current_enemy == NULL) {   //没有攻击目标或者攻击目标死亡后未重新寻找目标
-        seek_enemy(*this);
+        //seek_enemy(*this);
+        return;
     }
     int last_attack_time;
-    while (current_enemy != NULL) {
+    while (current_enemy != NULL && this->current_hp!= 0) {
         last_attack_time = time(NULL);              //记录攻击的时间点
         //攻击动画
         if (this->attack_power < current_enemy->current_hp) {  //不能直接击杀
