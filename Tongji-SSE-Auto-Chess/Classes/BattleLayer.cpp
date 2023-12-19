@@ -13,13 +13,11 @@ bool BattleLayer::init()
 
     ///////////////////////////////
     Hero_1[1] = "Annie";
-    //MyHero new_hero;
     hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
     hero1.sprite->setPosition(Vec2(1400, 600));
     this->addChild(hero1.sprite, 0);
 
     Hero_2[1] = "Evelynn";
-    //MyHero new_hero_2;
     hero2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
     hero2.sprite->setPosition(Vec2(400, 700));
     this->addChild(hero2.sprite, 0);
@@ -29,16 +27,7 @@ bool BattleLayer::init()
 
     //new_hero.hero_attack();
     //new_hero_2.hero_attack();
-    /*while (1) {
-        Sleep(100);
-        new_hero.decreasehp();
-        if (new_hero.gethp() <= 0) {
-            this->removeChild(new_hero.sprite, true);
-        }
-        if (new_hero_2.gethp() <= 0) {
-            this->removeChild(new_hero_2.sprite, true);
-        }
-    }*/
+
     ///////////////////////////////
 
         //退出当前场景的按钮
@@ -66,13 +55,4 @@ bool BattleLayer::init()
 
     return true;
 }
-
-void BattleLayer::attack()
-{
-}
-
-/*void BattleLayer::onEnter()
-{
-    Layer::onEnter();
-}*/
 
