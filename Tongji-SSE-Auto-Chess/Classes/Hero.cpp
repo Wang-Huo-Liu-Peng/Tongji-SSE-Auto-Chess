@@ -66,3 +66,12 @@ string two_fee[4] = { "Kayle", "Garen", "Twitch", "Senna" };
 string three_fee[4] = { "Amumu", "Lux", "Samira", "Neeko" };
 string four_fee[4] = { "Karthus", "Viego", "Ezreal", "Poppy" };
 string five_fee[4] = { "Lucian", "Kayn", "Qiyana", "Ziggs" };
+
+vector <MyHero> Hero_on_court_1;
+vector <MyHero> Hero_on_court_2;
+vector <MyHero> Hero_select_1;
+vector <MyHero> Hero_select_2;
+
+//数组大小代表随机刷新的商店个数
+string Hero_1[5];
+string Hero_2[5];

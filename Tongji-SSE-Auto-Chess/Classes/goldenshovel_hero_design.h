@@ -51,11 +51,7 @@ public:
         on_court(on_court), gold_cost(gold_cost), star_level(star_level), attack_power(attack_power), ace_attack_power(ace_attack_power),
 		needed_cooldown_round(needed_cooldown_round), current_cooldown_round(current_cooldown_round), attack_distance(attack_distance),
         attack_cd(attack_cd){};
-    MyHero(const MyHero& hero) :
-        MyObject(hero.full_hp,/* xp, av,*/ hero.location_x, location_y),
-        on_court(hero.on_court), gold_cost(hero.gold_cost), star_level(hero.star_level), attack_power(hero.attack_power), ace_attack_power(hero.ace_attack_power),
-        needed_cooldown_round(hero.needed_cooldown_round), current_cooldown_round(hero.current_cooldown_round), attack_distance(hero.attack_distance),
-        attack_cd(hero.attack_cd) {}
+    
 	//virtual void my_move(int new_x, int new_y);  // 移动函数
     inline void seek_enemy(MyHero hero);                           // 索敌函数
     inline void hero_attack();                           //攻击函数
@@ -171,4 +167,11 @@ extern string three_fee[4];
 extern string four_fee[4];
 extern string five_fee[4];
 
+extern vector <MyHero> Hero_on_court_1;
+extern vector <MyHero> Hero_on_court_2;
+extern vector <MyHero> Hero_select_1;
+extern vector <MyHero> Hero_select_2;
 
+//数组大小代表随机刷新的商店个数
+extern string Hero_1[5];
+extern string Hero_2[5];
