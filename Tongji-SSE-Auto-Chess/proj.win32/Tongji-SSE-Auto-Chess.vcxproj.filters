@@ -149,6 +149,9 @@
     <ClInclude Include="..\Classes\BattleLayer.h">
       <Filter>src\BattleLayer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameMap.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

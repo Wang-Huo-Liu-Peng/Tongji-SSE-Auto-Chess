@@ -50,7 +50,8 @@ bool BattleLayer::init()
             if (hero1.gethp() <= 0) {
                 this->removeChild(hero1.sprite, true);
             }*/
-            hero2.hero_attack();
+            Hero_fighting_1.push_back(hero1);
+            hero2.hero_attack(Hero_fighting_1);
             if (hero1.gethp() <= 0) {
                 this->removeChild(hero1.sprite, true);
             }

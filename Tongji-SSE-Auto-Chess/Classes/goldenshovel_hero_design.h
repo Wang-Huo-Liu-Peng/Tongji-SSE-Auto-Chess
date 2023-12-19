@@ -1,3 +1,4 @@
+//goldenshovel_hero_design.h
 #pragma once
 #include<iostream>
 #include"HelloWorldScene.h"
@@ -7,6 +8,12 @@ using namespace std;
 
 #define attack_ace 1    //攻击性大招
 #define treat_ace 2     //治疗型大招
+
+#define map_width 9
+#define map_height 6
+
+
+
 /*====================基类====================*/
 //注意：该基类为抽象基类，不可直接生成对象
 class MyObject {
@@ -54,10 +61,12 @@ public:
     
 	//virtual void my_move(int new_x, int new_y);  // 移动函数
     inline void seek_enemy(MyHero hero);                           // 索敌函数
-    inline void hero_attack();                           //攻击函数
+    inline void hero_attack(vector <MyHero>& Hero_fighting);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int gethp() { return this->current_hp; };
     void decreasehp() { this->current_hp -= 100; };
+    inline BOOL IsInMap(int x, int y);
+    inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance);
 	MyHero* current_enemy;
 private:
 	bool on_court;                 // 判断是否在场
@@ -71,21 +80,46 @@ private:
     int attack_distance;
     // 攻击距离
 };
+inline BOOL IsInMap(int x, int y) {
+    if (x < map_width && x >= 0 && y < map_height && y >= 0) {
+        return 1;
+    }
+    return 0;
+}
+inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance) {
+    int deltaX = X - HX;
+    int deltaY = Y - HY;
 
-//英雄索敌
-inline void MyHero::seek_enemy(MyHero hero) {
+    // 计算对角线距离
+    int distanceToTarget = std::max(std::abs(deltaX), std::abs(deltaY));
+
+    if (distanceToTarget <= distance) {
+        // 如果当前距离已经小于等于攻击距离，无需移动
+        return;
+    }
+
+    // 计算插值比例
+    float t = static_cast<float>(distance) / distanceToTarget;
+
+    // 使用插值计算新的位置
+    HX = static_cast<int>(HX + t * deltaX);
+    HY = static_cast<int>(HY + t * deltaY);
+}
+
+
+//英雄索敌 MAP不知道在哪里定义，歇逼了先
+inline void MyHero::seek_enemy(MyHero hero) {/*
     BOOL find = 0;
     int distance = 1;
     int i;
     int j;
-    MyHero enemy;
     while (!find) {
         for (i = -1; i < 1; i++) {
             for (j = -1; j < 1; j++) {
                 if (i == 0 && j == 0) continue;
-                if (hero.location_x + distance * i * plaid_width, hero.location_y + j * distance * plaid_height)//这段应该是判断这个像素上有英雄，没写完整
+                if (MAP[hero.location_x + distance * i][hero.location_y + j * distance] != nullptr)//这段应该是判断这个像素上有英雄，没写完整
                 {
-                    hero.current_enemy = &enemy;//此处第二个hero应该改成上面找到的这个英雄
+                    hero.current_enemy = MAP[hero.location_x + distance * i][hero.location_y + j * distance];
                     find = 1;
                     break;
                 }
@@ -95,18 +129,24 @@ inline void MyHero::seek_enemy(MyHero hero) {
         }
         distance++;
     }
-    while (enemy.current_hp) {
-        if (enemy.location_x - hero.location_x > hero.attack_distance * plaid_width) {
-            hero.location_x = enemy.location_x + hero.attack_distance * plaid_width * (hero.location_x - enemy.location_x) / abs(hero.location_x - enemy.location_x);
-            hero.location_y = enemy.location_y + hero.attack_distance * plaid_height * (hero.location_y - enemy.location_y) / abs(hero.location_y - enemy.location_y);
+    while (hero.current_enemy->current_hp != 0) {
+        if (hero.current_enemy->location_x - hero.location_x > hero.attack_distance) {
+            MAP[location_x][location_y] = nullptr;
+            Find_Way_To_attack(hero.current_enemy->location_x, hero.current_enemy->location_y, hero.location_x, hero.location_y, hero.attack_distance);
+            MAP[location_x][location_y] = &hero;
             //hero.sprite 设计moveby和moveto，还没写
         }
-    }
+    }*/
 }
 
-inline void MyHero::hero_attack() {
-    if (current_enemy == NULL) {   //没有攻击目标或者攻击目标死亡后未重新寻找目标
-        //seek_enemy(*this);
+
+
+
+
+inline void MyHero::hero_attack(vector <MyHero>& Hero_fighting) {
+    //当目前英雄没死，并且敌人没死绝，当前current_enemy死了的时候，找下一个敌人
+    if (current_enemy == NULL || this->current_hp != 0 || Hero_fighting.empty() != 1) {
+        seek_enemy(*this);
         return;
     }
     int last_attack_time;
@@ -172,10 +212,13 @@ extern vector <MyHero> Hero_on_court_1;
 extern vector <MyHero> Hero_on_court_2;
 extern vector <MyHero> Hero_select_1;
 extern vector <MyHero> Hero_select_2;
+extern vector <MyHero> Hero_fighting_1;
+extern vector <MyHero> Hero_fighting_2;
 
 //数组大小代表随机刷新的商店个数
 extern string Hero_1[5];
 extern string Hero_2[5];
+
 
 void make_a_random_hero(int fee[], string Hero_in_shop[]);
 MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero);
