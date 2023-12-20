@@ -16,7 +16,7 @@ using namespace std;
 
 /*====================基类====================*/
 //注意：该基类为抽象基类，不可直接生成对象
-class MyObject {
+class MyObject{
 public:
 	MyObject() {};
 	MyObject(int hp, int xp, int av, int x = -1, int y = -1) :                             // 构造函数

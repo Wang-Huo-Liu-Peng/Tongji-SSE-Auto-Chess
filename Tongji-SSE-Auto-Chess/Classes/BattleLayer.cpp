@@ -56,3 +56,17 @@ bool BattleLayer::init()
     return true;
 }
 
+void BattleLayer::update(float dt)
+{
+    /*以下为游戏中需要不断更新的东西*/
+
+    //检查是否有英雄死亡函数
+
+    //检查并回收已击中的子弹
+    //子弹打中并扣血
+
+    //英雄发射？
+    //英雄自走？
+    //子弹飞行？
+}
+

@@ -154,6 +154,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackGroundLayer.cpp" />
     <ClCompile Include="..\Classes\BattleLayer.cpp" />
+    <ClCompile Include="..\Classes\Bullet.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
     <ClCompile Include="..\Classes\HeroLayer.cpp" />
@@ -172,6 +173,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackGroundLayer.h" />
     <ClInclude Include="..\Classes\BattleLayer.h" />
+    <ClInclude Include="..\Classes\Bullet.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />

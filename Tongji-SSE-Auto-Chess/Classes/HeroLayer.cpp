@@ -19,6 +19,11 @@ bool HeroLayer::init()
     listener->onTouchEnded = CC_CALLBACK_2(HeroLayer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);//事件分发器
 
+    auto attack_listener = EventListenerCustom::create("find_enemy", [=](EventCustom* event) {
+        //寻找到敌人
+        });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(attack_listener, this);
+
     auto mySprite = Sprite::create("kunkun.png");//创建精灵
     mySprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 2));

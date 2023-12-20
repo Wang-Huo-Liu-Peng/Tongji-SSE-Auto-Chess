@@ -52,6 +52,9 @@
     <Filter Include="src\StoreLayer">
       <UniqueIdentifier>{fe3480eb-5749-424f-bbbe-f4fa1af3e112}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Bullet">
+      <UniqueIdentifier>{0e96c6f3-d9d9-4c6c-807c-a1fe850a4f73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\StoreLayer.cpp">
       <Filter>src\StoreLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Bullet.cpp">
+      <Filter>src\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GameMap.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Bullet.h">
+      <Filter>src\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
