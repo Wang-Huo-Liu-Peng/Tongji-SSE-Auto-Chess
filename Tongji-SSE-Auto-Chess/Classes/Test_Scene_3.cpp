@@ -1,8 +1,10 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_3.h"
+#include <vector>
+#include "goldenshovel_hero_design.h"
 
 USING_NS_CC;
-
+using namespace std;
 
 Scene* Test_Scene_3::createScene()
 {
@@ -21,59 +23,6 @@ bool Test_Scene_3::init()
         origin.y + visibleSize.height / 2));
     mySprite->setScale(0.5f);
     this->addChild(mySprite, 0);
-
-    /*****************************************************************************/
-    // 创建背景1
-    auto backBar1 = DrawNode::create();
-    backBar1->drawSolidRect(Vec2(-100, -15), Vec2(100, 15), Color4F(0.5, 0.5, 0.5, 1.0));
-
-    // 创建背景2
-    auto backBar2 = DrawNode::create();
-    backBar2->drawSolidRect(Vec2(-100, -15), Vec2(100, 15), Color4F(0.5, 0.5, 0.5, 1.0));
-
-    // 创建血条
-    auto healthBar = ProgressTimer::create(Sprite::create("red_bar.png"));
-    healthBar->setType(ProgressTimer::Type::BAR);
-    healthBar->setMidpoint(Vec2(0, 0.5));
-    healthBar->setBarChangeRate(Vec2(1, 0));
-    healthBar->setPercentage(100); // 初始百分比
-    // 设置血条大小
-    healthBar->setScale(0.7, 0.3);
-
-    // 创建蓝条
-    auto manaBar = ProgressTimer::create(Sprite::create("blue_bar.png"));
-    manaBar->setType(ProgressTimer::Type::BAR);
-    manaBar->setMidpoint(Vec2(0, 0.5));
-    manaBar->setBarChangeRate(Vec2(1, 0));
-    manaBar->setPercentage(100); // 初始百分比
-    // 设置蓝条大小
-    manaBar->setScale(0.7, 0.3);
-
-    // 创建 ClippingNode
-    auto clipNode1 = ClippingNode::create();
-    clipNode1->setStencil(backBar1);
-    clipNode1->addChild(healthBar);
-
-    auto clipNode2 = ClippingNode::create();
-    clipNode2->setStencil(backBar2);
-    clipNode2->addChild(manaBar);
-
-    // 设置血条位置
-    clipNode1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 10));
-    this->addChild(clipNode1);
-
-    // 设置蓝条位置
-    clipNode2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 20));
-    this->addChild(clipNode2);
-
-    // 更新血条和蓝条的数值
-    float currentHealth = 80.0; // 替换成精灵的当前生命值
-    float currentMana = 77.0;   // 替换成精灵的当前蓝量
-
-    healthBar->setPercentage(currentHealth);
-    manaBar->setPercentage(currentMana);
-
-    /*****************************************************************************/
 
     ///////////////////////////////
 
@@ -106,6 +55,30 @@ void Test_Scene_3::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
+
+/**********检查是否有英雄死亡的函数*********/
+bool IsZeroHp(MyHero& hero)
+{
+    if (hero.gethp() == 0)
+    {
+        //this->removeChild...
+        return 1;
+    }
+    else
+        return 0;
+}
+void check_death(vector<MyHero>& my_vec,vector<MyHero>& enemy_vec)
+{
+    // 使用 remove_if + erase 结合的方式移除符合条件的元素
+    my_vec.erase(std::remove_if(my_vec.begin(), my_vec.end(), IsZeroHp), my_vec.end());
+    enemy_vec.erase(std::remove_if(enemy_vec.begin(), enemy_vec.end(), IsZeroHp), enemy_vec.end());
+}
+
+/**********子弹函数**********/
+void bullet()
+{
+
 }
 
 /**************下面是拖动的代码****************************/
@@ -211,4 +184,61 @@ void TestLayer::onTouchEnded(Touch* touch, Event* event)
 
     s->runAction(RotateTo::create(1, at));
 }
+*/
+
+
+/*****************************下面是血条的代码*************************************/
+/*
+
+ // 创建背景1
+auto backBar1 = DrawNode::create();
+backBar1->drawSolidRect(Vec2(-100, -15), Vec2(100, 15), Color4F(0.5, 0.5, 0.5, 1.0));
+
+// 创建背景2
+auto backBar2 = DrawNode::create();
+backBar2->drawSolidRect(Vec2(-100, -15), Vec2(100, 15), Color4F(0.5, 0.5, 0.5, 1.0));
+
+// 创建血条
+auto healthBar = ProgressTimer::create(Sprite::create("red_bar.png"));
+healthBar->setType(ProgressTimer::Type::BAR);
+healthBar->setMidpoint(Vec2(0, 0.5));
+healthBar->setBarChangeRate(Vec2(1, 0));
+healthBar->setPercentage(100); // 初始百分比
+// 设置血条大小
+healthBar->setScale(0.7, 0.3);
+
+// 创建蓝条
+auto manaBar = ProgressTimer::create(Sprite::create("blue_bar.png"));
+manaBar->setType(ProgressTimer::Type::BAR);
+manaBar->setMidpoint(Vec2(0, 0.5));
+manaBar->setBarChangeRate(Vec2(1, 0));
+manaBar->setPercentage(100); // 初始百分比
+// 设置蓝条大小
+manaBar->setScale(0.7, 0.3);
+
+// 创建 ClippingNode
+auto clipNode1 = ClippingNode::create();
+clipNode1->setStencil(backBar1);
+clipNode1->addChild(healthBar);
+
+auto clipNode2 = ClippingNode::create();
+clipNode2->setStencil(backBar2);
+clipNode2->addChild(manaBar);
+
+// 设置血条位置
+clipNode1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 10));
+this->addChild(clipNode1);
+
+// 设置蓝条位置
+clipNode2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 20));
+this->addChild(clipNode2);
+
+// 更新血条和蓝条的数值
+float currentHealth = 80.0; // 替换成精灵的当前生命值
+float currentMana = 77.0;   // 替换成精灵的当前蓝量
+
+healthBar->setPercentage(currentHealth);
+manaBar->setPercentage(currentMana);
+
+
 */
