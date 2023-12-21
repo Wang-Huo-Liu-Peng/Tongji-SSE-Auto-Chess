@@ -219,8 +219,8 @@ public:
         // 在这里判断两个 MySprite 对象是否相等
         return this->location_x == other.location_x && this->location_y == other.location_y;
     }
-
-    inline void make_a_random_hero();   //刷新商店英雄
+    inline void refresh_shop();//刷新商店英雄
+    inline void make_a_random_hero();   //补充商店英雄
     inline void erase_a_player();//删除死了个玩家
     inline void MySprite::set_a_hero(string hero_name);//将一个英雄从商店选出
     inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
@@ -275,7 +275,18 @@ inline void MySprite::make_a_random_hero() {
     }
 }
 
-
+inline void MySprite::refresh_shop() {
+    if (this->money < 2) {
+        //错误提示待写
+    }
+    else {
+        this->money -= 2;//刷新扣除金额
+        for (int i = 0; i < 5; i++) {
+            this->Hero_in_shop[i] = "";
+        }
+        make_a_random_hero();
+    }
+}
 
 //将一个新英雄从商店中选出,pjl已经写出可视化实现，需要和这里合并一下
 inline void MySprite::set_a_hero(string hero_name) {
@@ -286,18 +297,22 @@ inline void MySprite::set_a_hero(string hero_name) {
     }
 
     //扣钱
-    this->money -= Hero_list[hero_name].getcost();
-    string filename = hero_name + ".png";
-    MyHero set_a_new_hero = Hero_list.at(hero_name);
-    //pjl解决一下下面的错误
-    /*auto new_hero_Sprite = Sprite::create(filename);
-    set_a_new_hero.sprite = new_hero_Sprite;
-    this->Hero_on_bench.push_back(set_a_new_hero);*/
+    if (this->money < Hero_list[hero_name].getcost()) {
+        //错误提示待写
+    }
+    else {
+        this->money -= Hero_list[hero_name].getcost();
+        string filename = hero_name + ".png";
+        MyHero set_a_new_hero = Hero_list.at(hero_name);
+        //pjl解决一下下面的错误
+        /*auto new_hero_Sprite = Sprite::create(filename);
+        set_a_new_hero.sprite = new_hero_Sprite;
+        this->Hero_on_bench.push_back(set_a_new_hero);*/
 
 
-    //这里后续要加入三星合一，后续再加
-    //可视化，并给position赋值
-
+        //这里后续要加入三星合一，后续再加
+        //可视化，并给position赋值
+    }
 }
 
 
