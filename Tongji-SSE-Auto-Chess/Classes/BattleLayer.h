@@ -8,8 +8,8 @@
 class BattleLayer : public cocos2d::Layer
 {
 public:
-    Vector<MyHero> hero_of_red;   //ºì·½Ó¢ÐÛ
-    Vector<MyHero> hero_of_blue;  //À¶·½Ó¢ÐÛ
+    vector<MyHero> hero_of_red;   //ºì·½Ó¢ÐÛ
+    vector<MyHero> hero_of_blue;  //À¶·½Ó¢ÐÛ
     void update(float dt);
     MyHero hero1;
     MyHero hero2;
