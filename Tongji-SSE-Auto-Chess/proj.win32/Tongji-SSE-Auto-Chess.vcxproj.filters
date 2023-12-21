@@ -55,6 +55,9 @@
     <Filter Include="src\Bullet">
       <UniqueIdentifier>{0e96c6f3-d9d9-4c6c-807c-a1fe850a4f73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\goldenshovel_hero_design">
+      <UniqueIdentifier>{c3a49a40-4142-48f9-8ab4-cf1aa96ea737}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -93,9 +96,6 @@
     <ClCompile Include="..\Classes\HeroLayer.cpp">
       <Filter>src\HeroLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Hero.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Store.cpp">
       <Filter>src\Store</Filter>
     </ClCompile>
@@ -108,15 +108,15 @@
     <ClCompile Include="..\Classes\Bullet.cpp">
       <Filter>src\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp">
+      <Filter>src\goldenshovel_hero_design</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Test.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\goldenshovel_hero_design.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Show_Chinese.h">
@@ -169,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Bullet.h">
       <Filter>src\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\goldenshovel_hero_design.h">
+      <Filter>src\goldenshovel_hero_design</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

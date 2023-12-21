@@ -8,12 +8,13 @@
 class BattleLayer : public cocos2d::Layer
 {
 public:
-    vector<MyHero> hero_of_red;   //ºì·½Ó¢ÐÛ
-    vector<MyHero> hero_of_blue;  //À¶·½Ó¢ÐÛ
     void update(float dt);
+    virtual bool init();
     MyHero hero1;
     MyHero hero2;
-    virtual bool init();
+    /*
+    vector<MyHero> hero_of_red;   //ºì·½Ó¢ÐÛ
+    vector<MyHero> hero_of_blue;  //À¶·½Ó¢ÐÛ
     void attack();
     void Delete_death(vector<MyHero>& Hero_fighting) {
         auto it = Hero_fighting.begin();
@@ -26,7 +27,7 @@ public:
                 ++it;
             }
         }
-    }
+    }*/
     //virtual void onEnter();
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);

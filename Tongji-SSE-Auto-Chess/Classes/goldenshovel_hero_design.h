@@ -13,6 +13,9 @@ using namespace std;
 #define map_height 6
 
 
+class MyHero;
+
+extern MyHero* GameMap[map_width][map_height];
 
 /*====================基类====================*/
 //注意：该基类为抽象基类，不可直接生成对象
@@ -65,8 +68,6 @@ public:
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int gethp() { return this->current_hp; };
     void decreasehp() { this->current_hp -= 100; };
-    inline BOOL IsInMap(int x, int y);
-    inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance);
 	MyHero* current_enemy;
 private:
 	bool on_court;                 // 判断是否在场
@@ -78,6 +79,8 @@ private:
     int current_cooldown_round;        // 当前冷却轮数
     double attack_cd;                     //攻击cd
     int attack_distance;
+    inline BOOL IsInMap(int x, int y);
+    inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance);
     // 攻击距离
 };
 inline BOOL IsInMap(int x, int y) {
@@ -108,7 +111,7 @@ inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance) {
 
 
 //英雄索敌 MAP不知道在哪里定义，歇逼了先
-inline void MyHero::seek_enemy(MyHero hero) {/*
+inline void MyHero::seek_enemy(MyHero hero) {
     BOOL find = 0;
     int distance = 1;
     int i;
@@ -117,9 +120,9 @@ inline void MyHero::seek_enemy(MyHero hero) {/*
         for (i = -1; i < 1; i++) {
             for (j = -1; j < 1; j++) {
                 if (i == 0 && j == 0) continue;
-                if (MAP[hero.location_x + distance * i][hero.location_y + j * distance] != nullptr)//这段应该是判断这个像素上有英雄，没写完整
+                if (GameMap[hero.location_x + distance * i][hero.location_y + j * distance] != nullptr)//这段应该是判断这个像素上有英雄，没写完整
                 {
-                    hero.current_enemy = MAP[hero.location_x + distance * i][hero.location_y + j * distance];
+                    hero.current_enemy = GameMap[hero.location_x + distance * i][hero.location_y + j * distance];
                     find = 1;
                     break;
                 }
@@ -131,12 +134,12 @@ inline void MyHero::seek_enemy(MyHero hero) {/*
     }
     while (hero.current_enemy->current_hp != 0) {
         if (hero.current_enemy->location_x - hero.location_x > hero.attack_distance) {
-            MAP[location_x][location_y] = nullptr;
+            GameMap[location_x][location_y] = nullptr;
             Find_Way_To_attack(hero.current_enemy->location_x, hero.current_enemy->location_y, hero.location_x, hero.location_y, hero.attack_distance);
-            MAP[location_x][location_y] = &hero;
+            GameMap[location_x][location_y] = &hero;
             //hero.sprite 设计moveby和moveto，还没写
         }
-    }*/
+    }
 }
 
 

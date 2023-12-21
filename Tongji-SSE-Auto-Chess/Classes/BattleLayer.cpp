@@ -11,6 +11,7 @@ bool BattleLayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    
     ///////////////////////////////
     Hero_1[1] = "Annie";
     hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
@@ -38,12 +39,12 @@ bool BattleLayer::init()
             /*hero1.decreasehp();
             if (hero1.gethp() <= 0) {
                 this->removeChild(hero1.sprite, true);
-            }*/
+            }
             Hero_fighting_1.push_back(hero1);
             hero2.hero_attack(Hero_fighting_1);
             if (hero1.gethp() <= 0) {
                 this->removeChild(hero1.sprite, true);
-            }
+            }*/
         });
     float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
     float y = origin.y + closeItem->getContentSize().height+500;
