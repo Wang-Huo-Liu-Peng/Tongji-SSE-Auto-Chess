@@ -168,6 +168,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Test_Scene_3.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_4.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetworkConnection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />

@@ -16,11 +16,6 @@ bool Test_Scene_3::init()
 
 
     ///////////////////////////////
-    /*
-    创建事件监听器
-    指定监听器的回调接口实现方法
-    将设定好的监听器 注册到分发器内
-    */
     auto mySprite = Sprite::create("kunkun.png");//创建精灵
     mySprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 2));
@@ -28,12 +23,22 @@ bool Test_Scene_3::init()
     this->addChild(mySprite, 0);
 
     /*****************************************************************************/
+    // 创建背景1
+    auto backBar1 = DrawNode::create();
+    backBar1->drawSolidRect(Vec2(-100, -15), Vec2(100, 15), Color4F(0.5, 0.5, 0.5, 1.0));
+
+    // 创建背景2
+    auto backBar2 = DrawNode::create();
+    backBar2->drawSolidRect(Vec2(-100, -15), Vec2(100, 15), Color4F(0.5, 0.5, 0.5, 1.0));
+
     // 创建血条
     auto healthBar = ProgressTimer::create(Sprite::create("red_bar.png"));
     healthBar->setType(ProgressTimer::Type::BAR);
     healthBar->setMidpoint(Vec2(0, 0.5));
     healthBar->setBarChangeRate(Vec2(1, 0));
     healthBar->setPercentage(100); // 初始百分比
+    // 设置血条大小
+    healthBar->setScale(0.7, 0.3);
 
     // 创建蓝条
     auto manaBar = ProgressTimer::create(Sprite::create("blue_bar.png"));
@@ -41,21 +46,33 @@ bool Test_Scene_3::init()
     manaBar->setMidpoint(Vec2(0, 0.5));
     manaBar->setBarChangeRate(Vec2(1, 0));
     manaBar->setPercentage(100); // 初始百分比
+    // 设置蓝条大小
+    manaBar->setScale(0.7, 0.3);
+
+    // 创建 ClippingNode
+    auto clipNode1 = ClippingNode::create();
+    clipNode1->setStencil(backBar1);
+    clipNode1->addChild(healthBar);
+
+    auto clipNode2 = ClippingNode::create();
+    clipNode2->setStencil(backBar2);
+    clipNode2->addChild(manaBar);
 
     // 设置血条位置
-    healthBar->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 10));
-    this->addChild(healthBar);
+    clipNode1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 10));
+    this->addChild(clipNode1);
 
     // 设置蓝条位置
-    manaBar->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 20));
-    this->addChild(manaBar);
+    clipNode2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 20));
+    this->addChild(clipNode2);
 
     // 更新血条和蓝条的数值
     float currentHealth = 80.0; // 替换成精灵的当前生命值
-    float currentMana = 160.0;   // 替换成精灵的当前蓝量
+    float currentMana = 77.0;   // 替换成精灵的当前蓝量
 
     healthBar->setPercentage(currentHealth);
     manaBar->setPercentage(currentMana);
+
     /*****************************************************************************/
 
     ///////////////////////////////

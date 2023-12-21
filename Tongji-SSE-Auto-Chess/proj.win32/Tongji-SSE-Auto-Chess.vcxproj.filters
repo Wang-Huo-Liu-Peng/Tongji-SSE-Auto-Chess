@@ -58,6 +58,9 @@
     <Filter Include="src\goldenshovel_hero_design">
       <UniqueIdentifier>{c3a49a40-4142-48f9-8ab4-cf1aa96ea737}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Network Connection">
+      <UniqueIdentifier>{c68ce378-a503-4fef-8541-886d63406fad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp">
       <Filter>src\goldenshovel_hero_design</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkConnection.cpp">
+      <Filter>src\Network Connection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
