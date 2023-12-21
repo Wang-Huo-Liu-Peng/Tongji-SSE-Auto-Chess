@@ -77,6 +77,7 @@ string three_fee[4] = { "Amumu", "Lux", "Samira", "Neeko" };
 string four_fee[4] = { "Karthus", "Viego", "Ezreal", "Poppy" };
 string five_fee[4] = { "Lucian", "Kayn", "Qiyana", "Ziggs" };
 
+
 vector <MyHero> Hero_on_court_1;
 vector <MyHero> Hero_on_court_2;
 vector <MyHero> Hero_select_1;
@@ -88,3 +89,25 @@ vector <MyHero> Hero_fighting_2;
 string Hero_1[5];
 string Hero_2[5];
 
+vector<MySprite> Player = {
+	MySprite(1,100,5),//小小英雄开局等级为1,血量为100，金币为5
+	MySprite(1,100,5),
+	MySprite(1,100,5),
+	MySprite(1,100,5),
+	MySprite(1,100,5),
+	MySprite(1,100,5),
+	MySprite(1,100,5),
+	MySprite(1,100,5),
+};
+
+int Posibility_Of_Hero[MAX_LEVEL][5] = {
+	{75,25,0,0,0},
+	{55,40,15,0,0},
+	{45,33,20,2},
+	{25,40,30,5,0},
+	{19,30,35,15,1},
+	{16,20,35,25,4},
+	{9,15,30,30,16}
+};//每个等级对应英雄刷新可能性
+
+int level_up_exp[6] = { 10,20,30,40,50,60 };//每个等级升级对应需要的经验

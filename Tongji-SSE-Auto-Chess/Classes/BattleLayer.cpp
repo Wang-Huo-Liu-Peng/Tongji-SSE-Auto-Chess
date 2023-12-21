@@ -13,7 +13,7 @@ bool BattleLayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    
+    /**/
     ///////////////////////////////
     Hero_1[1] = "Annie";
     hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
@@ -28,6 +28,8 @@ bool BattleLayer::init()
     hero1.current_enemy = &hero2;
     hero2.current_enemy = &hero1;
 
+    
+   
 
     GameMap[2][3] = &hero1;
     if (GameMap[2][3] == nullptr)

@@ -2,6 +2,9 @@
 #pragma once
 #include<iostream>
 #include"HelloWorldScene.h"
+#include<vector>
+#include "cocos2d.h"
+
 using namespace std;
 #define plaid_width 256
 #define plaid_height 200
@@ -12,6 +15,7 @@ using namespace std;
 #define map_width 9
 #define map_height 6
 
+#define MAX_LEVEL 7
 
 class MyHero;
 
@@ -22,12 +26,13 @@ extern MyHero* GameMap[map_width][map_height];
 class MyObject{
 public:
 	MyObject() {};
-	MyObject(int hp, int xp, int av, int x = -1, int y = -1) :                             // 构造函数
+	MyObject(int hp,/* int xp, int av,*/ int x = -1, int y = -1) :                             // 构造函数
 		current_hp(hp), /*current_xp(xp), armor_value(av),*/ location_x(x), location_y(y) {};
 
 	//virtual void my_move(int new_x, int new_y) = 0;                                        // 移动函数（纯虚函数）
 
-	cocos2d::Sprite* sprite;                                                               // 指针
+	cocos2d::Sprite* sprite;
+    int gethp() { return this->current_hp; };                                                // 指针
 
 protected:
 	int full_hp;                                  // 满血
@@ -37,18 +42,6 @@ protected:
     int location_y;                               // 纵坐标
 };
 
-/*====================精灵类====================*/
-class MySprite:public MyObject  {
-public:
-	MySprite() {};
-	MySprite(int level, int hp, int xp, int av, int x = -1, int y = -1) :        // 构造函数
-		MyObject(hp, xp, av, x, y), star_level(level) {};
-	//virtual void my_move(int new_x, int new_y);                                  // 移动函数
-
-    
-private:
-	int star_level;     // 星级
-};
 
 /*====================英雄类====================*/
 class MyHero : public MyObject {
@@ -63,10 +56,10 @@ public:
         attack_cd(attack_cd){};
     
 	//virtual void my_move(int new_x, int new_y);  // 移动函数
-    inline void seek_enemy(MyHero hero);                           // 索敌函数
+    inline void seek_enemy();                           // 索敌函数
     inline void hero_attack(vector <MyHero>& Hero_fighting);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
-    int gethp() { return this->current_hp; };
+    int getcost() { return this->gold_cost; };
     void decreasehp() { this->current_hp -= 100; };
 	MyHero* current_enemy;
 private:
@@ -110,8 +103,8 @@ inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance) {
 }
 
 
-//英雄索敌 MAP不知道在哪里定义，歇逼了先
-inline void MyHero::seek_enemy(MyHero hero) {
+
+inline void MyHero::seek_enemy() {
     BOOL find = 0;
     int distance = 1;
     int i;
@@ -120,9 +113,9 @@ inline void MyHero::seek_enemy(MyHero hero) {
         for (i = -1; i < 1; i++) {
             for (j = -1; j < 1; j++) {
                 if (i == 0 && j == 0) continue;
-                if (GameMap[hero.location_x + distance * i][hero.location_y + j * distance] != nullptr)//这段应该是判断这个像素上有英雄，没写完整
+                if (GameMap[this->location_x + distance * i][this->location_y + j * distance] != nullptr)//这段应该是判断这个像素上有英雄，没写完整
                 {
-                    hero.current_enemy = GameMap[hero.location_x + distance * i][hero.location_y + j * distance];
+                    this->current_enemy = GameMap[this->location_x + distance * i][this->location_y + j * distance];
                     find = 1;
                     break;
                 }
@@ -132,24 +125,20 @@ inline void MyHero::seek_enemy(MyHero hero) {
         }
         distance++;
     }
-    while (hero.current_enemy->current_hp != 0) {
-        if (hero.current_enemy->location_x - hero.location_x > hero.attack_distance) {
+    while (this->current_enemy->current_hp != 0) {
+        if (this->current_enemy->location_x - this->location_x > this->attack_distance) {
             GameMap[location_x][location_y] = nullptr;
-            Find_Way_To_attack(hero.current_enemy->location_x, hero.current_enemy->location_y, hero.location_x, hero.location_y, hero.attack_distance);
-            GameMap[location_x][location_y] = &hero;
-            //hero.sprite 设计moveby和moveto，还没写
+            Find_Way_To_attack(this->current_enemy->location_x, this->current_enemy->location_y, this->location_x, this->location_y, this->attack_distance);
+            GameMap[location_x][location_y] = this;
+            //this->.sprite 设计moveby和moveto，还没写
         }
     }
 }
 
-
-
-
-
 inline void MyHero::hero_attack(vector <MyHero>& Hero_fighting) {
     //当目前英雄没死，并且敌人没死绝，当前current_enemy死了的时候，找下一个敌人
     if (current_enemy == NULL || this->current_hp != 0 || Hero_fighting.empty() != 1) {
-        seek_enemy(*this);
+        seek_enemy();
         return;
     }
     int last_attack_time;
@@ -178,7 +167,7 @@ inline void MyHero::hero_attack(vector <MyHero>& Hero_fighting) {
 inline void MyHero::hero_ultimate(int ace_mode)                        // 大招函数
 {
     if (current_enemy == NULL) {
-        seek_enemy(*this);  //调用索敌函数
+        seek_enemy();  //调用索敌函数
     }
     //this->Sprite->perform_ace();//释放大招的动画，如果有
     if (ace_mode == attack_ace)
@@ -204,13 +193,115 @@ inline void MyHero::hero_ultimate(int ace_mode)                        // 大招函
     }
 }
 
+
+
+class MySprite;
+extern vector<MySprite> Player;
 extern std::map<std::string, MyHero> Hero_list;
+extern int Posibility_Of_Hero[MAX_LEVEL][5];
 extern string one_fee[4];
 extern string two_fee[4];
 extern string three_fee[4];
 extern string four_fee[4];
 extern string five_fee[4];
+extern int level_up_exp[6];
 
+
+/*====================精灵类====================*/
+class MySprite :public MyObject {
+public:
+    MySprite() {};
+    MySprite(int level, int hp,/* int xp, int av,*/ int money, int x = -1, int y = -1) :        // 构造函数
+        MyObject(hp/*, xp, av*/, x, y), star_level(level) {};
+    //virtual void my_move(int new_x, int new_y);                                  // 移动函数
+
+    bool operator==(const MySprite& other) const {
+        // 在这里判断两个 MySprite 对象是否相等
+        return this->location_x == other.location_x && this->location_y == other.location_y;
+    }
+
+    inline void make_a_random_hero();   //刷新商店英雄
+    inline void erase_a_player();//删除死了个玩家
+    inline void MySprite::set_a_hero(string hero_name);//将一个英雄从商店选出
+    inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
+private:
+    int star_level;     // 星级
+    int max_hero = star_level + 2;//最多英雄人数
+    int money;          //当前的钱数
+    vector<MyHero> Hero_on_court;//当前所拥有的英雄（在场上的）
+    vector<MyHero> Hero_on_bench;//当前备战席上的英雄
+    vector<MyHero> Hero_fighting;//战斗时用于存放英雄的临时空间
+    string Hero_in_shop[5];      //商店中的英雄
+    MySprite* current_enemy;
+    int current_exp;    //当前有的经验值
+};
+
+inline void MySprite::erase_a_player() {
+    auto it = std::find(Player.begin(), Player.end(), *this);
+
+    // 检查是否找到当前对象
+    if (it != Player.end() && it->gethp() == 0) {
+        // 使用迭代器删除元素
+        Player.erase(it);
+    }
+}
+
+inline void MySprite::make_a_random_hero() {
+    int i;
+    string hero_compose[100];
+    for (i = 0; i < Posibility_Of_Hero[this->star_level][1]; i++) {
+        hero_compose[i] = one_fee[std::rand() % sizeof(one_fee) + 1];
+    }
+    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2]; i++) {
+        //同
+        hero_compose[i] = two_fee[this->star_level][std::rand() % sizeof(two_fee[this->star_level]) + 1];
+    }
+    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3]; i++) {
+        //同
+        hero_compose[i] = three_fee[this->star_level][std::rand() % sizeof(three_fee[this->star_level]) + 1];
+    }
+    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3] + Posibility_Of_Hero[this->star_level][4]; i++) {
+        //同
+        hero_compose[i] = four_fee[this->star_level][std::rand() % sizeof(four_fee[this->star_level]) + 1];
+    }
+    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3] + Posibility_Of_Hero[this->star_level][4] + Posibility_Of_Hero[this->star_level][5]; i++) {
+        //同
+        hero_compose[i] = five_fee[this->star_level][std::rand() % sizeof(five_fee[this->star_level]) + 1];
+    }
+    for (int i = 0; i < 5; i++) {
+        if (this->Hero_in_shop[i] == "") {
+            this->Hero_in_shop[i] = hero_compose[std::rand() % 100 + 1];
+        }
+    }
+}
+
+
+
+//将一个新英雄从商店中选出,pjl已经写出可视化实现，需要和这里合并一下
+inline void MySprite::set_a_hero(string hero_name) {
+    for (int i = 0; i < 5; i++) {
+        if (this->Hero_in_shop[i] == hero_name) {
+            this->Hero_in_shop[i] = "";
+        }
+    }
+
+    //扣钱
+    this->money -= Hero_list[hero_name].getcost();
+    string filename = hero_name + ".png";
+    MyHero set_a_new_hero = Hero_list.at(hero_name);
+    //pjl解决一下下面的错误
+    /*auto new_hero_Sprite = Sprite::create(filename);
+    set_a_new_hero.sprite = new_hero_Sprite;
+    this->Hero_on_bench.push_back(set_a_new_hero);*/
+
+
+    //这里后续要加入三星合一，后续再加
+    //可视化，并给position赋值
+
+}
+
+
+//待删除
 extern vector <MyHero> Hero_on_court_1;
 extern vector <MyHero> Hero_on_court_2;
 extern vector <MyHero> Hero_select_1;
@@ -222,6 +313,6 @@ extern vector <MyHero> Hero_fighting_2;
 extern string Hero_1[5];
 extern string Hero_2[5];
 
-
-void make_a_random_hero(int fee[], string Hero_in_shop[]);
+//待删除
 MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero);
+
