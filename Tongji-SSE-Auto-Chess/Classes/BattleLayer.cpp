@@ -27,8 +27,7 @@ bool BattleLayer::init()
     hero1.current_enemy = &hero2;
     hero2.current_enemy = &hero1;
 
-    //this->schedule(schedule_selector(BattleLayer::update));
-    this->scheduleUpdate();
+    this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 0.5f);
 
     GameMap[2][3] = &hero1;
@@ -71,15 +70,15 @@ bool BattleLayer::init()
     return true;
 }
 
-void BattleLayer::update(float dt)
+void BattleLayer::myupdate(float dt)
 {
     /*以下为游戏中需要不断更新的东西*/
 
     //check_death(player_blue->Hero_fighting,player_red->Hero_fighting);//检查英雄死亡并退场
-    BulletMove();  //子弹飞行
+    //BulletMove();  //子弹飞行
     BulletDelete();//打中回收子弹，并扣血
 
-    //check_death有误，先用这个简单代替一下
+    //check_death有误，先用这个测试代替一下
     if (hero2.current_hp <= 0) {
         this->removeChild(hero2.sprite, true);
     }
@@ -94,6 +93,10 @@ void BattleLayer::update_attack(float dt)
     if (hero1.current_enemy != NULL) {
         Bullet b(hero1.current_enemy, hero1.sprite->getPosition(), hero1.attack_power, "basketball");
         bullet.push_back(b);
+        this->addChild(b.sprite, 2);
+        auto moveTo = MoveTo::create(2, hero1.current_enemy->sprite->getPosition());
+        b.sprite->runAction(moveTo);
+        b.target_hero->current_hp -= b.hurt;
     }
 }
 

@@ -9,13 +9,15 @@
 class BattleLayer : public cocos2d::Layer
 {
 public:
+    virtual bool init();
+
     MySprite* player_red;         //红方玩家
     MySprite* player_blue;        //蓝方玩家
     vector<Bullet> bullet;        //管理子弹
 
-    void schedule(SEL_SCHEDULE selector); //定时器,逐帧刷新
-    void schedule(SEL_SCHEDULE selector,float interval); //定时器，隔interval秒刷新
-    virtual void update(float dt);        //游戏中需要时刻更新的东西
+    //void schedule(SEL_SCHEDULE selector); //定时器,逐帧刷新
+    //void schedule(SEL_SCHEDULE selector,float interval); //定时器，隔interval秒刷新
+    void myupdate(float dt);        //游戏中需要时刻更新的东西
     void update_attack(float dt); //平A更新
 
     bool IsZeroHp(MyHero& hero);  //英雄是否死亡
@@ -24,7 +26,6 @@ public:
     void BulletDelete();          //子弹回收，英雄扣血
     void HeroMove(vector<MyHero>&);//英雄移动
 
-    virtual bool init();
     MyHero hero1;
     MyHero hero2;
     /*
