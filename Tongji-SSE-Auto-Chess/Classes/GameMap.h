@@ -3,4 +3,4 @@
 
 #include "goldenshovel_hero_design.h"
 
-extern MyHero* MAP[6][9];
+MyHero* GameMap[map_width][map_height];

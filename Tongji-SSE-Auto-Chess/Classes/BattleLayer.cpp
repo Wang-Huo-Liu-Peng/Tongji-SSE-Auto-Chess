@@ -2,9 +2,11 @@
 #include "Test_Scene_4.h"
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
+#include "GameMap.h"
 using namespace std;
 
 USING_NS_CC;
+
 
 bool BattleLayer::init()
 {
@@ -26,6 +28,16 @@ bool BattleLayer::init()
     hero1.current_enemy = &hero2;
     hero2.current_enemy = &hero1;
 
+
+    GameMap[2][3] = &hero1;
+    if (GameMap[2][3] == nullptr)
+    {
+        CCLOG("GameMap[2][3] is nullptr");
+    }
+    else
+    {
+        CCLOG("GameMap[2][3] is not nullptr");
+    }
     //new_hero.hero_attack();
     //new_hero_2.hero_attack();
 
