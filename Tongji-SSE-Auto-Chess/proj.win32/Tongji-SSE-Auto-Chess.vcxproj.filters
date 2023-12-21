@@ -114,7 +114,7 @@
     <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp">
       <Filter>src\goldenshovel_hero_design</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkConnection.cpp">
+    <ClCompile Include="..\Classes\NetworkConnection.cpp">
       <Filter>src\Network Connection</Filter>
     </ClCompile>
   </ItemGroup>

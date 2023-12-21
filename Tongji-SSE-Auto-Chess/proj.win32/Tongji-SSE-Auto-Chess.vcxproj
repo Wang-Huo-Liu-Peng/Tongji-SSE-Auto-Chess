@@ -158,6 +158,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp" />
     <ClCompile Include="..\Classes\HeroLayer.cpp" />
+    <ClCompile Include="..\Classes\NetworkConnection.cpp" />
     <ClCompile Include="..\Classes\PlayWithAI.cpp" />
     <ClCompile Include="..\Classes\PlayWithPlayer.cpp" />
     <ClCompile Include="..\Classes\SelectModeScene.cpp" />
@@ -168,7 +169,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Test_Scene_3.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_4.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NetworkConnection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
