@@ -45,6 +45,7 @@ protected:
 
 /*====================英雄类====================*/
 class MyHero : public MyObject {
+    friend class BattleLayer;
 public:
 	MyHero() {};
 	MyHero(int on_court, int gold_cost, int star_level, int attack_power, int ace_attack_power,
@@ -101,8 +102,6 @@ inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance) {
     HX = static_cast<int>(HX + t * deltaX);
     HY = static_cast<int>(HY + t * deltaY);
 }
-
-
 
 inline void MyHero::seek_enemy() {
     BOOL find = 0;
@@ -209,6 +208,7 @@ extern int level_up_exp[6];
 
 /*====================精灵类====================*/
 class MySprite :public MyObject {
+    friend class BattleLayer;
 public:
     MySprite() {};
     MySprite(int level, int hp,/* int xp, int av,*/ int money, int x = -1, int y = -1) :        // 构造函数
