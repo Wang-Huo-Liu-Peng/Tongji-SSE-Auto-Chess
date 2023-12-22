@@ -148,15 +148,25 @@ inline void MyHero::hero_attack(thread_pool& tp){
         int last_attack_time;
         while (this!=NULL&&this->current_enemy != NULL && this->current_enemy->current_hp != 0 && this->current_hp != 0) {
             last_attack_time = time(NULL);              //记录攻击的时间点
-            //攻击动画
-            if (this->attack_power < this->current_enemy->current_hp) {  //不能直接击杀
-                this->current_enemy->current_hp -= this->attack_power;
-                //my->current_enemy->sprite->minus_hp(); //掉血动画
+            //大招攻击
+            if (current_cooldown_round == needed_cooldown_round) {
+                last_attack_time = time(NULL);
+                this->hero_ultimate(1);
+                this->current_cooldown_round = 0;
             }
-            else {                                                 //直接击杀
-                this->current_enemy->current_hp = 0;
-                //current_enemy->sprite->minus_hp(); //掉血动画
-                this->current_enemy = NULL;
+            //普通攻击
+            else{
+                if (this->attack_power < this->current_enemy->current_hp) {  //不能直接击杀
+                    this->current_enemy->current_hp -= this->attack_power;
+                    //my->current_enemy->sprite->minus_hp(); //掉血动画
+                    this->current_cooldown_round += 1;
+                }
+                else {                                                 //直接击杀
+                    this->current_enemy->current_hp = 0;
+                    //current_enemy->sprite->minus_hp(); //掉血动画
+                    this->current_enemy = NULL;
+                    this->current_cooldown_round += 1;
+                }
             }
             if (this->current_enemy == NULL)            //击杀后将敌人置为NULL退出循环
                 break;
@@ -168,13 +178,13 @@ inline void MyHero::hero_attack(thread_pool& tp){
         }
     };
     tp.enqueue(lambda);
-    
 }
 
 inline void MyHero::hero_ultimate(int ace_mode)                        // 大招函数
 {
     if (current_enemy == NULL) {
-        seek_enemy();  //调用索敌函数
+        return;
+        //seek_enemy();  //调用索敌函数
     }
     //this->Sprite->perform_ace();//释放大招的动画，如果有
     if (ace_mode == attack_ace)
