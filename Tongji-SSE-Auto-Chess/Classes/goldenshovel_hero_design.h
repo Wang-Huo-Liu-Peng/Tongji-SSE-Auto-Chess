@@ -5,6 +5,7 @@
 #include<vector>
 #include "cocos2d.h"
 
+
 using namespace std;
 #define plaid_width 256
 #define plaid_height 200
@@ -18,6 +19,8 @@ using namespace std;
 #define MAX_LEVEL 7
 
 class MyHero;
+class Equipment;
+class MySprite;
 
 extern MyHero* GameMap[map_width][map_height];
 
@@ -30,7 +33,7 @@ public:
 		current_hp(hp), /*current_xp(xp), armor_value(av),*/ location_x(x), location_y(y) {};
 
 	//virtual void my_move(int new_x, int new_y) = 0;                                        // 移动函数（纯虚函数）
-
+    vector<Equipment> equipment;
 	cocos2d::Sprite* sprite;
     int gethp() { return this->current_hp; };                                                // 指针
 
@@ -47,23 +50,28 @@ protected:
 class MyHero : public MyObject {
     friend class BattleLayer;
 public:
-	MyHero() {};
-	MyHero(int on_court, int gold_cost, int star_level, int attack_power, int ace_attack_power,
-        int needed_cooldown_round, int current_cooldown_round, int attack_distance,double attack_cd, 
+    MyHero() {};
+    MyHero(int on_court, int gold_cost, int star_level, int attack_power, int ace_attack_power,
+        int needed_cooldown_round, int current_cooldown_round, int attack_distance, double attack_cd,
         int hp, /*int xp, int av,*/ int x = -1, int y = -1) : // 构造函数
-		MyObject(hp,/* xp, av,*/ x, y),
+        MyObject(hp,/* xp, av,*/ x, y),
         on_court(on_court), gold_cost(gold_cost), star_level(star_level), attack_power(attack_power), ace_attack_power(ace_attack_power),
-		needed_cooldown_round(needed_cooldown_round), current_cooldown_round(current_cooldown_round), attack_distance(attack_distance),
-        attack_cd(attack_cd){};
-    
-	//virtual void my_move(int new_x, int new_y);  // 移动函数
+        needed_cooldown_round(needed_cooldown_round), current_cooldown_round(current_cooldown_round), attack_distance(attack_distance),
+        attack_cd(attack_cd) {};
+
+    //virtual void my_move(int new_x, int new_y);  // 移动函数
     inline void seek_enemy();                           // 索敌函数
     inline void hero_attack(vector <MyHero>& Hero_fighting);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int getcost() { return this->gold_cost; };
     void decreasehp() { this->current_hp -= 100; };
-	MyHero* current_enemy;
+    void increase_hp(int hp) { this->full_hp += hp; }
+    void increase_attack(int attack) { this->attack_power += attack; }
+    MySprite* get_owner() { return this->owner; }
+
 private:
+    MyHero* current_enemy;
+    MySprite* owner;
 	bool on_court;                 // 判断是否在场
 	int gold_cost;                     // 英雄花费 
 	int star_level;                    // 星级
@@ -112,7 +120,7 @@ inline void MyHero::seek_enemy() {
         for (i = -1; i < 1; i++) {
             for (j = -1; j < 1; j++) {
                 if (i == 0 && j == 0) continue;
-                if (GameMap[this->location_x + distance * i][this->location_y + j * distance] != nullptr)//这段应该是判断这个像素上有英雄，没写完整
+                if (GameMap[this->location_x + distance * i][this->location_y + j * distance] != nullptr && GameMap[this->location_x + distance * i][this->location_y + j * distance]->get_owner() != this->owner)//这段应该是判断这个像素上有英雄，没写完整
                 {
                     this->current_enemy = GameMap[this->location_x + distance * i][this->location_y + j * distance];
                     find = 1;
@@ -331,3 +339,29 @@ extern string Hero_2[5];
 //待删除
 MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero);
 
+
+
+
+class Equipment {
+public:
+    //...
+    Equipment(int turn_up_hp, int turn_up_attack) :turn_up_hp(turn_up_hp), turn_up_attack(turn_up_attack) {};
+    void Equip_on() {
+        if (MyHero* Hero_equiping = dynamic_cast<MyHero*>(Hero_equiping)) {
+            Hero_equiping->increase_hp(turn_up_hp);
+            Hero_equiping->increase_attack(turn_up_attack);
+        }
+    }
+private:
+    MyObject* Hero_equiping;
+    int turn_up_hp;
+    int turn_up_attack;
+    cocos2d::Sprite* equip_pic;
+    //set_a_new_equipment应该和set_a_new_hero差不多
+    //...后续再加
+
+};
+
+
+
+extern std::map<std::string, Equipment> Equipment_list;

@@ -111,3 +111,9 @@ int Posibility_Of_Hero[MAX_LEVEL][5] = {
 };//每个等级对应英雄刷新可能性
 
 int level_up_exp[6] = { 10,20,30,40,50,60 };//每个等级升级对应需要的经验
+
+
+std::map<std::string, Equipment> Equipment_list = {
+	//暂时添加一个作为范例
+	{"Sword",Equipment(0,10)}
+};
