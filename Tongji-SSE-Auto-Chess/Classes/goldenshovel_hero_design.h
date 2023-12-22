@@ -3,7 +3,9 @@
 #include<iostream>
 #include"HelloWorldScene.h"
 #include<vector>
+#include "thread_pool.h"
 #include "cocos2d.h"
+#include"Test_Scene_2.h"
 
 
 using namespace std;
@@ -61,10 +63,13 @@ public:
 
     //virtual void my_move(int new_x, int new_y);  // 移动函数
     inline void seek_enemy();                           // 索敌函数
-    inline void hero_attack(vector <MyHero>& Hero_fighting);                           //攻击函数
+    inline void hero_attack(thread_pool &tp);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int getcost() { return this->gold_cost; };
     void decreasehp() { this->current_hp -= 100; };
+	MyHero* current_enemy;
+    int getcurrent_hp() { return current_hp; }
+private:
     void increase_hp(int hp) { this->full_hp += hp; }
     void increase_attack(int attack) { this->attack_power += attack; }
     MySprite* get_owner() { return this->owner; }
@@ -142,39 +147,54 @@ inline void MyHero::seek_enemy() {
     }
 }
 
-inline void MyHero::hero_attack(vector <MyHero>& Hero_fighting) {
+inline void MyHero::hero_attack(thread_pool& tp){
     //当目前英雄没死，并且敌人没死绝，当前current_enemy死了的时候，找下一个敌人
-    if (current_enemy == NULL || this->current_hp != 0 || Hero_fighting.empty() != 1) {
-        seek_enemy();
+    if (current_enemy == NULL) {    
+        //seek_enemy();
         return;
     }
-    int last_attack_time;
-    while (current_enemy != NULL && this->current_hp!= 0) {
-        last_attack_time = time(NULL);              //记录攻击的时间点
-        //攻击动画
-        if (this->attack_power < current_enemy->current_hp) {  //不能直接击杀
-            current_enemy->current_hp -= this->attack_power;
-            //current_enemy->sprite->minus_hp(); //掉血动画
-        }
-        else {                                                 //直接击杀
-            current_enemy->current_hp = 0;
-            //current_enemy->sprite->minus_hp(); //掉血动画
-            current_enemy = NULL;
-        }
-        if (current_enemy == NULL)            //击杀后将敌人置为NULL退出循环
-            break;
-        while (1) {                             //攻击cd
-            int now_time = time(NULL);
-            if (now_time - last_attack_time >= attack_cd)
+
+    auto lambda = [this] {
+        int last_attack_time;
+        while (this!=NULL&&this->current_enemy != NULL && this->current_enemy->current_hp != 0 && this->current_hp != 0) {
+            last_attack_time = time(NULL);              //记录攻击的时间点
+            //大招攻击
+            if (current_cooldown_round == needed_cooldown_round) {
+                last_attack_time = time(NULL);
+                this->hero_ultimate(1);
+                this->current_cooldown_round = 0;
+            }
+            //普通攻击
+            else{
+                if (this->attack_power < this->current_enemy->current_hp) {  //不能直接击杀
+                    this->current_enemy->current_hp -= this->attack_power;
+                    //my->current_enemy->sprite->minus_hp(); //掉血动画
+                    this->current_cooldown_round += 1;
+                }
+                else {                                                 //直接击杀
+                    this->current_enemy->current_hp = 0;
+                    //current_enemy->sprite->minus_hp(); //掉血动画
+                    this->current_enemy = NULL;
+                    this->current_cooldown_round += 1;
+                }
+            }
+            if (this->current_enemy == NULL)            //击杀后将敌人置为NULL退出循环
                 break;
+            while (1) {                             //攻击cd
+                int now_time = time(NULL);
+                if (now_time - last_attack_time >= attack_cd)
+                    break;
+            }
         }
-    }
+    };
+    tp.enqueue(lambda);
 }
 
 inline void MyHero::hero_ultimate(int ace_mode)                        // 大招函数
 {
     if (current_enemy == NULL) {
-        seek_enemy();  //调用索敌函数
+        return;
+        //seek_enemy();  //调用索敌函数
     }
     //this->Sprite->perform_ace();//释放大招的动画，如果有
     if (ace_mode == attack_ace)
