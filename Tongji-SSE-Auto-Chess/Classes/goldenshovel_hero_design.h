@@ -62,7 +62,7 @@ public:
         attack_cd(attack_cd) {};
 
     //virtual void my_move(int new_x, int new_y);  // 移动函数
-    inline Vec2 seek_enemy(vector<MyHero>& vec);                           // 索敌函数
+    //inline Vec2 seek_enemy(vector<MyHero>& vec);                           // 索敌函数
     inline void hero_attack(thread_pool &tp);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int getcost() { return this->gold_cost; };
@@ -71,6 +71,8 @@ public:
     void increase_hp(int hp) { this->full_hp += hp; }
     void increase_attack(int attack) { this->attack_power += attack; }
     MySprite* get_owner() { return this->owner; }
+    MyHero* current_enemy;
+ private:
     MySprite* owner;
 	bool on_court;                     // 判断是否在场
 	int gold_cost;                     // 英雄花费 
@@ -110,7 +112,7 @@ inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance) {
     HX = static_cast<int>(HX + t * deltaX);
     HY = static_cast<int>(HY + t * deltaY);
 }
-
+/*
 inline Vec2 MyHero::seek_enemy(vector<MyHero>& enemy_vec) {
     BOOL find = 0;
     //attack_distance
@@ -135,10 +137,10 @@ inline Vec2 MyHero::seek_enemy(vector<MyHero>& enemy_vec) {
     else
         return Vec2(-1, -1);
 }
-
+*/
 inline void MyHero::hero_attack(thread_pool& tp){
     //当目前英雄没死，并且敌人没死绝，当前current_enemy死了的时候，找下一个敌人
-    if (current_enemy == NULL) {    
+    if (this->current_enemy == NULL) {    
         //seek_enemy();
         return;
     }
