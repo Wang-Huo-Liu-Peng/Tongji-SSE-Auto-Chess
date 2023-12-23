@@ -67,9 +67,7 @@ public:
     inline void hero_ultimate(int ace_mode);                       // ´óÕÐº¯Êý
     int getcost() { return this->gold_cost; };
     void decreasehp() { this->current_hp -= 100; };
-	MyHero* current_enemy;
     int getcurrent_hp() { return current_hp; }
-private:
     void increase_hp(int hp) { this->full_hp += hp; }
     void increase_attack(int attack) { this->attack_power += attack; }
     MySprite* get_owner() { return this->owner; }

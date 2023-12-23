@@ -18,7 +18,7 @@ public:
 	template<class F, class... Args>
 	void enqueue(F&& f, Args&&... args) {       //通用引用
 		std::function<void()>task =
-			std::bind(std::forward<F>(f), std::forward<Args>(args...)); //通过完美转发实现通用引用
+			std::bind(std::forward<F>(f), std::forward<Args>(args)...); //通过完美转发实现通用引用
 		std::unique_lock<std::mutex> lock(mtx);
 		tasks.emplace(std::move(task));
 		condition.notify_one();                //通知来了一个任务

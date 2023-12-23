@@ -179,6 +179,9 @@
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h">
       <Filter>src\goldenshovel_hero_design</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\thread_pool.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
