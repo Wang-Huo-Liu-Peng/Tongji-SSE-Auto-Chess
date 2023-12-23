@@ -117,3 +117,14 @@ std::map<std::string, Equipment> Equipment_list = {
 	//暂时添加一个作为范例
 	{"Sword",Equipment(0,10)}
 };
+
+bool MyHero::enemyInDistance()
+{
+	float distance_x = sprite->getPositionX() - current_enemy->sprite->getPositionX();
+	float distance_y = sprite->getPositionY() - current_enemy->sprite->getPositionY();
+	float distance = distance_x * distance_x + distance_y * distance_y;
+	if (distance <= attack_distance*plaid*plaid*2)
+		return true;
+	else
+		return false;
+}
