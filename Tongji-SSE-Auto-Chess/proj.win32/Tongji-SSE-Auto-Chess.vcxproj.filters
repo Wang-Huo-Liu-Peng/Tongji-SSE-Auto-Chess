@@ -114,9 +114,6 @@
     <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp">
       <Filter>src\goldenshovel_hero_design</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\NetworkConnection.cpp">
-      <Filter>src\Network Connection</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -181,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\thread_pool.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NetworkConnection.h">
+      <Filter>src\Network Connection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
