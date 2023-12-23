@@ -24,6 +24,34 @@ bool Test_Scene_3::init()
     mySprite->setScale(0.5f);
     this->addChild(mySprite, 0);
 
+    /****************************************************************************************/
+    auto grey1 = Sprite::create("grey_bar.png");
+    auto grey2 = Sprite::create("grey_bar.png");
+    auto red = Sprite::create("red_bar.png");
+    auto blue = Sprite::create("blue_bar.png");
+    grey1->setAnchorPoint(Vec2(0, 0));
+    grey2->setAnchorPoint(Vec2(0, 0));
+    red->setAnchorPoint(Vec2(0, 0));
+    blue->setAnchorPoint(Vec2(0, 0));
+    cocos2d::Size targetSize(370,37); // 调整血条的大小
+    grey1->setContentSize(targetSize);
+    grey2->setContentSize(targetSize);
+    red->setContentSize(targetSize);
+    blue->setContentSize(targetSize);
+    grey1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
+    red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
+    grey2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
+    blue->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
+    cocos2d::Size red_targetSize(150, 37);
+    cocos2d::Size blue_targetSize(270, 37);
+    red->setContentSize(red_targetSize);
+    blue->setContentSize(blue_targetSize);
+    this->addChild(grey1);
+    this->addChild(grey2);
+    this->addChild(red);
+    this->addChild(blue);
+    /*******************************************************************************************************/
+
     ///////////////////////////////
 
 
