@@ -14,21 +14,31 @@ bool BattleLayer::init()
 
     /**/
     ///////////////////////////////
-    Hero_1[1] = "Annie";
     hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
     hero1.sprite->setPosition(Vec2(1400, 600));
-    this->addChild(hero1.sprite, 0);
+    //this->addChild(hero1.sprite, 0);
 
-    Hero_2[1] = "Evelynn";
     hero2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
     hero2.sprite->setPosition(Vec2(400, 700));
-    this->addChild(hero2.sprite, 0);
+    //this->addChild(hero2.sprite, 0);
 
-    hero1.current_enemy = &hero2;
-    hero2.current_enemy = &hero1;
+    blueHero.push_back(hero1);
+    redHero.push_back(hero2);
+
+    redHero[0].current_enemy = &blueHero[0];
+    blueHero[0].current_enemy = &redHero[0];
+
+    //this->addChild(hero1.sprite, 0);
+    //this->addChild(hero2.sprite, 0);
+
+    this->addChild(blueHero[0].sprite, 0);
+    this->addChild(redHero[0].sprite, 0);
+    
+    //player_blue->Hero_fighting[1].current_enemy = &hero2;
+    //player_red->Hero_fighting[1].current_enemy = &hero1;
 
     this->schedule(schedule_selector(BattleLayer::myupdate));
-    this->schedule(schedule_selector(BattleLayer::update_attack), 0.5f);
+    this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
 
     GameMap[2][3] = &hero1;
     if (GameMap[2][3] == nullptr)
@@ -44,29 +54,6 @@ bool BattleLayer::init()
 
     ///////////////////////////////
 
-        //退出当前场景的按钮
-    auto closeItem = MenuItemImage::create(
-        "CloseNormal.png",
-        "CloseSelected.png",
-        [&](Ref* sender) {
-            /*hero1.decreasehp();
-            if (hero1.gethp() <= 0) {
-                this->removeChild(hero1.sprite, true);
-            }
-            Hero_fighting_1.push_back(hero1);
-            hero2.hero_attack(Hero_fighting_1);
-            if (hero1.gethp() <= 0) {
-                this->removeChild(hero1.sprite, true);
-            }*/
-        });
-    float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
-    float y = origin.y + closeItem->getContentSize().height+500;
-    closeItem->setPosition(Vec2(x, y));
-
-    auto exitMenu = Menu::create(closeItem, NULL);
-    exitMenu->setPosition(Vec2::ZERO);
-    this->addChild(exitMenu, 1);
-
     return true;
 }
 
@@ -74,14 +61,9 @@ void BattleLayer::myupdate(float dt)
 {
     /*以下为游戏中需要不断更新的东西*/
 
-    //check_death(player_blue->Hero_fighting,player_red->Hero_fighting);//检查英雄死亡并退场
-    //BulletMove();  //子弹飞行
-    BulletDelete();//打中回收子弹，并扣血
-
-    //check_death有误，先用这个测试代替一下
-    if (hero2.current_hp <= 0) {
-        this->removeChild(hero2.sprite, true);
-    }
+    checkBullet();                          //检查子弹，并扣血
+    check_death(blueHero);//检查英雄死亡并退场
+    check_death(redHero); //检查英雄死亡并退场
 
     //英雄自走，函数已写，后续加入
     //蓝条满放大招，后续加入
@@ -90,54 +72,73 @@ void BattleLayer::myupdate(float dt)
 
 void BattleLayer::update_attack(float dt)
 {
-    if (hero1.current_enemy != NULL) {
-        Bullet b(hero1.current_enemy, hero1.sprite->getPosition(), hero1.attack_power, "basketball");
-        bullet.push_back(b);
-        this->addChild(b.sprite, 2);
-        auto moveTo = MoveTo::create(2, hero1.current_enemy->sprite->getPosition());
-        b.sprite->runAction(moveTo);
-        b.target_hero->current_hp -= b.hurt;
-    }
-}
+    auto it = blueHero.begin();
+    while (it!= blueHero.end()) {
+        if (it->current_enemy != NULL/*&&判断距离*/) {
+            //it->sprite->stopAllActions();//停止移动动作
+            Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            bullet.push_back(b);
+            this->addChild(b.sprite, 2);//子弹加入场景
 
-/*
-bool BattleLayer::IsZeroHp(MyHero& hero)
-{
-    if (hero.gethp() <= 0)
-    {
-        this->removeChild(hero.sprite, true);  //移出场景
-        return 1;
-    }
-    else
-        return 0;
-}
-void BattleLayer::check_death(vector<MyHero>& my_vec, vector<MyHero>& enemy_vec)
-{
-    // 使用 remove_if + erase 结合的方式移除符合条件的元素
-    my_vec.erase(std::remove_if(my_vec.begin(), my_vec.end(), IsZeroHp), my_vec.end());
-    enemy_vec.erase(std::remove_if(enemy_vec.begin(), enemy_vec.end(), IsZeroHp), enemy_vec.end());
-}*/
+            //蓄力论述增加，蓝条增加动画
 
-void BattleLayer::BulletMove()
-{
-    auto it = bullet.begin();
-    while (it != bullet.end()) {
-        if (it->target_hero!=NULL) {
-            //移动到目标位置
-            it->sprite->setPosition(it->target_hero->sprite->getPosition());
-        }
-        else {
-            //目标已死但子弹还在飞，先设定为直接飞过去（或者直接删除退场）
-            it->sprite->setPosition(it->target);
+            auto moveTo = MoveTo::create(it->attack_cd, it->current_enemy->sprite->getPosition());//子弹飞行动作
+            b.sprite->runAction(moveTo);
         }
         it++;
     }
+
+    auto it2 = redHero.begin();
+    while (it2 != redHero.end()) {
+        if (it2->current_enemy != NULL) {
+            Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            bullet.push_back(b);
+            this->addChild(b.sprite, 2);
+
+            //蓄力论述增加，蓝条增加动画
+
+            auto moveTo = MoveTo::create(it2->attack_cd, it2->current_enemy->sprite->getPosition());
+            b.sprite->runAction(moveTo);
+        }
+        it2++;
+    }
 }
-void BattleLayer::BulletDelete()
+
+void BattleLayer::check_death(vector<MyHero>& Hero_fighting)
+{
+    auto it = Hero_fighting.begin();
+    while (it != Hero_fighting.end()) {
+        if (it->current_enemy!=nullptr&&it->current_enemy->current_hp <= 0)
+            it->current_enemy = NULL;//目标丢失
+
+        if (it->current_hp <= 0) {
+            this->removeChild(it->sprite, true);//退场
+            it = Hero_fighting.erase(it);//删除
+        }
+        else {
+            ++it;
+        }
+    }
+    /*
+    if (hero2.current_hp <= 0)
+        hero1.current_enemy = NULL;//目标丢失
+    if (hero2.current_hp <= 0) {
+        this->removeChild(hero2.sprite, true);//退场
+    }*/
+}
+
+void BattleLayer::checkBullet()
 {
     auto it = bullet.begin();
     while (it != bullet.end()) {
-        if (it->position==it->target) {//子弹射中目标位置
+
+        if (it->target_hero->current_hp <= 0)
+            it->target_hero = NULL;
+
+        if (it->target_hero != NULL)
+            it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
+
+        if (it->Hitted()) {//子弹射中目标位置
 
             if (it->target_hero != NULL) {
                 it->target_hero->current_hp -= it->hurt;//扣血
@@ -145,12 +146,13 @@ void BattleLayer::BulletDelete()
             }
             //子弹回收动画？
             this->removeChild(it->sprite, true);//退场
-            bullet.erase(it++);
+            it=bullet.erase(it);
         }
         else {
             it++;
         }
     }
+
 }
 
 /*
@@ -162,6 +164,25 @@ void BattleLayer::HeroMove(vector<MyHero>& vec)
         if (it->current_enemy != NULL)
             it->seek_enemy();//没有目标就索敌
         else//有目标就朝他移动
-            it->sprite->setPosition(it->current_enemy->sprite->getPosition());
     }
 }*/
+
+void BattleLayer::allocate(MySprite& player1, MySprite& player2)
+{
+    //玩家
+    bluePlayer = player1;
+    redPlayer = player2;
+
+    //场上英雄复制
+    auto it1 = player1.Hero_fighting.begin();
+    for (; it1 != player1.Hero_fighting.end(); ++it1)
+    {
+        blueHero.push_back(*it1);
+    }
+    auto it2 = player2.Hero_fighting.begin();
+    for (; it2 != player2.Hero_fighting.end(); ++it2)
+    {
+        redHero.push_back(*it2);
+    }
+}
+

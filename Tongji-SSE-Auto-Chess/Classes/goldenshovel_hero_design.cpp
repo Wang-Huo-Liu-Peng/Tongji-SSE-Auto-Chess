@@ -10,13 +10,13 @@ std::map<std::string, MyHero> Hero_list = {
 
 	//一费
 	//安妮 https://lol.qq.com/tft/#/championDetail/1
-	{"Annie", MyHero(0, 1, 1, 40, 70, 7, 0, 4, 0.7, 500, -1, -1)},
+	{"Annie", MyHero(0, 1, 1, 100, 70, 7, 0, 4, 0.7, 500, -1, -1)},
 	//库奇 https://lol.qq.com/tft/#/championDetail/42
 	{"Corki", MyHero(0, 1, 1, 48, 80, 8, 0, 4, 0.7, 450, -1, -1)},
 	//塔里克 https://lol.qq.com/tft/#/championDetail/44
 	{"Taric", MyHero(0, 1, 1, 55, 60, 12, 0, 1, 0.55, 650, -1, -1)},
 	//伊芙琳 https://lol.qq.com/tft/#/championDetail/12
-	{"Evelynn", MyHero(0, 1, 1, 45, 60, 12, 0, 1, 0.01, 550, -1, -1)},
+	{"Evelynn", MyHero(0, 1, 1, 45, 60, 12, 0, 1, 2, 550, -1, -1)},
 
 
 	//二费

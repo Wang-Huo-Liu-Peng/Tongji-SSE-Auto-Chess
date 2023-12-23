@@ -18,9 +18,18 @@ bool PlayWithAI::init()
     ///////////////////////////////
     BackGroundLayer* Map = BackGroundLayer::create();
     this->addChild(Map);
+
+    /*MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
+    hero1.sprite->setPosition(Vec2(1400, 600));
+    MyHero hero2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
+    hero2.sprite->setPosition(Vec2(400, 700));
+    hero1.current_enemy = &hero2;
+    hero2.current_enemy = &hero1;
+    Player[1].Hero_fighting.push_back(hero1);
+    Player[2].Hero_fighting.push_back(hero2);*/
+
     BattleLayer* HeroBattle = BattleLayer::create();
     this->addChild(HeroBattle);
-    //HeroBattle->battle();
     ///////////////////////////////
 
     //退出当前场景的按钮
