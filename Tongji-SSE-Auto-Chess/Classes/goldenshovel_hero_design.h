@@ -9,8 +9,8 @@
 
 
 using namespace std;
-#define plaid_width 256
-#define plaid_height 200
+#define plaid 256
+
 
 #define attack_ace 1    //攻击性大招
 #define treat_ace 2     //治疗型大招
@@ -70,6 +70,7 @@ public:
     int getcurrent_hp() { return current_hp; }
     void increase_hp(int hp) { this->full_hp += hp; }
     void increase_attack(int attack) { this->attack_power += attack; }
+    bool enemyInDistance();
     MySprite* get_owner() { return this->owner; }
     MyHero* current_enemy;
  private:
@@ -367,6 +368,5 @@ private:
 
 };
 
-
-
 extern std::map<std::string, Equipment> Equipment_list;
+

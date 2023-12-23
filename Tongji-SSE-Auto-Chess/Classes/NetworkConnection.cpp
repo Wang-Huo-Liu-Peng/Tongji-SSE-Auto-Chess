@@ -1,68 +1,65 @@
-#include "cocos2d.h"
-#include "network/HttpClient.h"
-
-USING_NS_CC;
-using namespace network;
-
-class TimeSaveManager {
-public:
-    static TimeSaveManager* getInstance() {
-        static TimeSaveManager instance;
-        return &instance;
-    }
-
-    // 发送GET请求获取用户的时间存档数据
-    void getTimeSave(const std::string& userId) {
-        HttpRequest* request = new HttpRequest();
-        request->setUrl(StringUtils::format("http://localhost:3000/get-time-save/%s", userId.c_str()));
-        request->setRequestType(HttpRequest::Type::GET);
-        request->setResponseCallback(CC_CALLBACK_2(TimeSaveManager::onGetTimeSaveResponse, this));
-        HttpClient::getInstance()->send(request);
-        request->release();
-    }
-
-    // 发送POST请求更新用户的时间存档数据
-    void updateTimeSave(const std::string& userId, int newTimeSave) {
-        HttpRequest* request = new HttpRequest();
-        request->setUrl("http://localhost:3000/update-time-save");
-        request->setRequestType(HttpRequest::Type::POST);
-        request->setResponseCallback(CC_CALLBACK_2(TimeSaveManager::onUpdateTimeSaveResponse, this));
-
-        // 设置请求参数
-        std::string postData = StringUtils::format("userId=%s&timeSave=%d", userId.c_str(), newTimeSave);
-        request->setRequestData(postData.c_str(), postData.size());
-
-        // 发送请求
-        HttpClient::getInstance()->send(request);
-        request->release();
-    }
-
-private:
-    // 处理GET请求的回调
-    void onGetTimeSaveResponse(HttpClient* client, HttpResponse* response) {
-        if (!response || !response->isSucceed()) {
-            CCLOG("Get Time Save Request failed");
-            return;
-        }
-
-        // 处理服务器响应的数据，这里可以解析JSON等格式
-        std::vector<char>* buffer = response->getResponseData();
-        std::string responseData(buffer->begin(), buffer->end());
-        CCLOG("Get Time Save Response: %s", responseData.c_str());
-        // 在这里处理服务器响应的数据
-    }
-
-    // 处理POST请求的回调
-    void onUpdateTimeSaveResponse(HttpClient* client, HttpResponse* response) {
-        if (!response || !response->isSucceed()) {
-            CCLOG("Update Time Save Request failed");
-            return;
-        }
-
-        // 处理服务器响应的数据，这里可以解析JSON等格式
-        std::vector<char>* buffer = response->getResponseData();
-        std::string responseData(buffer->begin(), buffer->end());
-        CCLOG("Update Time Save Response: %s", responseData.c_str());
-        // 在这里处理服务器响应的数据
-    }
-};
+//#include "cocos2d.h"
+//#include "network/HttpClient.h"
+//
+//USING_NS_CC;
+//using namespace network;
+//
+//class NetworkManager {
+//public:
+//    static NetworkManager* getInstance() {
+//        static NetworkManager instance;
+//        return &instance;
+//    }
+//
+//    void checkNetworkConnection() {
+//        HttpRequest* request = new HttpRequest();
+//        request->setUrl("http://www.google.com");
+//        request->setRequestType(HttpRequest::Type::GET);
+//        request->setResponseCallback(CC_CALLBACK_2(NetworkManager::onNetworkCheckResponse, this));
+//        HttpClient::getInstance()->send(request);
+//        request->release();
+//    }
+//
+//private:
+//    void onNetworkCheckResponse(HttpClient* client, HttpResponse* response) {
+//        if (response && response->isSucceed()) {
+//            CCLOG("Network is connected");
+//            // 在这里执行连接成功后的逻辑
+//        }
+//        else {
+//            CCLOG("Network is not connected");
+//            // 在这里执行连接失败后的逻辑
+//        }
+//    }
+//};
+//
+//class HelloWorld : public cocos2d::Scene {
+//public:
+//    virtual bool init() {
+//        if (!Scene::init()) {
+//            return false;
+//        }
+//
+//        // 使用 NetworkManager 检查网络连接
+//        NetworkManager::getInstance()->checkNetworkConnection();
+//
+//        return true;
+//    }
+//
+//    CREATE_FUNC(HelloWorld);
+//};
+//
+//int main(int argc, char** argv) {
+//    auto director = cocos2d::Director::getInstance();
+//    auto glview = director->getOpenGLView();
+//
+//    if (!glview) {
+//        glview = cocos2d::GLViewImpl::create("My Cocos Game");
+//        director->setOpenGLView(glview);
+//    }
+//
+//    auto scene = HelloWorld::create();
+//    director->runWithScene(scene);
+//
+//    return 0;
+//}
