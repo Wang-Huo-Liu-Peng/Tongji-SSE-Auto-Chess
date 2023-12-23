@@ -74,7 +74,8 @@ void BattleLayer::update_attack(float dt)
 {
     auto it = blueHero.begin();
     while (it!= blueHero.end()) {
-        if (it->current_enemy != NULL) {
+        if (it->current_enemy != NULL/*&&判断距离*/) {
+            //it->sprite->stopAllActions();//停止移动动作
             Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
@@ -86,6 +87,7 @@ void BattleLayer::update_attack(float dt)
         }
         it++;
     }
+
     auto it2 = redHero.begin();
     while (it2 != redHero.end()) {
         if (it2->current_enemy != NULL) {
@@ -100,22 +102,13 @@ void BattleLayer::update_attack(float dt)
         }
         it2++;
     }
-    /*
-    if (hero1.current_enemy != NULL) {
-        Bullet b(hero1.current_enemy, hero1.sprite->getPosition(), hero1.attack_power, "basketball");
-        bullet.push_back(b);
-        this->addChild(b.sprite, 2);
-        auto moveTo = MoveTo::create(2, hero1.current_enemy->sprite->getPosition());
-        b.sprite->runAction(moveTo);
-        //b.target_hero->current_hp -= b.hurt;
-    }*/
 }
 
 void BattleLayer::check_death(vector<MyHero>& Hero_fighting)
 {
     auto it = Hero_fighting.begin();
     while (it != Hero_fighting.end()) {
-        if (it->current_enemy->current_hp <= 0)
+        if (it->current_enemy!=nullptr&&it->current_enemy->current_hp <= 0)
             it->current_enemy = NULL;//目标丢失
 
         if (it->current_hp <= 0) {
@@ -139,10 +132,11 @@ void BattleLayer::checkBullet()
     auto it = bullet.begin();
     while (it != bullet.end()) {
 
-        it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
-
         if (it->target_hero->current_hp <= 0)
             it->target_hero = NULL;
+
+        if (it->target_hero != NULL)
+            it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
 
         if (it->Hitted()) {//子弹射中目标位置
 
@@ -158,6 +152,7 @@ void BattleLayer::checkBullet()
             it++;
         }
     }
+
 }
 
 /*
@@ -169,7 +164,6 @@ void BattleLayer::HeroMove(vector<MyHero>& vec)
         if (it->current_enemy != NULL)
             it->seek_enemy();//没有目标就索敌
         else//有目标就朝他移动
-            it->sprite->setPosition(it->current_enemy->sprite->getPosition());
     }
 }*/
 
