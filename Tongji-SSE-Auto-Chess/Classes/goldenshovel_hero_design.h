@@ -62,7 +62,7 @@ public:
         attack_cd(attack_cd) {};
 
     //virtual void my_move(int new_x, int new_y);  // 移动函数
-    //inline Vec2 seek_enemy(vector<MyHero>& vec);                           // 索敌函数
+    inline void seek_enemy(vector<MyHero>& enemy_vec);                       // 索敌函数
     inline void hero_attack(thread_pool &tp);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int getcost() { return this->gold_cost; };
@@ -112,10 +112,8 @@ inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance) {
     HX = static_cast<int>(HX + t * deltaX);
     HY = static_cast<int>(HY + t * deltaY);
 }
-/*
-inline Vec2 MyHero::seek_enemy(vector<MyHero>& enemy_vec) {
-    BOOL find = 0;
-    //attack_distance
+
+inline void MyHero::seek_enemy(vector<MyHero>& enemy_vec) {
     vector<float> distance_vec;
     if (current_enemy == NULL)              // 无攻击目标时进行索敌
     {
@@ -130,14 +128,10 @@ inline Vec2 MyHero::seek_enemy(vector<MyHero>& enemy_vec) {
         auto minElementIterator = min_element(distance_vec.begin(), distance_vec.end());
         // 获取最小值的下标
         size_t minIndex = distance(distance_vec.begin(), minElementIterator);
-
         current_enemy = &enemy_vec[minIndex];
-        return enemy_vec[minIndex].sprite->getPosition();
     }
-    else
-        return Vec2(-1, -1);
 }
-*/
+
 inline void MyHero::hero_attack(thread_pool& tp){
     //当目前英雄没死，并且敌人没死绝，当前current_enemy死了的时候，找下一个敌人
     if (this->current_enemy == NULL) {    
