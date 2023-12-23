@@ -16,14 +16,13 @@ bool BattleLayer::init()
     ///////////////////////////////
     MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
     hero1.sprite->setPosition(Vec2(2000, 1000));
-    //this->addChild(hero1.sprite, 0);
 
     MyHero hero2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
     hero2.sprite->setPosition(Vec2(400, 400));
-    //this->addChild(hero2.sprite, 0);
 
     MyHero hero3 = set_a_hero("Corki", Hero_1, Hero_on_court_1);
     hero3.sprite->setPosition(Vec2(400, 1200));
+
     MyHero hero4 = set_a_hero("Taric", Hero_1, Hero_on_court_1);
     hero4.sprite->setPosition(Vec2(1800, 100));
 
@@ -44,9 +43,6 @@ bool BattleLayer::init()
     this->addChild(redHero[0].sprite, 0);
     this->addChild(blueHero[1].sprite, 0);
     this->addChild(redHero[1].sprite, 0);
-    
-    //player_blue->Hero_fighting[1].current_enemy = &hero2;
-    //player_red->Hero_fighting[1].current_enemy = &hero1;
 
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
@@ -77,8 +73,8 @@ void BattleLayer::myupdate(float dt)
 void BattleLayer::update_attack(float dt)
 {
     auto it = blueHero.begin();
-    while (it!= blueHero.end()) {
-        if (it->current_enemy != NULL&&it->enemyInDistance()) {
+    while (it != blueHero.end()) {
+        if (it->current_enemy != nullptr&&it->enemyInDistance()) {
             Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
@@ -93,15 +89,15 @@ void BattleLayer::update_attack(float dt)
 
     auto it2 = redHero.begin();
     while (it2 != redHero.end()) {
-        if (it2->current_enemy != NULL) {
-            Bullet c(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
-            bullet.push_back(c);
-            this->addChild(c.sprite, 2);
+        if (it2->current_enemy != nullptr && it2->enemyInDistance()) {
+            Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            bullet.push_back(b);
+            this->addChild(b.sprite, 2);
 
             //蓄力论述增加，蓝条增加动画
 
             auto moveTo = MoveTo::create(it2->attack_cd, it2->current_enemy->sprite->getPosition());
-            c.sprite->runAction(moveTo);
+            b.sprite->runAction(moveTo);
         }
         it2++;
     }
@@ -112,7 +108,7 @@ void BattleLayer::check_death(vector<MyHero>& Hero_fighting)
     auto it = Hero_fighting.begin();
     while (it != Hero_fighting.end()) {
         if (it->current_enemy!=nullptr&&it->current_enemy->current_hp <= 0)
-            it->current_enemy = NULL;//目标丢失
+            it->current_enemy = nullptr;//目标丢失
 
         if (it->current_hp <= 0) {
             this->removeChild(it->sprite, true);//退场
@@ -129,15 +125,15 @@ void BattleLayer::checkBullet()
     auto it = bullet.begin();
     while (it != bullet.end()) {
 
-        if (it->target_hero!=nullptr&&it->target_hero->current_hp <= 0)
-            it->target_hero = NULL;
+        if (it->target_hero != nullptr && it->target_hero->current_hp <= 0)
+            it->target_hero = nullptr;
 
-        if (it->target_hero != NULL)
+        if (it->target_hero != nullptr)
             it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
 
         if (it->Hitted()) {//子弹射中目标位置
 
-            if (it->target_hero != NULL) {
+            if (it->target_hero != nullptr) {
                 it->target_hero->current_hp -= it->hurt;//扣血
                 //扣血动画
             }
@@ -146,24 +142,25 @@ void BattleLayer::checkBullet()
             it=bullet.erase(it);
         }
         else {
-            it++;
+            ++it;
         }
     }
 
 }
 
-
 void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
 {
     auto it = blue.begin();
     while (it != blue.end()) {
-        if (it->current_enemy == NULL) {
+        if (it->current_enemy == nullptr&&!red.empty()) {
             it->seek_enemy(red);
             //CCLOG("seek_enemy successful");
-            auto moveTo = MoveTo::create(2, it->current_enemy->sprite->getPosition());
-            it->sprite->runAction(moveTo);
+            if (it->current_enemy != nullptr) {
+                auto moveTo = MoveTo::create(2, it->current_enemy->sprite->getPosition());
+                it->sprite->runAction(moveTo);
+            }
         }
-        if (it->current_enemy != NULL) {
+        if (it->current_enemy != nullptr) {
             if (it->enemyInDistance())
                 it->sprite->stopAllActions();
         }
