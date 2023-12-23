@@ -62,7 +62,7 @@ public:
         attack_cd(attack_cd) {};
 
     //virtual void my_move(int new_x, int new_y);  // 移动函数
-    inline void seek_enemy();                           // 索敌函数
+    inline Vec2 seek_enemy(vector<MyHero>& vec);                           // 索敌函数
     inline void hero_attack(thread_pool &tp);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int getcost() { return this->gold_cost; };
@@ -71,19 +71,16 @@ public:
     void increase_hp(int hp) { this->full_hp += hp; }
     void increase_attack(int attack) { this->attack_power += attack; }
     MySprite* get_owner() { return this->owner; }
-
-private:
-    MyHero* current_enemy;
     MySprite* owner;
-	bool on_court;                 // 判断是否在场
+	bool on_court;                     // 判断是否在场
 	int gold_cost;                     // 英雄花费 
 	int star_level;                    // 星级
 	int attack_power;                  // 攻击力
 	int ace_attack_power;              // 大招攻击力
 	int needed_cooldown_round;         // 大招所需冷却轮数
     int current_cooldown_round;        // 当前冷却轮数
-    double attack_cd;                     //攻击cd
-    int attack_distance;
+    double attack_cd;                  // 攻击cd
+    int attack_distance;               // 攻击距离
     inline BOOL IsInMap(int x, int y);
     inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance);
     // 攻击距离
@@ -114,35 +111,29 @@ inline void Find_Way_To_attack(int X, int Y, int& HX, int& HY, int distance) {
     HY = static_cast<int>(HY + t * deltaY);
 }
 
-inline void MyHero::seek_enemy() {
+inline Vec2 MyHero::seek_enemy(vector<MyHero>& enemy_vec) {
     BOOL find = 0;
-    int distance = 1;
-    int i;
-    int j;
-    while (!find) {
-        for (i = -1; i < 1; i++) {
-            for (j = -1; j < 1; j++) {
-                if (i == 0 && j == 0) continue;
-                if (GameMap[this->location_x + distance * i][this->location_y + j * distance] != nullptr && GameMap[this->location_x + distance * i][this->location_y + j * distance]->get_owner() != this->owner)//这段应该是判断这个像素上有英雄，没写完整
-                {
-                    this->current_enemy = GameMap[this->location_x + distance * i][this->location_y + j * distance];
-                    find = 1;
-                    break;
-                }
-                if (find == 1)
-                    break;
-            }
+    //attack_distance
+    vector<float> distance_vec;
+    if (current_enemy == NULL)              // 无攻击目标时进行索敌
+    {
+        for (int index = 0; index < enemy_vec.size(); index++)
+        {
+            float distance_x = sprite->getPositionX() - enemy_vec[index].sprite->getPositionX();
+            float distance_y = sprite->getPositionY() - enemy_vec[index].sprite->getPositionY();
+            float distance = distance_x * distance_x + distance_y * distance_y;
+            distance_vec.push_back(distance);
         }
-        distance++;
+        // 使用 std::min_element 找到 vector 中的最小值的迭代器
+        auto minElementIterator = min_element(distance_vec.begin(), distance_vec.end());
+        // 获取最小值的下标
+        size_t minIndex = distance(distance_vec.begin(), minElementIterator);
+
+        current_enemy = &enemy_vec[minIndex];
+        return enemy_vec[minIndex].sprite->getPosition();
     }
-    while (this->current_enemy->current_hp != 0) {
-        if (this->current_enemy->location_x - this->location_x > this->attack_distance) {
-            GameMap[location_x][location_y] = nullptr;
-            Find_Way_To_attack(this->current_enemy->location_x, this->current_enemy->location_y, this->location_x, this->location_y, this->attack_distance);
-            GameMap[location_x][location_y] = this;
-            //this->.sprite 设计moveby和moveto，还没写
-        }
-    }
+    else
+        return Vec2(-1, -1);
 }
 
 inline void MyHero::hero_attack(thread_pool& tp){
