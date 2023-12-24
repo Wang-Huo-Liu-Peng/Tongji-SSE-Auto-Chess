@@ -239,6 +239,7 @@ public:
         // 在这里判断两个 MySprite 对象是否相等
         return this->location_x == other.location_x && this->location_y == other.location_y;
     }
+    inline void refresh_shop_free();
     inline void refresh_shop();//刷新商店英雄
     inline void make_a_random_hero();   //补充商店英雄
     inline void erase_a_player();//删除死了个玩家
@@ -251,7 +252,7 @@ private:
     vector<MyHero> Hero_on_court;//当前所拥有的英雄（在场上的）
     vector<MyHero> Hero_on_bench;//当前备战席上的英雄
     vector<MyHero> Hero_fighting;//战斗时用于存放英雄的临时空间
-    string Hero_in_shop[5];      //商店中的英雄
+    string Hero_in_shop[4];      //商店中的英雄
     MySprite* current_enemy;
     int current_exp;    //当前有的经验值
 };
@@ -265,43 +266,46 @@ inline void MySprite::erase_a_player() {
         Player.erase(it);
     }
 }
-
 inline void MySprite::make_a_random_hero() {
     int i;
     string hero_compose[100];
-    for (i = 0; i < Posibility_Of_Hero[this->star_level][1]; i++) {
-        hero_compose[i] = one_fee[std::rand() % sizeof(one_fee) + 1];
-    }
-    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2]; i++) {
-        //同
-        hero_compose[i] = two_fee[this->star_level][std::rand() % sizeof(two_fee[this->star_level]) + 1];
-    }
-    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3]; i++) {
-        //同
-        hero_compose[i] = three_fee[this->star_level][std::rand() % sizeof(three_fee[this->star_level]) + 1];
-    }
-    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3] + Posibility_Of_Hero[this->star_level][4]; i++) {
-        //同
-        hero_compose[i] = four_fee[this->star_level][std::rand() % sizeof(four_fee[this->star_level]) + 1];
-    }
-    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3] + Posibility_Of_Hero[this->star_level][4] + Posibility_Of_Hero[this->star_level][5]; i++) {
-        //同
-        hero_compose[i] = five_fee[this->star_level][std::rand() % sizeof(five_fee[this->star_level]) + 1];
-    }
-    for (int i = 0; i < 5; i++) {
-        if (this->Hero_in_shop[i] == "") {
-            this->Hero_in_shop[i] = hero_compose[std::rand() % 100 + 1];
+
+    for (i = 0; i < Posibility_Of_Hero[this->star_level][1]; i++) 
+        hero_compose[i] = one_fee[int(rand() % 4)];
+    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2]; i++) 
+        hero_compose[i] = two_fee[int(rand() % 4)];
+    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3]; i++) 
+        hero_compose[i] = three_fee[int(rand() % 4)];
+    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3] + Posibility_Of_Hero[this->star_level][4]; i++) 
+        hero_compose[i] = four_fee[int(rand() % 4)];
+    for (; i < 100; i++) 
+        hero_compose[i] = five_fee[int(rand() % 4)];
+
+    for (i = 0; i < 4; i++) {
+        if(this->Hero_in_shop[i]==""){
+            this->Hero_in_shop[i] = hero_compose[int(rand() % 4)];
+            CCLOG("Player[].Hero_in_shop[%d]: %s", i, this->Hero_in_shop[i].c_str());
         }
     }
 }
 
+
+
+inline void MySprite::refresh_shop_free() {
+    for (int i = 0; i < 4; i++) {
+        this->Hero_in_shop[i] = "";
+    }
+    make_a_random_hero();
+}
+
 inline void MySprite::refresh_shop() {
     if (this->money < 2) {
+        CCLOG("dead");
         //错误提示待写
     }
     else {
         this->money -= 2;//刷新扣除金额
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             this->Hero_in_shop[i] = "";
         }
         make_a_random_hero();
@@ -345,9 +349,6 @@ extern vector <MyHero> Hero_select_2;
 extern vector <MyHero> Hero_fighting_1;
 extern vector <MyHero> Hero_fighting_2;
 
-//数组大小代表随机刷新的商店个数
-extern string Hero_1[5];
-extern string Hero_2[5];
 
 
 inline MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
@@ -355,6 +356,7 @@ inline MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>
     for (int i = 0; i < 4; i++) {
         if (Hero_in_shop[i] == hero_name) {
             Hero_in_shop[i] = "";
+            break;
         }   
     }
 
