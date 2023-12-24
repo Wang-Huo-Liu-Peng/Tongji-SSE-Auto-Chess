@@ -72,8 +72,12 @@ void BattleLayer::store_display()
     string card2 = Player[player1].Hero_in_shop[1] + "_Card.png";
     string card3 = Player[player1].Hero_in_shop[2] + "_Card.png";
     string card4 = Player[player1].Hero_in_shop[3] + "_Card.png";
-    cocos2d::Size targetSize(500, 500);
-    auto HeroCard1 = MenuItemImage::create(
+
+    set_a_hero(Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
+    Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
+    this->addChild(Player[player1].Hero_on_bench.back().sprite);
+   cocos2d::Size targetSize(500, 500);
+  /*   auto HeroCard1 = MenuItemImage::create(
         card1,
         card1,
         [&](Ref* sender) {
@@ -84,15 +88,13 @@ void BattleLayer::store_display()
     auto menu1 = Menu::create(HeroCard1, NULL);
     menu1->setContentSize(targetSize);
     menu1->setPosition(500, 250);
-    this->addChild(menu1,0);
-
+    this->addChild(menu1,0);*/
+    
     auto HeroCard2 = MenuItemImage::create(
         card2,
         card2,
         [&](Ref* sender) {
-            set_a_hero(Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
-            Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-            this->addChild(Player[player1].Hero_on_bench.back().sprite);
+            
         });
     auto menu2 = Menu::create(HeroCard2, NULL);
     menu2->setContentSize(targetSize);

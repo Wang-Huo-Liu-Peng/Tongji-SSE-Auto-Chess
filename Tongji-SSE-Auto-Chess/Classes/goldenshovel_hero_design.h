@@ -351,10 +351,11 @@ extern string Hero_2[5];
 
 
 inline MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
-    for (int i = 0; i < 5; i++) {
+
+    for (int i = 0; i < 4; i++) {
         if (Hero_in_shop[i] == hero_name) {
             Hero_in_shop[i] = "";
-        }
+        }   
     }
 
     //¿ÛÇ®
