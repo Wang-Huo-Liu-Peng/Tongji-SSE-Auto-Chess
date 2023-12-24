@@ -416,5 +416,15 @@ inline Vec2 enemy_bench_px(int i)
     return Vec2(x, y);
 }
 
+inline Vec2 card_px(int i)
+{
+    float x = 756 + i * 357;
+    float y = 187;
+    return Vec2(x, y);
+}
+
 #define refresh_button Vec2(498,320)
 #define buyexp_button Vec2(498,218)
+
+#define player1_px Vec2(418,654)
+#define player2_px Vec2(1895,1335)

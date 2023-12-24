@@ -21,11 +21,6 @@ static void problemLoading(const char* filename)
 
 
 
-
-
-
-
-
 bool Test_Scene_4::init()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
