@@ -14,7 +14,7 @@ bool BattleLayer::init(int Player1,int Player2)
 
     player1 = Player1;
     player2 = Player2;
-
+    test();
     getHero(blueHero, player1);   //将玩家的英雄复制到场上
     getHero(redHero, player2);
 
@@ -161,8 +161,13 @@ void BattleLayer::addHero(vector<MyHero>& Hero_fighting)
         this->addChild(Hero_fighting[i].sprite, 0);
     }
 }
-
-
+//用于放置英雄测试
+void BattleLayer::test() {
+    MyHero hero1;
+    hero1.sprite = Sprite::create("Amumu.png");
+    hero1.sprite->setPosition(reverse_map_px(2, 3));
+    this->addChild(hero1.sprite, 0);
+}
 
 BattleLayer* BattleLayer::create(int Player1,int Player2)
 {

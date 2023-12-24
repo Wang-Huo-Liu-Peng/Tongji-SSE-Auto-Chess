@@ -11,7 +11,7 @@ class BattleLayer : public cocos2d::Layer
 public:
     virtual bool init(int Player1,int Player2);
     static BattleLayer* create(int Player1, int Player2);
-
+    void BattleLayer::test();
     int player1;
     int player2;
 
