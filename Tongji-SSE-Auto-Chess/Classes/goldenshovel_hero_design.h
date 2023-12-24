@@ -10,13 +10,16 @@
 USING_NS_CC;
 
 using namespace std;
-#define plaid 256
+#define plaid 137
 
+
+#define Fight_MAP_height 1080
+#define Fight_MAP_width 660
 
 #define attack_ace 1    //攻击性大招
 #define treat_ace 2     //治疗型大招
 
-#define map_width 9
+#define map_width 8
 #define map_height 6
 
 #define MAX_LEVEL 7
@@ -392,3 +395,9 @@ private:
 
 extern std::map<std::string, Equipment> Equipment_list;
 
+inline Vec2 reverse_map_px(int x,int y) {
+    Vec2 pos;
+    pos.x = plaid / 2 + plaid * x + Fight_MAP_width;
+    pos.y = plaid / 2 + plaid * y + Fight_MAP_height;
+    return pos;
+}
