@@ -84,9 +84,6 @@ vector <MyHero> Hero_select_2;
 vector <MyHero> Hero_fighting_1;
 vector <MyHero> Hero_fighting_2;
 
-//数组大小代表随机刷新的商店个数
-string Hero_1[5];
-string Hero_2[5];
 
 vector<MySprite> Player = {
 	MySprite(1,100,5),//小小英雄开局等级为1,血量为100，金币为5

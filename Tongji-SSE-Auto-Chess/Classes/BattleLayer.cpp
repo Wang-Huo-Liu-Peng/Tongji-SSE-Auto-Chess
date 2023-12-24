@@ -9,14 +9,42 @@ USING_NS_CC;
 
 bool BattleLayer::init(int Player1,int Player2)
 {
+    srand(static_cast<unsigned int>(time(nullptr)));
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     player1 = Player1;
     player2 = Player2;
 
-    Player[player1].refresh_shop();
+    /*====================商店部分========================*/
+    auto my_refresh_button = MenuItemImage::create(
+        "refresh_shop.png",
+        "refresh_shop.png",
+        [&](Ref* sender) {
+            for(int i=1;i<=4;i++)
+            {
+                Node* node_with_tag_i = this->getChildByTag(i);
+                if (node_with_tag_i) {
+                    this->removeChild(node_with_tag_i, true);
+                }
+            }
+            Player[player1].refresh_shop_free();// 刷新商店
+            store_display();// 初始化商店
+        });
+    cocos2d::Size targetSize(100, 100);
+    auto menu0 = Menu::create(my_refresh_button, NULL);
+    menu0->setTag(0);
+    menu0->setContentSize(targetSize);
+    menu0->setPosition(500,700);
+    this->addChild(menu0);
 
+
+    Player[player1].refresh_shop_free();// 刷新商店
+    store_display();// 初始化商店
+    /*====================商店部分结束========================*/
+
+    //弹窗
+    error_display();
 
     test();
     getHero(blueHero, player1);   //将玩家的英雄复制到场上
@@ -45,6 +73,25 @@ bool BattleLayer::init(int Player1,int Player2)
     return true;
 }
 
+void BattleLayer::error_window_close()
+{
+    this->removeChildByTag(7);
+}
+
+void BattleLayer::error_display()
+{
+    auto pop_up_windows = MenuItemImage::create(
+        "Blank_pop-up.png",
+        "Blank_pop-up.png",
+        [&](Ref* sender) {
+            error_window_close();
+        });
+    cocos2d::Size targetSize(100, 100);
+    auto window = Menu::create(pop_up_windows, NULL);
+    window->setTag(7);
+    window->setPosition(500, 700);
+    this->addChild(window);
+}
 
 void BattleLayer::myupdate(float dt)
 {
@@ -55,13 +102,15 @@ void BattleLayer::myupdate(float dt)
     check_death(blueHero);//检查英雄死亡并退场
     seekAndMove(redHero, blueHero);
     seekAndMove(blueHero,redHero);
-    store_display();
 
     //血量和蓝量更新显示
     //蓝条满放大招，后续加入
     //有一方场上英雄死完，停止战斗，然后根据胜者剩余英雄数对败者进行扣血
 }
-
+void BattleLayer::card_remove(int index)
+{
+    this->removeChildByTag(index + 1);
+}
 void BattleLayer::store_display()
 {
     string hero1 = Player[player1].Hero_in_shop[0] + ".png";
@@ -72,29 +121,37 @@ void BattleLayer::store_display()
     string card2 = Player[player1].Hero_in_shop[1] + "_Card.png";
     string card3 = Player[player1].Hero_in_shop[2] + "_Card.png";
     string card4 = Player[player1].Hero_in_shop[3] + "_Card.png";
-    cocos2d::Size targetSize(500, 500);
-    auto HeroCard1 = MenuItemImage::create(
+
+
+   cocos2d::Size targetSize(500, 500);
+     auto HeroCard1 = MenuItemImage::create(
         card1,
         card1,
         [&](Ref* sender) {
             set_a_hero(Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
             Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
             this->addChild(Player[player1].Hero_on_bench.back().sprite);
+            card_remove(0);
+            Player[player1].Hero_in_shop[0] = "";
         });
     auto menu1 = Menu::create(HeroCard1, NULL);
+    menu1->setTag(1);
     menu1->setContentSize(targetSize);
     menu1->setPosition(500, 250);
     this->addChild(menu1,0);
-
+    
     auto HeroCard2 = MenuItemImage::create(
         card2,
         card2,
-        [&](Ref* sender) {
-            set_a_hero(Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
-            Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-            this->addChild(Player[player1].Hero_on_bench.back().sprite);
-        });
+		[&](Ref* sender) {
+			set_a_hero(Player[player1].Hero_in_shop[1], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
+			Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
+			this->addChild(Player[player1].Hero_on_bench.back().sprite);
+			card_remove(1);
+            Player[player1].Hero_in_shop[1] = "";
+		});
     auto menu2 = Menu::create(HeroCard2, NULL);
+    menu2->setTag(2);
     menu2->setContentSize(targetSize);
     menu2->setPosition(1000, 250);
     this->addChild(menu2);
@@ -103,11 +160,14 @@ void BattleLayer::store_display()
         card3,
         card3,
         [&](Ref* sender) {
-            set_a_hero(Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
+            set_a_hero(Player[player1].Hero_in_shop[2], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
             Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
             this->addChild(Player[player1].Hero_on_bench.back().sprite);
+            card_remove(2);
+            Player[player1].Hero_in_shop[2] = "";
         });
     auto menu3 = Menu::create(HeroCard3, NULL);
+    menu3->setTag(3);
     menu3->setContentSize(targetSize);
     menu3->setPosition(1500, 250);
     this->addChild(menu3);
@@ -116,13 +176,16 @@ void BattleLayer::store_display()
         card4,
         card4,
         [&](Ref* sender) {
-            set_a_hero(Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
+            set_a_hero(Player[player1].Hero_in_shop[3], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
             Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
             this->addChild(Player[player1].Hero_on_bench.back().sprite);
+            card_remove(3);
+            Player[player1].Hero_in_shop[3] = "";
         });
     auto menu4 = Menu::create(HeroCard4, NULL);
+    menu4->setTag(4);
     menu4->setContentSize(targetSize);
-    menu4->setPosition(2000, 750);
+    menu4->setPosition(2000, 250);
     this->addChild(menu4);
 }
 

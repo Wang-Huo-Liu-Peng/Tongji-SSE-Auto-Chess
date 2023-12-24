@@ -4,6 +4,7 @@
 #include <Show_Chinese.h>
 #include "NetworkConnection.h"
 
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
