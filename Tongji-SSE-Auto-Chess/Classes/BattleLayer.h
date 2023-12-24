@@ -32,6 +32,7 @@ public:
     void seekAndMove(vector<MyHero>&,vector<MyHero>&);//英雄索敌并移动
 
     void store_display();//商店显示
+    void card_remove(int index);//选中的卡片移除
 
     //virtual void onEnter();
     // a selector callback
