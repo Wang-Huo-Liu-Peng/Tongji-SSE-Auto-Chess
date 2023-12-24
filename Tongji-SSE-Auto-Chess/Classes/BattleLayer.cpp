@@ -18,8 +18,8 @@ bool BattleLayer::init(int Player1,int Player2)
 
     /*====================…ÃµÍ≤ø∑÷========================*/
     auto my_refresh_button = MenuItemImage::create(
-        "bullet_1.png",
-        "bullet_1.png",
+        "refresh_shop.png",
+        "refresh_shop.png",
         [&](Ref* sender) {
             for(int i=1;i<=4;i++)
             {
