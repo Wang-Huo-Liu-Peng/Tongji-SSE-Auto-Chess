@@ -270,20 +270,26 @@ inline void MySprite::make_a_random_hero() {
     int i;
     string hero_compose[100];
 
-    for (i = 0; i < Posibility_Of_Hero[this->star_level][1]; i++) 
+    for (i = 0; i < Posibility_Of_Hero[this->star_level-1][0]; i++) 
         hero_compose[i] = one_fee[int(rand() % 4)];
-    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2]; i++) 
+    for (; i < Posibility_Of_Hero[this->star_level - 1][0] + Posibility_Of_Hero[this->star_level - 1][1]; i++)
         hero_compose[i] = two_fee[int(rand() % 4)];
-    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3]; i++) 
+    for (; i < Posibility_Of_Hero[this->star_level - 1][0] + Posibility_Of_Hero[this->star_level - 1][1] + Posibility_Of_Hero[this->star_level - 1][2]; i++)
         hero_compose[i] = three_fee[int(rand() % 4)];
-    for (; i < Posibility_Of_Hero[this->star_level][1] + Posibility_Of_Hero[this->star_level][2] + Posibility_Of_Hero[this->star_level][3] + Posibility_Of_Hero[this->star_level][4]; i++) 
+    for (; i < Posibility_Of_Hero[this->star_level - 1][4] + Posibility_Of_Hero[this->star_level - 1][2] + Posibility_Of_Hero[this->star_level - 1][3] + Posibility_Of_Hero[this->star_level - 1][0]; i++)
         hero_compose[i] = four_fee[int(rand() % 4)];
     for (; i < 100; i++) 
         hero_compose[i] = five_fee[int(rand() % 4)];
 
+   
+
+    for (int i = 0; i < 100; ++i) {
+        CCLOG("hero_compose[%d]: %s", i, hero_compose[i].c_str());
+    }
+
     for (i = 0; i < 4; i++) {
         if(this->Hero_in_shop[i]==""){
-            this->Hero_in_shop[i] = hero_compose[int(rand() % 4)];
+            this->Hero_in_shop[i] = hero_compose[int(rand() % 100)];
             CCLOG("Player[].Hero_in_shop[%d]: %s", i, this->Hero_in_shop[i].c_str());
         }
     }
@@ -353,13 +359,9 @@ extern vector <MyHero> Hero_fighting_2;
 
 inline MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
 
-    for (int i = 0; i < 4; i++) {
-        if (Hero_in_shop[i] == hero_name) {
-            Hero_in_shop[i] = "";
-            break;
-        }   
+    for (int i = 0; i < 4; ++i) {
+        CCLOG("Hero_in_shop[%d]: %s", i, Hero_in_shop[i].c_str());
     }
-
     //¿ÛÇ®
 
     string filename = hero_name + ".png";
