@@ -401,3 +401,20 @@ inline Vec2 reverse_map_px(int x,int y) {
     pos.y = plaid / 2 + plaid * y + Fight_MAP_height;
     return pos;
 }
+
+inline Vec2 my_bench_px(int i)
+{
+    float x = 510 + i * 168;
+    float y = 465;
+    return Vec2(x, y);
+}
+
+inline Vec2 enemy_bench_px(int i)
+{
+    float x = 1774 - i * 125;
+    float y = 1375;
+    return Vec2(x, y);
+}
+
+#define refresh_button Vec2(498,320)
+#define buyexp_button Vec2(498,218)

@@ -18,6 +18,18 @@ bool BattleLayer::init(int Player1,int Player2)
     getHero(blueHero, player1);   //将玩家的英雄复制到场上
     getHero(redHero, player2);
 
+    auto sprite1 = Sprite::create("Annie.png");
+    sprite1->setPosition(enemy_bench_px(1));
+    this->addChild(sprite1, 1);
+
+    auto sprite2 = Sprite::create("Evelynn.png");
+    sprite2->setPosition(enemy_bench_px(2));
+    this->addChild(sprite2, 1);
+
+    auto sprite3 = Sprite::create("Evelynn.png");
+    sprite3->setPosition(enemy_bench_px(3));
+    this->addChild(sprite3, 1);
+
     addHero(blueHero);            //将场上英雄加入场景（可视化）
     addHero(redHero);
 
