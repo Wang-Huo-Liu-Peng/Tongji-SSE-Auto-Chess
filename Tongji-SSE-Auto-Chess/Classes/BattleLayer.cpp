@@ -55,6 +55,7 @@ void BattleLayer::myupdate(float dt)
     check_death(blueHero);//检查英雄死亡并退场
     seekAndMove(redHero, blueHero);
     seekAndMove(blueHero,redHero);
+    store_display();
 
     //血量和蓝量更新显示
     //蓝条满放大招，后续加入
@@ -121,7 +122,7 @@ void BattleLayer::store_display()
         });
     auto menu4 = Menu::create(HeroCard4, NULL);
     menu4->setContentSize(targetSize);
-    menu4->setPosition(1500, 250);
+    menu4->setPosition(2000, 750);
     this->addChild(menu4);
 }
 
