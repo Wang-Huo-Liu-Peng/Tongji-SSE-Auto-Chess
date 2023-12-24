@@ -12,6 +12,18 @@ bool BattleLayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    /*getHero(blueHero, bluePlayer.Hero_on_bench);
+    getHero(redHero, redPlayer.Hero_on_bench);
+
+    //bluePlayer.Hero_on_bench[0].sprite->setPosition(500, 500);
+    //this->addChild(bluePlayer.Hero_on_bench[0].sprite, 0);
+
+    Player[1].Hero_on_bench[0].sprite->setPosition(500, 500);
+    this->addChild(Player[1].Hero_on_bench[0].sprite, 0);
+
+    addHero(blueHero);
+    addHero(redHero);*/
+
     /**/
     ///////////////////////////////
     MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
@@ -24,7 +36,7 @@ bool BattleLayer::init()
     hero3.sprite->setPosition(Vec2(400, 1200));
 
     MyHero hero4 = set_a_hero("Taric", Hero_1, Hero_on_court_1);
-    hero4.sprite->setPosition(Vec2(1800, 100));
+    hero4.sprite->setPosition(Vec2(1800, 300));
 
     blueHero.push_back(hero1);
     blueHero.push_back(hero3);
@@ -60,12 +72,12 @@ void BattleLayer::myupdate(float dt)
     /*以下为游戏中需要不断更新的东西*/
 
     checkBullet();        //检查子弹，并扣血
-    check_death(blueHero);//检查英雄死亡并退场
     check_death(redHero); //检查英雄死亡并退场
+    check_death(blueHero);//检查英雄死亡并退场
+    seekAndMove(redHero, blueHero);
     seekAndMove(blueHero,redHero);
-    seekAndMove(redHero,blueHero);
 
-    //英雄自走，函数已写，后续加入
+    //血量和蓝量更新显示
     //蓝条满放大招，后续加入
     //有一方场上英雄死完，停止战斗，然后根据胜者剩余英雄数对败者进行扣血
 }
@@ -81,7 +93,7 @@ void BattleLayer::update_attack(float dt)
 
             //蓄力论述增加，蓝条增加动画
 
-            auto moveTo = MoveTo::create(it->attack_cd, it->current_enemy->sprite->getPosition());//子弹飞行动作
+            auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
             b.sprite->runAction(moveTo);
         }
         it++;
@@ -96,7 +108,7 @@ void BattleLayer::update_attack(float dt)
 
             //蓄力论述增加，蓝条增加动画
 
-            auto moveTo = MoveTo::create(it2->attack_cd, it2->current_enemy->sprite->getPosition());
+            auto moveTo = MoveTo::create(it2->attack_cd, b.target);
             b.sprite->runAction(moveTo);
         }
         it2++;
@@ -128,12 +140,13 @@ void BattleLayer::checkBullet()
         if (it->target_hero != nullptr && it->target_hero->current_hp <= 0)
             it->target_hero = nullptr;
 
-        if (it->target_hero != nullptr)
-            it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
+        //if (it->target_hero != nullptr) 
+        //    it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
+        
 
         if (it->Hitted()) {//子弹射中目标位置
 
-            if (it->target_hero != nullptr) {
+            if (it->target_hero != nullptr&&it->HitHero()) {//打中英雄
                 it->target_hero->current_hp -= it->hurt;//扣血
                 //扣血动画
             }
@@ -174,17 +187,21 @@ void BattleLayer::allocate(MySprite& player1, MySprite& player2)
     //玩家
     bluePlayer = player1;
     redPlayer = player2;
+}
 
+void BattleLayer::getHero(vector<MyHero>& Hero,vector<MyHero>& Hero_fighting)
+{
     //场上英雄复制
-    auto it1 = player1.Hero_fighting.begin();
-    for (; it1 != player1.Hero_fighting.end(); ++it1)
+    auto it = Hero_fighting.begin();
+    for (; it != Hero_fighting.end(); ++it)
     {
-        blueHero.push_back(*it1);
+        Hero.push_back(*it);
     }
-    auto it2 = player2.Hero_fighting.begin();
-    for (; it2 != player2.Hero_fighting.end(); ++it2)
-    {
-        redHero.push_back(*it2);
+}
+void BattleLayer::addHero(vector<MyHero>& Hero_fighting)
+{
+    for (int i = 0; i < Hero_fighting.size(); i++) {
+        this->addChild(Hero_fighting[i].sprite, 0);
     }
 }
 

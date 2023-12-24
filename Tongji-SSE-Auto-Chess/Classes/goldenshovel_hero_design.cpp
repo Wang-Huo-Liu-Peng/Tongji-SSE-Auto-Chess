@@ -128,3 +128,4 @@ bool MyHero::enemyInDistance()
 	else
 		return false;
 }
+

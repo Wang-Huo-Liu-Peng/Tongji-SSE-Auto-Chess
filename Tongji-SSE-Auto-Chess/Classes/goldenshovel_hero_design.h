@@ -7,6 +7,7 @@
 #include "cocos2d.h"
 #include"Test_Scene_2.h"
 
+USING_NS_CC;
 
 using namespace std;
 #define plaid 256
@@ -36,7 +37,7 @@ public:
 
 	//virtual void my_move(int new_x, int new_y) = 0;                                        // 移动函数（纯虚函数）
     vector<Equipment> equipment;
-	cocos2d::Sprite* sprite;
+	Sprite* sprite;
     int gethp() { return this->current_hp; };                                                // 指针
 
 protected:
@@ -72,7 +73,7 @@ public:
     void increase_attack(int attack) { this->attack_power += attack; }
     bool enemyInDistance();
     MySprite* get_owner() { return this->owner; }
-    MyHero* current_enemy;
+    MyHero* current_enemy=nullptr;
  private:
     MySprite* owner;
 	bool on_court;                     // 判断是否在场
@@ -223,6 +224,7 @@ extern int level_up_exp[6];
 /*====================精灵类====================*/
 class MySprite :public MyObject {
     friend class BattleLayer;
+    friend class PlayWithAI;
 public:
     MySprite() {};
     MySprite(int level, int hp,/* int xp, int av,*/ int money, int x = -1, int y = -1) :        // 构造函数
@@ -318,10 +320,10 @@ inline void MySprite::set_a_hero(string hero_name) {
         this->money -= Hero_list[hero_name].getcost();
         string filename = hero_name + ".png";
         MyHero set_a_new_hero = Hero_list.at(hero_name);
-        //pjl解决一下下面的错误
-        /*auto new_hero_Sprite = Sprite::create(filename);
-        set_a_new_hero.sprite = new_hero_Sprite;
-        this->Hero_on_bench.push_back(set_a_new_hero);*/
+
+        set_a_new_hero.sprite = Sprite::create(filename);
+        //set_a_new_hero.sprite = new_hero_Sprite;
+        this->Hero_on_bench.push_back(set_a_new_hero);
 
 
         //这里后续要加入三星合一，后续再加

@@ -17,6 +17,7 @@ public:
     vector<MyHero> redHero;      //红方英雄（场上）
 
     void allocate(MySprite&,MySprite&);
+    void getHero(vector<MyHero>& Hero, vector<MyHero>& Hero_fighting);
     void addHero(vector<MyHero>& Hero_fighting);
 
     vector<Bullet> bullet;        //管理子弹
