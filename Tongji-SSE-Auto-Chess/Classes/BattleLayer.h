@@ -31,6 +31,8 @@ public:
     void checkUltimate(vector<MyHero>& Hero_fighting);//蓝条满放大招
     void seekAndMove(vector<MyHero>&,vector<MyHero>&);//英雄索敌并移动
 
+    void store_display();//商店显示
+
     //virtual void onEnter();
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);

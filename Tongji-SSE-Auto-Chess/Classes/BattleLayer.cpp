@@ -14,6 +14,10 @@ bool BattleLayer::init(int Player1,int Player2)
 
     player1 = Player1;
     player2 = Player2;
+
+    Player[player1].refresh_shop();
+
+
     test();
     getHero(blueHero, player1);   //将玩家的英雄复制到场上
     getHero(redHero, player2);
@@ -55,6 +59,71 @@ void BattleLayer::myupdate(float dt)
     //血量和蓝量更新显示
     //蓝条满放大招，后续加入
     //有一方场上英雄死完，停止战斗，然后根据胜者剩余英雄数对败者进行扣血
+}
+
+void BattleLayer::store_display()
+{
+    string hero1 = Player[player1].Hero_in_shop[0] + ".png";
+    string hero2 = Player[player1].Hero_in_shop[1] + ".png";
+    string hero3 = Player[player1].Hero_in_shop[2] + ".png";
+    string hero4 = Player[player1].Hero_in_shop[3] + ".png";
+    string card1 = Player[player1].Hero_in_shop[0] + "_Card.png";
+    string card2 = Player[player1].Hero_in_shop[1] + "_Card.png";
+    string card3 = Player[player1].Hero_in_shop[2] + "_Card.png";
+    string card4 = Player[player1].Hero_in_shop[3] + "_Card.png";
+    cocos2d::Size targetSize(50, 50);
+    auto HeroCard1 = MenuItemImage::create(
+        card1,
+        card1,
+        [&](Ref* sender) {
+            auto hero_sprite1 = Sprite::create(hero1);
+            hero_sprite1->setPosition(500, 500);
+            this->addChild(hero_sprite1);
+        });
+    auto menu1 = Menu::create(HeroCard1, NULL);
+    menu1->setContentSize(targetSize);
+    menu1->setPosition(500, 250);
+    this->addChild(menu1);
+
+    auto HeroCard2 = MenuItemImage::create(
+        card2,
+        card2,
+        [&](Ref* sender) {
+            auto hero_sprite2 = Sprite::create(hero2);
+            hero_sprite2->setPosition(1000, 500);
+            this->addChild(hero_sprite2);
+        });
+    auto menu2 = Menu::create(HeroCard2, NULL);
+    menu2->setContentSize(targetSize);
+    menu2->setPosition(1000, 250);
+    this->addChild(menu2);
+
+    auto HeroCard3 = MenuItemImage::create(
+        card3,
+        card3,
+        [&](Ref* sender) {
+            auto hero_sprite3 = Sprite::create(hero3);
+            hero_sprite3->setPosition(1500, 500);
+            this->addChild(hero_sprite3);
+        });
+    auto menu3 = Menu::create(HeroCard3, NULL);
+    menu3->setContentSize(targetSize);
+    menu3->setPosition(1500, 250);
+    this->addChild(menu3);
+
+    auto HeroCard4 = MenuItemImage::create(
+        card4,
+        card4,
+        [&](Ref* sender) {
+
+            auto hero_sprite4 = Sprite::create(hero4);
+            hero_sprite4->setPosition(1500, 500);
+            this->addChild(hero_sprite4);
+        });
+    auto menu4 = Menu::create(HeroCard4, NULL);
+    menu4->setContentSize(targetSize);
+    menu4->setPosition(1500, 250);
+    this->addChild(menu4);
 }
 
 void BattleLayer::update_attack(float dt)
