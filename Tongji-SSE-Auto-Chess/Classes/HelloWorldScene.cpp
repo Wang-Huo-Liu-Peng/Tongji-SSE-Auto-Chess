@@ -3,7 +3,6 @@
 #include "Test.h"
 #include <Show_Chinese.h>
 #include "NetworkConnection.h"
-#include"TestSocketIoScene.h"
 
 USING_NS_CC;
 
@@ -148,7 +147,7 @@ bool HelloWorld::init()
         });
     auto TestItem_2 = MenuItemLabel::create(TestLabel_2,
         [&](Ref* sender) {
-            Director::getInstance()->pushScene(TestSocketIo::createScene());
+            Director::getInstance()->pushScene(Test_Scene_2::createScene());
         });
     auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
         [&](Ref* sender) {
