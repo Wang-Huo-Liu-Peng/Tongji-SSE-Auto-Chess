@@ -77,7 +77,6 @@ string three_fee[4] = { "Amumu", "Lux", "Samira", "Neeko" };
 string four_fee[4] = { "Karthus", "Viego", "Ezreal", "Poppy" };
 string five_fee[4] = { "Lucian", "Kayn", "Qiyana", "Ziggs" };
 
-
 vector <MyHero> Hero_on_court_1;
 vector <MyHero> Hero_on_court_2;
 vector <MyHero> Hero_select_1;

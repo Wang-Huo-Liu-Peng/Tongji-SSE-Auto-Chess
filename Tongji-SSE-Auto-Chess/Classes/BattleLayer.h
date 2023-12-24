@@ -9,7 +9,11 @@
 class BattleLayer : public cocos2d::Layer
 {
 public:
-    virtual bool init();
+    virtual bool init(int Player1,int Player2);
+    static BattleLayer* create(int Player1, int Player2);
+
+    int player1;
+    int player2;
 
     vector<MyHero> blueHero;     //蓝方英雄（场上）
     vector<MyHero> redHero;      //红方英雄（场上）
@@ -33,7 +37,7 @@ public:
     //void menuCloseCallback(cocos2d::Ref* pSender);
 
     // implement the "static create()" method manually
-    CREATE_FUNC(BattleLayer);
+    //CREATE_FUNC(BattleLayer);
 };
 
 #endif // __BATTLE_LAYER_H__  

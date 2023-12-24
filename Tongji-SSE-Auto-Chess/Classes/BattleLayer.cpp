@@ -7,18 +7,19 @@ using namespace std;
 
 USING_NS_CC;
 
-bool BattleLayer::init()
+bool BattleLayer::init(int Player1,int Player2)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    //getHero(blueHero, bluePlayer.Hero_on_bench);
-    //getHero(redHero, redPlayer.Hero_on_bench);
+    player1 = Player1;
+    player2 = Player2;
+
+    getHero(blueHero, player1);
+    getHero(redHero, player2);
 
     //bluePlayer.Hero_on_bench[0].sprite->setPosition(500, 500);
     //this->addChild(bluePlayer.Hero_on_bench[0].sprite, 0);
-
-    this->addChild(Player[1].Hero_on_bench[0].sprite, 0);
 
     addHero(blueHero);
     addHero(redHero);
@@ -65,6 +66,7 @@ bool BattleLayer::init()
 
     return true;
 }
+
 
 void BattleLayer::myupdate(float dt)
 {
@@ -192,7 +194,8 @@ void BattleLayer::getHero(vector<MyHero>& Hero,int i)
     auto it = Player[i].Hero_on_bench.begin();
     for (; it != Player[i].Hero_on_bench.end(); ++it)
     {
-        Hero.push_back(*it);
+        MyHero a = *it;
+        Hero.push_back(a);
     }
 }
 void BattleLayer::addHero(vector<MyHero>& Hero_fighting)
@@ -202,3 +205,19 @@ void BattleLayer::addHero(vector<MyHero>& Hero_fighting)
     }
 }
 
+
+
+BattleLayer* BattleLayer::create(int Player1,int Player2)
+{
+    BattleLayer* ret = new (std::nothrow) BattleLayer();
+    if (ret && ret->init(Player1,Player2))
+    {
+        ret->autorelease();
+        return ret;
+    }
+    else
+    {
+        CC_SAFE_DELETE(ret);
+        return nullptr;
+    }
+}
