@@ -305,6 +305,7 @@ inline void MySprite::refresh_shop() {
     }
 }
 
+/*
 //将一个新英雄从商店中选出,pjl已经写出可视化实现，需要和这里合并一下
 inline void MySprite::set_a_hero(string hero_name) {
     for (int i = 0; i < 5; i++) {
@@ -330,7 +331,7 @@ inline void MySprite::set_a_hero(string hero_name) {
         //这里后续要加入三星合一，后续再加
         //可视化，并给position赋值
     }
-}
+}*/
 
 
 //待删除
@@ -345,7 +346,7 @@ extern vector <MyHero> Hero_fighting_2;
 extern string Hero_1[5];
 extern string Hero_2[5];
 
-//待删除
+
 inline MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
     for (int i = 0; i < 5; i++) {
         if (Hero_in_shop[i] == hero_name) {
@@ -366,7 +367,6 @@ inline MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>
 
     return set_a_new_hero;
 }
-
 
 
 
