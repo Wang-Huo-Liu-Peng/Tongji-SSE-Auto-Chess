@@ -12,21 +12,20 @@ bool BattleLayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /*getHero(blueHero, bluePlayer.Hero_on_bench);
-    getHero(redHero, redPlayer.Hero_on_bench);
+    //getHero(blueHero, bluePlayer.Hero_on_bench);
+    //getHero(redHero, redPlayer.Hero_on_bench);
 
     //bluePlayer.Hero_on_bench[0].sprite->setPosition(500, 500);
     //this->addChild(bluePlayer.Hero_on_bench[0].sprite, 0);
 
-    Player[1].Hero_on_bench[0].sprite->setPosition(500, 500);
     this->addChild(Player[1].Hero_on_bench[0].sprite, 0);
 
     addHero(blueHero);
-    addHero(redHero);*/
+    addHero(redHero);
 
     /**/
     ///////////////////////////////
-    MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
+    /*MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
     hero1.sprite->setPosition(Vec2(2000, 1000));
 
     MyHero hero2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
@@ -54,7 +53,7 @@ bool BattleLayer::init()
     this->addChild(blueHero[0].sprite, 0);
     this->addChild(redHero[0].sprite, 0);
     this->addChild(blueHero[1].sprite, 0);
-    this->addChild(redHero[1].sprite, 0);
+    this->addChild(redHero[1].sprite, 0);*/
 
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
@@ -182,18 +181,16 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
     //it->enemyInDistance()
 }
 
-void BattleLayer::allocate(MySprite& player1, MySprite& player2)
+void BattleLayer::allocate(int a,int b)
 {
-    //玩家
-    bluePlayer = player1;
-    redPlayer = player2;
+
 }
 
-void BattleLayer::getHero(vector<MyHero>& Hero,vector<MyHero>& Hero_fighting)
+void BattleLayer::getHero(vector<MyHero>& Hero,int i)
 {
     //场上英雄复制
-    auto it = Hero_fighting.begin();
-    for (; it != Hero_fighting.end(); ++it)
+    auto it = Player[i].Hero_on_bench.begin();
+    for (; it != Player[i].Hero_on_bench.end(); ++it)
     {
         Hero.push_back(*it);
     }

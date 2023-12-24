@@ -19,7 +19,7 @@ bool PlayWithAI::init()
     BackGroundLayer* Map = BackGroundLayer::create();
     this->addChild(Map);
 
-    /*Player[1].Hero_in_shop[0] = "Annie";
+    Player[1].Hero_in_shop[0] = "Annie";
     Player[1].Hero_in_shop[1] = "Corki";
     Player[1].Hero_in_shop[2] = "Taric";
     Player[1].Hero_in_shop[3] = "Twitch";
@@ -36,7 +36,12 @@ bool PlayWithAI::init()
     Player[1].set_a_hero("Senna");
     Player[2].set_a_hero("Evelynn");
     Player[2].set_a_hero("Garen");
-    Player[2].set_a_hero("Kayle");*/
+    Player[2].set_a_hero("Kayle");
+
+    //MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
+    //hero1.sprite->setPosition(Vec2(2000, 1000));
+    //Player[1].Hero_on_bench.push_back(hero1);
+    //this->addChild(Player[1].Hero_on_bench[0].sprite, 2);
 
     BattleLayer* HeroBattle = BattleLayer::create();
     //HeroBattle->allocate(Player[1], Player[2]);

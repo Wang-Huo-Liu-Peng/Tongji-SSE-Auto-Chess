@@ -11,13 +11,11 @@ class BattleLayer : public cocos2d::Layer
 public:
     virtual bool init();
 
-    MySprite redPlayer;         //红方玩家
-    MySprite bluePlayer;        //蓝方玩家
     vector<MyHero> blueHero;     //蓝方英雄（场上）
     vector<MyHero> redHero;      //红方英雄（场上）
 
-    void allocate(MySprite&,MySprite&);
-    void getHero(vector<MyHero>& Hero, vector<MyHero>& Hero_fighting);
+    void allocate(int,int);
+    void getHero(vector<MyHero>& Hero, int);
     void addHero(vector<MyHero>& Hero_fighting);
 
     vector<Bullet> bullet;        //管理子弹

@@ -238,7 +238,7 @@ public:
     inline void refresh_shop();//刷新商店英雄
     inline void make_a_random_hero();   //补充商店英雄
     inline void erase_a_player();//删除死了个玩家
-    inline void MySprite::set_a_hero(string hero_name);//将一个英雄从商店选出
+    inline void set_a_hero(string hero_name);//将一个英雄从商店选出
     inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
 private:
     int star_level;     // 星级
