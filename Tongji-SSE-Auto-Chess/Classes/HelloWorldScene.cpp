@@ -3,7 +3,7 @@
 #include "Test.h"
 #include <Show_Chinese.h>
 #include "NetworkConnection.h"
-#include"TestSocketIoScene.h"
+#include "TestSocketIoScene.h"
 
 USING_NS_CC;
 

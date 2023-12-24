@@ -61,6 +61,9 @@
     <Filter Include="src\Network Connection">
       <UniqueIdentifier>{c68ce378-a503-4fef-8541-886d63406fad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\TestSocketIoScene">
+      <UniqueIdentifier>{497ccb50-f566-4b42-a2c7-c9b4fa6fbf47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp">
       <Filter>src\goldenshovel_hero_design</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TestSocketIoScene.cpp">
+      <Filter>src\TestSocketIoScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\NetworkConnection.h">
       <Filter>src\Network Connection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TestSocketIoScene.h">
+      <Filter>src\TestSocketIoScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

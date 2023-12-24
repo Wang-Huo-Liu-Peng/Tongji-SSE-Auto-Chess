@@ -163,6 +163,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\SelectModeScene.cpp" />
     <ClCompile Include="..\Classes\Store.cpp" />
     <ClCompile Include="..\Classes\StoreLayer.cpp" />
+    <ClCompile Include="..\Classes\TestSocketIoScene.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_1.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_2.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_3.cpp" />
@@ -186,6 +187,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Store.h" />
     <ClInclude Include="..\Classes\StoreLayer.h" />
     <ClInclude Include="..\Classes\Test.h" />
+    <ClInclude Include="..\Classes\TestSocketIoScene.h" />
     <ClInclude Include="..\Classes\Test_Scene_1.h" />
     <ClInclude Include="..\Classes\Test_Scene_2.h" />
     <ClInclude Include="..\Classes\Test_Scene_3.h" />
