@@ -76,3 +76,26 @@ void PlayWithAI::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
+
+void PlayWithAI::AIPlayerBrain() {
+    //当人机对战时，默认其中Player[0]为电脑，Player[1]为玩家
+    while (Player[0].Hero_on_court.size() < Player[0].max_hero) {
+        int max_pos = -1;
+        int max_cost = 0;
+
+        for (int i = 0; i < 4; i++) {
+            if (Hero_list[Player[0].Hero_in_shop[i]].getcost() > max_cost && Hero_list[Player[0].Hero_in_shop[i]].getcost() < Player[0].money) {
+                max_cost = Hero_list[Player[0].Hero_in_shop[i]].getcost();
+                max_pos = i;
+            }
+        }
+
+        if (max_pos > -1) {
+            MyHero New;
+            New = set_a_hero(Player[0].Hero_in_shop[max_pos], Player[0].Hero_in_shop, Player[0].Hero_on_court);
+            // 将 New 放置到 Hero_on_court 中
+            Player[0].make_a_random_hero();  // 重新生成商店英雄
+        }
+
+    }
+}

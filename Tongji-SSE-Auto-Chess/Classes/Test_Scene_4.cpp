@@ -23,28 +23,6 @@ static void problemLoading(const char* filename)
 
 
 
-//待删除
-//将一个新英雄从商店中选出
-MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
-    for (int i = 0; i < 5; i++) {
-        if (Hero_in_shop[i] == hero_name) {
-            Hero_in_shop[i] = "";
-        }
-    }
-
-    //扣钱
-
-    string filename = hero_name + ".png";
-    MyHero set_a_new_hero= Hero_list.at(hero_name);
-    Hero.push_back(set_a_new_hero);
-    auto new_hero_Sprite = Sprite::create(filename);
-    set_a_new_hero.sprite = new_hero_Sprite;
-
-    Hero.push_back(set_a_new_hero);
-    //可视化，并给position赋值
-
-    return set_a_new_hero;
-}
 
 
 
