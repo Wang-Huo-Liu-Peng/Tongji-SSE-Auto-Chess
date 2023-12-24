@@ -13,7 +13,7 @@ using namespace std;
 #define plaid 137
 
 
-#define Fight_MAP_height 540
+#define Fight_MAP_height 520
 #define Fight_MAP_width 660
 
 #define attack_ace 1    //¹¥»÷ÐÔ´óÕÐ
