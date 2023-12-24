@@ -34,6 +34,9 @@ public:
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除
 
+    void error_display();//错误弹窗
+    void error_window_close();//关闭弹窗
+
     //virtual void onEnter();
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
