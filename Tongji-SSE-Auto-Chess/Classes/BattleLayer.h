@@ -18,7 +18,6 @@ public:
     vector<MyHero> blueHero;     //蓝方英雄（场上）
     vector<MyHero> redHero;      //红方英雄（场上）
 
-    void allocate(int,int);
     void getHero(vector<MyHero>& Hero, int);
     void addHero(vector<MyHero>& Hero_fighting);
 

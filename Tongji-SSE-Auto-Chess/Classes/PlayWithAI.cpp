@@ -31,20 +31,15 @@ bool PlayWithAI::init()
     Player[2].Hero_in_shop[3] = "Annie";
     Player[2].Hero_in_shop[4] = "Garen";
 
-    Player[1].set_a_hero("Annie");
-    Player[1].set_a_hero("Taric");
-    Player[1].set_a_hero("Senna");
-    Player[2].set_a_hero("Evelynn");
-    Player[2].set_a_hero("Garen");
-    Player[2].set_a_hero("Kayle");
-
-    //MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
-    //hero1.sprite->setPosition(Vec2(2000, 1000));
-    //Player[1].Hero_on_bench.push_back(hero1);
+    MyHero hero1 = set_a_hero("Annie", Player[1].Hero_in_shop, Player[1].Hero_on_court);
+    hero1.sprite->setPosition(Vec2(2000, 1000));
+    Player[1].Hero_on_bench.push_back(hero1);
+    MyHero hero2 = set_a_hero("Evelynn", Player[2].Hero_in_shop, Player[2].Hero_on_court);
+    hero2.sprite->setPosition(Vec2(500, 500));
+    Player[2].Hero_on_bench.push_back(hero2);
     //this->addChild(Player[1].Hero_on_bench[0].sprite, 2);
 
-    BattleLayer* HeroBattle = BattleLayer::create();
-    //HeroBattle->allocate(Player[1], Player[2]);
+    BattleLayer* HeroBattle = BattleLayer::create(1, 2);
     this->addChild(HeroBattle);
     ///////////////////////////////
 

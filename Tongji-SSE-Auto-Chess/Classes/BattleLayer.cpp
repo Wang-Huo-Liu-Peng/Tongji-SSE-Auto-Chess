@@ -15,52 +15,14 @@ bool BattleLayer::init(int Player1,int Player2)
     player1 = Player1;
     player2 = Player2;
 
-    getHero(blueHero, player1);
+    getHero(blueHero, player1);   //将玩家的英雄复制到场上
     getHero(redHero, player2);
 
-    //bluePlayer.Hero_on_bench[0].sprite->setPosition(500, 500);
-    //this->addChild(bluePlayer.Hero_on_bench[0].sprite, 0);
-
-    addHero(blueHero);
+    addHero(blueHero);            //将场上英雄加入场景（可视化）
     addHero(redHero);
-
-    /**/
-    ///////////////////////////////
-    /*MyHero hero1 = set_a_hero("Annie", Hero_1, Hero_on_court_1);
-    hero1.sprite->setPosition(Vec2(2000, 1000));
-
-    MyHero hero2 = set_a_hero("Evelynn", Hero_2, Hero_on_court_2);
-    hero2.sprite->setPosition(Vec2(400, 400));
-
-    MyHero hero3 = set_a_hero("Corki", Hero_1, Hero_on_court_1);
-    hero3.sprite->setPosition(Vec2(400, 1200));
-
-    MyHero hero4 = set_a_hero("Taric", Hero_1, Hero_on_court_1);
-    hero4.sprite->setPosition(Vec2(1800, 300));
-
-    blueHero.push_back(hero1);
-    blueHero.push_back(hero3);
-    redHero.push_back(hero2);
-    redHero.push_back(hero4);
-
-    redHero[0].current_enemy = nullptr;
-    blueHero[0].current_enemy = nullptr;
-    redHero[1].current_enemy = nullptr;
-    blueHero[1].current_enemy = nullptr;
-
-    //this->addChild(hero1.sprite, 0);
-    //this->addChild(hero2.sprite, 0);
-
-    this->addChild(blueHero[0].sprite, 0);
-    this->addChild(redHero[0].sprite, 0);
-    this->addChild(blueHero[1].sprite, 0);
-    this->addChild(redHero[1].sprite, 0);*/
 
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
-
-    //new_hero.hero_attack();
-    //new_hero_2.hero_attack();
 
     ///////////////////////////////
 
@@ -181,11 +143,6 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
         it++;
     }
     //it->enemyInDistance()
-}
-
-void BattleLayer::allocate(int a,int b)
-{
-
 }
 
 void BattleLayer::getHero(vector<MyHero>& Hero,int i)
