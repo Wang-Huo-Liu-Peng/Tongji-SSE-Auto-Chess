@@ -12,7 +12,7 @@ public:
 
     void checkNetworkConnection() {
         HttpRequest* request = new HttpRequest();
-        request->setUrl("http://www.google.com");
+        request->setUrl("http://100.67.79.238:1986");
         request->setRequestType(HttpRequest::Type::GET);
         request->setResponseCallback(CC_CALLBACK_2(NetworkManager::onNetworkCheckResponse, this));
         HttpClient::getInstance()->send(request);
