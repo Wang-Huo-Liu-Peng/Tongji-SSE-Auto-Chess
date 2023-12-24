@@ -16,9 +16,32 @@ bool BattleLayer::init(int Player1,int Player2)
     player1 = Player1;
     player2 = Player2;
 
+    /*====================商店部分========================*/
+    auto my_refresh_button = MenuItemImage::create(
+        "bullet_1.png",
+        "bullet_1.png",
+        [&](Ref* sender) {
+            for(int i=1;i<=4;i++)
+            {
+                Node* node_with_tag_i = this->getChildByTag(i);
+                if (node_with_tag_i) {
+                    this->removeChild(node_with_tag_i, true);
+                }
+            }
+            Player[player1].refresh_shop_free();// 刷新商店
+            store_display();// 初始化商店
+        });
+    cocos2d::Size targetSize(100, 100);
+    auto menu0 = Menu::create(my_refresh_button, NULL);
+    menu0->setTag(0);
+    menu0->setContentSize(targetSize);
+    menu0->setPosition(500,700);
+    this->addChild(menu0);
+
+
     Player[player1].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
-
+    /*====================商店部分结束========================*/
 
 
     test();
