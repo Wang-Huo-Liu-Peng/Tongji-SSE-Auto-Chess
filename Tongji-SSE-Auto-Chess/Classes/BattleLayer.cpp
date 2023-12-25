@@ -84,6 +84,8 @@ void BattleLayer::myupdate(float dt)
     seekAndMove(redHero, blueHero);
     seekAndMove(blueHero,redHero);
 
+    attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
+
     //血量和蓝量更新显示
     //蓝条满放大招，后续加入
     //有一方场上英雄死完，停止战斗，然后根据胜者剩余英雄数对败者进行扣血
@@ -168,6 +170,37 @@ void BattleLayer::store_display()
     menu4->setContentSize(targetSize);
     menu4->setPosition(2000, 250);
     this->addChild(menu4);
+}
+
+void BattleLayer::attribute_display()
+{
+    auto mySprite = Sprite::create("kunkun.png");//创建精灵
+    this->addChild(mySprite, 0);
+    auto grey1 = Sprite::create("grey_bar.png");
+    auto grey2 = Sprite::create("grey_bar.png");
+    auto red = Sprite::create("red_bar.png");
+    auto blue = Sprite::create("blue_bar.png");
+    grey1->setAnchorPoint(Vec2(0, 0));
+    grey2->setAnchorPoint(Vec2(0, 0));
+    red->setAnchorPoint(Vec2(0, 0));
+    blue->setAnchorPoint(Vec2(0, 0));
+    cocos2d::Size targetSize(370, 37); // 调整血条的大小
+    grey1->setContentSize(targetSize);
+    grey2->setContentSize(targetSize);
+    red->setContentSize(targetSize);
+    blue->setContentSize(targetSize);
+    grey1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
+    red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
+    grey2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
+    blue->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
+    cocos2d::Size red_targetSize(150, 37);
+    cocos2d::Size blue_targetSize(270, 37);
+    red->setContentSize(red_targetSize);
+    blue->setContentSize(blue_targetSize);
+    this->addChild(grey1);
+    this->addChild(grey2);
+    this->addChild(red);
+    this->addChild(blue);
 }
 
 void BattleLayer::update_attack(float dt)

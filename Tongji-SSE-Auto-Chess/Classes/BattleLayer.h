@@ -40,6 +40,8 @@ public:
     void error_display(const std::string& displayText);
     void error_window_close();
 
+    void attribute_display();
+
     //virtual void onEnter();
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
