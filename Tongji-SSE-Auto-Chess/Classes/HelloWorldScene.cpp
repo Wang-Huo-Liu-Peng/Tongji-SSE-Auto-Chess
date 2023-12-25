@@ -4,7 +4,6 @@
 #include <Show_Chinese.h>
 #include "NetworkConnection.h"
 
-
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -22,7 +21,6 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-   
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )

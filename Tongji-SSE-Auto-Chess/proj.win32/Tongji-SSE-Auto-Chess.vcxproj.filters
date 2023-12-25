@@ -176,9 +176,6 @@
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h">
       <Filter>src\goldenshovel_hero_design</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\thread_pool.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\NetworkConnection.h">
       <Filter>src\Network Connection</Filter>
     </ClInclude>
@@ -196,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PrepareScene.h">
       <Filter>src\PrepareScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SafeQueue.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ThreadPool.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

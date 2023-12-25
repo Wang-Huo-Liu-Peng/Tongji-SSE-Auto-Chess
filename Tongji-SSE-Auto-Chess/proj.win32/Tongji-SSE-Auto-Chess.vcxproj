@@ -187,6 +187,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PlayWithPlayer.h" />
     <ClInclude Include="..\Classes\PopupManager.h" />
     <ClInclude Include="..\Classes\PrepareScene.h" />
+    <ClInclude Include="..\Classes\SafeQueue.h" />
     <ClInclude Include="..\Classes\SelectModeScene.h" />
     <ClInclude Include="..\Classes\Show_Chinese.h" />
     <ClInclude Include="..\Classes\SocketEnum.h" />
@@ -195,7 +196,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Test_Scene_2.h" />
     <ClInclude Include="..\Classes\Test_Scene_3.h" />
     <ClInclude Include="..\Classes\Test_Scene_4.h" />
-    <ClInclude Include="..\Classes\thread_pool.h" />
+    <ClInclude Include="..\Classes\ThreadPool.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
