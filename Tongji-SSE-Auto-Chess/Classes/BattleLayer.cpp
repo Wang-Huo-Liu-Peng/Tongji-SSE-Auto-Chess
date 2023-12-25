@@ -125,6 +125,7 @@ void BattleLayer::store_display()
 
                      // 将 Sprite 添加到层中
                      this->addChild(newHero->sprite);
+                     Player[player1].Hero_on_bench.push_back(*newHero);
                  }
                  // 移除商店中的卡片
                  card_remove(0);
@@ -150,8 +151,8 @@ void BattleLayer::store_display()
 
                     // 将 Sprite 添加到层中
                     this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
                 }
-
                 // 移除商店中的卡片
                 card_remove(1);
                 Player[player1].Hero_in_shop[1] = "";
@@ -177,6 +178,7 @@ void BattleLayer::store_display()
 
                     // 将 Sprite 添加到层中
                     this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
                 }
 
                 // 移除商店中的卡片
@@ -204,6 +206,7 @@ void BattleLayer::store_display()
 
                     // 将 Sprite 添加到层中
                     this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
                 }
 
                 // 移除商店中的卡片
