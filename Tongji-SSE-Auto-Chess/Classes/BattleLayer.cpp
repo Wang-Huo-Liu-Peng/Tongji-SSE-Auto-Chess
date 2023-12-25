@@ -90,13 +90,9 @@ void BattleLayer::myupdate(float dt)
     seekAndMove(redHero, blueHero);
     seekAndMove(blueHero,redHero);
 
-<<<<<<< .merge_file_yKXoCx
-    attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
-=======
     //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
 
     //血量和蓝量更新显示
->>>>>>> .merge_file_bOihp1
     //蓝条满放大招，后续加入
     //有一方场上英雄死完，停止战斗，然后根据胜者剩余英雄数对败者进行扣血
 }

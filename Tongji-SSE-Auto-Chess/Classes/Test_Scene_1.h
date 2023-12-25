@@ -5,7 +5,6 @@
 #include "cocos2d.h"
 #include "HeroLayer.h"
 #include "BackGroundLayer.h"
-#include "StoreLayer.h"
 
 class Test_Scene_1 : public cocos2d::Scene
 {
@@ -16,7 +15,6 @@ public:
 
     HeroLayer* Kun;
     BackGroundLayer* bg;
-    StoreLayer* store;
 
     //void addShop();
 
