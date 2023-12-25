@@ -19,11 +19,11 @@ bool BattleLayer::init(int Player1,int Player2)
     player2 = Player2;
 
     /*===================监听器的创建=======================*/
-    //auto listener = EventListenerTouchOneByOne::create();
-    //listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
-    //listener->onTouchMoved = CC_CALLBACK_2(BattleLayer::onTouchMoved, this);  // Added onTouchMoved
-    //listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
-    //_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
+    listener->onTouchMoved = CC_CALLBACK_2(BattleLayer::onTouchMoved, this);  // Added onTouchMoved
+    listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
@@ -51,7 +51,6 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player1].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
-
 
     test();
     getHero(blueHero, player1);   //将玩家的英雄复制到场上
@@ -91,7 +90,7 @@ void BattleLayer::myupdate(float dt)
     seekAndMove(redHero, blueHero);
     seekAndMove(blueHero,redHero);
 
-    attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
+    //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
 
     //血量和蓝量更新显示
     //蓝条满放大招，后续加入
@@ -391,6 +390,35 @@ BattleLayer* BattleLayer::create(int Player1,int Player2)
 }
 
 /*========================================回调函数===========================================================*/
+bool BattleLayer::onTouchBegan(Touch* touch, Event* event)
+{
+    // 获取触摸点坐标
+    Vec2 touchPoint = touch->getLocation();
+
+    //// 检查是否点击到英雄，这里假设英雄的sprite是可点击的
+    //for (int i = 0; i < Player[player1].Hero_on_bench.size(); i++)
+    //{
+    //    Player[player1].Hero_on_bench[i].sprite->stopAllActions();
+    //    if (Player[player1].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
+    //    {
+    //        select_index = i;
+    //        return true;
+    //    }
+    //}
+    return false;
+}
+
+void BattleLayer::onTouchMoved(Touch* touch, Event* event)
+{
+    auto touchPoint = touch->getLocation();
+    Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+}
+
+void BattleLayer::onTouchEnded(Touch* touch, Event* event)
+{
+    auto touchPoint = touch->getLocation();
+    Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+}
 
 
 
