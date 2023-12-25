@@ -154,6 +154,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\BackGroundLayer.cpp" />
     <ClCompile Include="..\Classes\BattleLayer.cpp" />
+    <ClCompile Include="..\Classes\BattleScene.cpp" />
     <ClCompile Include="..\Classes\Bullet.cpp" />
     <ClCompile Include="..\Classes\Client.h" />
     <ClCompile Include="..\Classes\CSocket.cpp" />
@@ -163,6 +164,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\PlayWithAI.cpp" />
     <ClCompile Include="..\Classes\PlayWithPlayer.cpp" />
     <ClCompile Include="..\Classes\PopupManager.cpp" />
+    <ClCompile Include="..\Classes\PrepareLayer.cpp" />
     <ClCompile Include="..\Classes\PrepareScene.cpp" />
     <ClCompile Include="..\Classes\SelectModeScene.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_1.cpp" />
@@ -175,6 +177,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\BackGroundLayer.h" />
     <ClInclude Include="..\Classes\BattleLayer.h" />
+    <ClInclude Include="..\Classes\BattleScene.h" />
     <ClInclude Include="..\Classes\Bullet.h" />
     <ClInclude Include="..\Classes\CSocket.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
@@ -186,6 +189,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PlayWithAI.h" />
     <ClInclude Include="..\Classes\PlayWithPlayer.h" />
     <ClInclude Include="..\Classes\PopupManager.h" />
+    <ClInclude Include="..\Classes\PrepareLayer.h" />
     <ClInclude Include="..\Classes\PrepareScene.h" />
     <ClInclude Include="..\Classes\SafeQueue.h" />
     <ClInclude Include="..\Classes\SelectModeScene.h" />

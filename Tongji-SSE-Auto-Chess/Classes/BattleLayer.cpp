@@ -6,7 +6,6 @@
 #include <ui/UILayout.h>
 using namespace std; 
 
-
 USING_NS_CC;
 
 bool BattleLayer::init(int Player1,int Player2)
@@ -66,8 +65,8 @@ bool BattleLayer::init(int Player1,int Player2)
 
     //将双方的英雄加入场景中
     addHero(Player[player1].Hero_on_bench,ON_BENCH,ME);           
-    addHero(Player[player1].Hero_on_bench,ON_BENCH,ME);
-    addHero(Player[player2].Hero_fighting,FIGHTING,ENEMY);
+    addHero(Player[player2].Hero_on_bench,ON_BENCH,ENEMY);
+    addHero(Player[player1].Hero_fighting,FIGHTING,ME);
     addHero(Player[player2].Hero_fighting,FIGHTING,ENEMY);
 
     this->schedule(schedule_selector(BattleLayer::myupdate));
@@ -280,9 +279,9 @@ void BattleLayer::onTouchEnded(Touch* touch, Event* event)
 
     if(ifInMap(touchPoint))
     {
-        Player[player1].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
-        Player[player1].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
-        Player[player1].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(reverse_x(touchPoint.x),reverse_y(touchPoint.y),ME));
+        int X = Player[player1].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
+        int Y = Player[player1].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
+        Player[player1].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X,Y,ME));
         Player[player1].Hero_on_court.push_back(Player[player1].Hero_on_bench[select_index]);// 加到court里
         Player[player1].Hero_on_bench.erase(Player[player1].Hero_on_bench.begin() + select_index);// 从bench里删除
     }

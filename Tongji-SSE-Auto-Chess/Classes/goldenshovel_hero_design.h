@@ -64,6 +64,7 @@ protected:
 /*====================Ó¢ÐÛÀà====================*/
 class MyHero : public MyObject {
     friend class BattleLayer;
+    friend class PrepareLayer;
     friend class PlayeWithAI;
 public:
     MyHero() {};
@@ -237,6 +238,7 @@ extern int level_up_exp[6];
 /*====================¾«ÁéÀà====================*/
 class MySprite :public MyObject {
     friend class BattleLayer;
+    friend class PrepareLayer;
     friend class PlayWithAI;
 public:
     MySprite() {};
@@ -508,5 +510,5 @@ inline int reverse_y(float y)
 inline bool ifInMap(Vec2 pos)
 {
     return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 7 * plaid) &&
-        (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 2 * plaid);
+        (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 3 * plaid);
 }
