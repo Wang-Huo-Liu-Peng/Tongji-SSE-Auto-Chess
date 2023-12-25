@@ -223,7 +223,7 @@ void BattleLayer::store_display()
     this->addChild(menu4);
 }
 
-void BattleLayer::attribute_display()
+void BattleLayer::attribute_display() // 血量与蓝条的展示
 {
     auto mySprite = Sprite::create("kunkun.png");//创建精灵
     this->addChild(mySprite, 0);
@@ -420,16 +420,17 @@ bool BattleLayer::onTouchBegan(Touch* touch, Event* event)
     // 获取触摸点坐标
     Vec2 touchPoint = touch->getLocation();
 
-    //// 检查是否点击到英雄，这里假设英雄的sprite是可点击的
-    //for (int i = 0; i < Player[player1].Hero_on_bench.size(); i++)
-    //{
-    //    Player[player1].Hero_on_bench[i].sprite->stopAllActions();
-    //    if (Player[player1].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
-    //    {
-    //        select_index = i;
-    //        return true;
-    //    }
-    //}
+    // 检查是否点击到英雄，这里假设英雄的sprite是可点击的
+    for (int i = 0; i < Player[player1].Hero_on_bench.size(); i++)
+    {
+        Player[player1].Hero_on_bench[i].sprite->stopAllActions();
+        if (Player[player1].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
+        {
+            initial_position = Player[player1].Hero_on_bench[i].sprite->getPosition();
+            select_index = i;
+            return true;
+        }
+    }
     return false;
 }
 
@@ -442,7 +443,17 @@ void BattleLayer::onTouchMoved(Touch* touch, Event* event)
 void BattleLayer::onTouchEnded(Touch* touch, Event* event)
 {
     auto touchPoint = touch->getLocation();
-    Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+    //pjl把括号里的true改成坐标合格判断函数
+    if(true)
+    {
+        Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+        Player[player1].Hero_on_court.push_back(Player[player1].Hero_on_bench[select_index]);// 加到court里
+        Player[player1].Hero_on_bench.erase(Player[player1].Hero_on_bench.begin() + select_index);// 从bench里删除
+    }
+    else
+    {
+        Player[player1].Hero_on_bench[select_index].sprite->setPosition(initial_position);
+    }
 }
 
 

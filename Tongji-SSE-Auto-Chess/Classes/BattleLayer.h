@@ -15,8 +15,6 @@ public:
     int player1;
     int player2;
 
-    int select_index; // 用于存储当前选中的备战席上的英雄的索引
-
     vector<MyHero> blueHero;     //蓝方英雄（场上）
     vector<MyHero> redHero;      //红方英雄（场上）
 
@@ -49,6 +47,11 @@ public:
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+
+
+private:
+    int select_index; // 用于存储当前选中的备战席上的英雄的索引
+    Vec2 initial_position;// 用于存储英雄的起始坐标
 
     //virtual void onEnter();
     // a selector callback
