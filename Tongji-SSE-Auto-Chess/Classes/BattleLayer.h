@@ -15,6 +15,8 @@ public:
     int player1;
     int player2;
 
+    int select_index; // 用于存储当前选中的备战席上的英雄的索引
+
     vector<MyHero> blueHero;     //蓝方英雄（场上）
     vector<MyHero> redHero;      //红方英雄（场上）
 
@@ -40,13 +42,12 @@ public:
     void error_display(const std::string& displayText);
     void error_window_close();
 
-    void attribute_display();
+    void attribute_display();// 血条与蓝条的显示
 
     /*==============监听器回调函数=================*/
-   /* bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
-    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);*/
-
+    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 
     //virtual void onEnter();
     // a selector callback

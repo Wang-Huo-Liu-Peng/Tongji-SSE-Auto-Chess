@@ -417,7 +417,6 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         // ·ÖÅäÔÚ¶ÑÉÏ
         MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
-        Hero.push_back(*set_a_new_hero);
 
         auto new_hero_Sprite = Sprite::create(filename);
         set_a_new_hero->sprite = new_hero_Sprite;
@@ -475,12 +474,12 @@ inline Vec2 enemy_bench_px(int i)
 
 inline Vec2 card_px(int i)
 {
-    float x = 756 + i * 357;
-    float y = 187;
+    float x = 770 + i * 340;
+    float y = 250;
     return Vec2(x, y);
 }
 
-#define refresh_button Vec2(498,320)
+#define refresh_button Vec2(498,335)
 #define buyexp_button Vec2(498,218)
 
 #define player1_px Vec2(418,654)

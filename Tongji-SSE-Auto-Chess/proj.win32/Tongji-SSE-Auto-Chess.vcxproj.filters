@@ -40,17 +40,11 @@
     <Filter Include="src\BackGroundLayer">
       <UniqueIdentifier>{2688793b-99c6-494d-8091-748f44a5f37e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Store">
-      <UniqueIdentifier>{2c57cbc5-fec4-486c-8763-b8b2b0ba1ba0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\HeroLayer">
       <UniqueIdentifier>{3389a369-b121-417d-876c-0498f84d366b}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\BattleLayer">
       <UniqueIdentifier>{a4d29402-2b1c-43aa-a67f-a2740e703821}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\StoreLayer">
-      <UniqueIdentifier>{fe3480eb-5749-424f-bbbe-f4fa1af3e112}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Bullet">
       <UniqueIdentifier>{0e96c6f3-d9d9-4c6c-807c-a1fe850a4f73}</UniqueIdentifier>
@@ -63,6 +57,9 @@
     </Filter>
     <Filter Include="src\PopupManager">
       <UniqueIdentifier>{95da211c-986d-42fa-8a52-e041312a9ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PrepareScene">
+      <UniqueIdentifier>{4ff38ceb-b70a-429d-89c9-1e106b8e5e8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,14 +99,8 @@
     <ClCompile Include="..\Classes\HeroLayer.cpp">
       <Filter>src\HeroLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Store.cpp">
-      <Filter>src\Store</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\BattleLayer.cpp">
       <Filter>src\BattleLayer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\StoreLayer.cpp">
-      <Filter>src\StoreLayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Bullet.cpp">
       <Filter>src\Bullet</Filter>
@@ -125,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\PopupManager.cpp">
       <Filter>src\PopupManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PrepareScene.cpp">
+      <Filter>src\PrepareScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,14 +164,8 @@
     <ClInclude Include="..\Classes\HeroLayer.h">
       <Filter>src\HeroLayer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Store.h">
-      <Filter>src\Store</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\BattleLayer.h">
       <Filter>src\BattleLayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\StoreLayer.h">
-      <Filter>src\StoreLayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameMap.h">
       <Filter>src</Filter>
@@ -205,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PopupManager.h">
       <Filter>src\PopupManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PrepareScene.h">
+      <Filter>src\PrepareScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

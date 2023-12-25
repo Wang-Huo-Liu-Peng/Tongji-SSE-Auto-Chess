@@ -19,11 +19,11 @@ bool BattleLayer::init(int Player1,int Player2)
     player2 = Player2;
 
     /*===================监听器的创建=======================*/
-    //auto listener = EventListenerTouchOneByOne::create();
-    //listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
-    //listener->onTouchMoved = CC_CALLBACK_2(BattleLayer::onTouchMoved, this);  // Added onTouchMoved
-    //listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
-    //_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
+    listener->onTouchMoved = CC_CALLBACK_2(BattleLayer::onTouchMoved, this);  // Added onTouchMoved
+    listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
@@ -44,14 +44,13 @@ bool BattleLayer::init(int Player1,int Player2)
     auto menu0 = Menu::create(my_refresh_button, NULL);
     menu0->setTag(0);
     menu0->setContentSize(targetSize);
-    menu0->setPosition(500,700);
+    menu0->setPosition(refresh_button);
     this->addChild(menu0);
 
 
     Player[player1].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
-
 
     test();
     getHero(blueHero, player1);   //将玩家的英雄复制到场上
@@ -91,7 +90,7 @@ void BattleLayer::myupdate(float dt)
     seekAndMove(redHero, blueHero);
     seekAndMove(blueHero,redHero);
 
-    attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
+    //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
 
     //血量和蓝量更新显示
     //蓝条满放大招，后续加入
@@ -111,7 +110,6 @@ void BattleLayer::store_display()
     string card2 = Player[player1].Hero_in_shop[1] + "_Card.png";
     string card3 = Player[player1].Hero_in_shop[2] + "_Card.png";
     string card4 = Player[player1].Hero_in_shop[3] + "_Card.png";
-
     
    cocos2d::Size targetSize(500, 500);
      auto HeroCard1 = MenuItemImage::create(
@@ -127,6 +125,7 @@ void BattleLayer::store_display()
 
                      // 将 Sprite 添加到层中
                      this->addChild(newHero->sprite);
+                     Player[player1].Hero_on_bench.push_back(*newHero);
                  }
                  // 移除商店中的卡片
                  card_remove(0);
@@ -136,7 +135,7 @@ void BattleLayer::store_display()
     auto menu1 = Menu::create(HeroCard1, NULL);
     menu1->setTag(1);
     menu1->setContentSize(targetSize);
-    menu1->setPosition(500, 250);
+    menu1->setPosition(card_px(0));
     this->addChild(menu1,0);
     
     auto HeroCard2 = MenuItemImage::create(
@@ -152,8 +151,8 @@ void BattleLayer::store_display()
 
                     // 将 Sprite 添加到层中
                     this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
                 }
-
                 // 移除商店中的卡片
                 card_remove(1);
                 Player[player1].Hero_in_shop[1] = "";
@@ -162,7 +161,7 @@ void BattleLayer::store_display()
     auto menu2 = Menu::create(HeroCard2, NULL);
     menu2->setTag(2);
     menu2->setContentSize(targetSize);
-    menu2->setPosition(1000, 250);
+    menu2->setPosition(card_px(1));
     this->addChild(menu2);
 
     auto HeroCard3 = MenuItemImage::create(
@@ -179,6 +178,7 @@ void BattleLayer::store_display()
 
                     // 将 Sprite 添加到层中
                     this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
                 }
 
                 // 移除商店中的卡片
@@ -190,7 +190,7 @@ void BattleLayer::store_display()
     auto menu3 = Menu::create(HeroCard3, NULL);
     menu3->setTag(3);
     menu3->setContentSize(targetSize);
-    menu3->setPosition(1500, 250);
+    menu3->setPosition(card_px(2));
     this->addChild(menu3);
 
     auto HeroCard4 = MenuItemImage::create(
@@ -206,6 +206,7 @@ void BattleLayer::store_display()
 
                     // 将 Sprite 添加到层中
                     this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
                 }
 
                 // 移除商店中的卡片
@@ -216,7 +217,7 @@ void BattleLayer::store_display()
     auto menu4 = Menu::create(HeroCard4, NULL);
     menu4->setTag(4);
     menu4->setContentSize(targetSize);
-    menu4->setPosition(2000, 250);
+    menu4->setPosition(card_px(3));
     this->addChild(menu4);
 }
 
@@ -391,6 +392,35 @@ BattleLayer* BattleLayer::create(int Player1,int Player2)
 }
 
 /*========================================回调函数===========================================================*/
+bool BattleLayer::onTouchBegan(Touch* touch, Event* event)
+{
+    // 获取触摸点坐标
+    Vec2 touchPoint = touch->getLocation();
+
+    //// 检查是否点击到英雄，这里假设英雄的sprite是可点击的
+    //for (int i = 0; i < Player[player1].Hero_on_bench.size(); i++)
+    //{
+    //    Player[player1].Hero_on_bench[i].sprite->stopAllActions();
+    //    if (Player[player1].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
+    //    {
+    //        select_index = i;
+    //        return true;
+    //    }
+    //}
+    return false;
+}
+
+void BattleLayer::onTouchMoved(Touch* touch, Event* event)
+{
+    auto touchPoint = touch->getLocation();
+    Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+}
+
+void BattleLayer::onTouchEnded(Touch* touch, Event* event)
+{
+    auto touchPoint = touch->getLocation();
+    Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+}
 
 
 

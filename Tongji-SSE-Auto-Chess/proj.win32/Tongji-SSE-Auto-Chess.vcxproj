@@ -163,9 +163,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\PlayWithAI.cpp" />
     <ClCompile Include="..\Classes\PlayWithPlayer.cpp" />
     <ClCompile Include="..\Classes\PopupManager.cpp" />
+    <ClCompile Include="..\Classes\PrepareScene.cpp" />
     <ClCompile Include="..\Classes\SelectModeScene.cpp" />
-    <ClCompile Include="..\Classes\Store.cpp" />
-    <ClCompile Include="..\Classes\StoreLayer.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_1.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_2.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_3.cpp" />
@@ -187,11 +186,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PlayWithAI.h" />
     <ClInclude Include="..\Classes\PlayWithPlayer.h" />
     <ClInclude Include="..\Classes\PopupManager.h" />
+    <ClInclude Include="..\Classes\PrepareScene.h" />
     <ClInclude Include="..\Classes\SelectModeScene.h" />
     <ClInclude Include="..\Classes\Show_Chinese.h" />
     <ClInclude Include="..\Classes\SocketEnum.h" />
-    <ClInclude Include="..\Classes\Store.h" />
-    <ClInclude Include="..\Classes\StoreLayer.h" />
     <ClInclude Include="..\Classes\Test.h" />
     <ClInclude Include="..\Classes\Test_Scene_1.h" />
     <ClInclude Include="..\Classes\Test_Scene_2.h" />
