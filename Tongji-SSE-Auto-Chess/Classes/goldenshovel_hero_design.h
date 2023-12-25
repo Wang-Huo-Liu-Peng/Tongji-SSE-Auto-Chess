@@ -14,7 +14,7 @@ USING_NS_CC;
 
 using namespace std;
 #define plaid 137
-
+#define max_hero_on_bench 9
 
 #define Fight_MAP_height 520
 #define Fight_MAP_width 660
@@ -242,6 +242,8 @@ public:
         // 在这里判断两个 MySprite 对象是否相等
         return this->location_x == other.location_x && this->location_y == other.location_y;
     }
+    inline void decreasemoney(int x) { this->money -= x; }
+    inline int  getmoney() { return this->money; }
     inline void refresh_shop_free();
     inline void refresh_shop(cocos2d::Layer* parentLayer);//刷新商店英雄
     inline void make_a_random_hero();   //补充商店英雄
@@ -287,15 +289,11 @@ inline void MySprite::make_a_random_hero() {
         hero_compose[i] = five_fee[int(rand() % 4)];
 
    
-
-    for (int i = 0; i < 100; ++i) {
-        CCLOG("hero_compose[%d]: %s", i, hero_compose[i].c_str());
-    }
-
+\
     for (i = 0; i < 4; i++) {
         if(this->Hero_in_shop[i]==""){
-            this->Hero_in_shop[i] = hero_compose[int(rand() % 100)];
-            CCLOG("Player[].Hero_in_shop[%d]: %s", i, this->Hero_in_shop[i].c_str());
+            this->Hero_in_shop[i] = hero_compose[int(rand() % 100)];/*
+            CCLOG("Player[].Hero_in_shop[%d]: %s", i, this->Hero_in_shop[i].c_str());*/
         }
     }
 }
@@ -310,14 +308,12 @@ inline void MySprite::refresh_shop_free() {
 }
 
 inline void MySprite::refresh_shop(cocos2d::Layer* parentLayer) {
-    if (this->money < 2) {
+    if (this->money < 2) {/*
         CCLOG("Money_left%d", this->star_level);
         CCLOG("current_hp%d", this->current_hp);
-        CCLOG("current_exp%d", this->current_exp);
+        CCLOG("current_exp%d", this->current_exp);*/
         CCLOG("Money_left%d",this->money);
-        CCLOG("No_Money");
-        PopupManager::displayPopup(parentLayer, "No enough Money");
-        //错误提示待写
+        PopupManager::displayPopup(parentLayer, "No enough Money to refresh the shop");
         
     }
     else {
@@ -366,25 +362,70 @@ extern vector <MyHero> Hero_select_2;
 extern vector <MyHero> Hero_fighting_1;
 extern vector <MyHero> Hero_fighting_2;
 
-
-
-inline MyHero set_a_hero(string hero_name, string Hero_in_shop[], vector<MyHero>& Hero) {
-
-    for (int i = 0; i < 4; ++i) {
-        CCLOG("Hero_in_shop[%d]: %s", i, Hero_in_shop[i].c_str());
+inline int getHeroCost(const string& heroName) {
+    for (const auto& hero : one_fee) {
+        if (hero == heroName) {
+            return 1;
+        }
     }
-    //扣钱
+    for (const auto& hero : two_fee) {
+        if (hero == heroName) {
+            return 2;
+        }
+    }
+    for (const auto& hero : three_fee) {
+        if (hero == heroName) {
+            return 3;
+        }
+    }
+    for (const auto& hero : four_fee) {
+        if (hero == heroName) {
+            return 4;
+        }
+    }
+    for (const auto& hero : five_fee) {
+        if (hero == heroName) {
+            return 5;
+        }
+    }
+    return 0;
+}
 
-    string filename = hero_name + ".png";
-    MyHero set_a_new_hero = Hero_list.at(hero_name);
-    Hero.push_back(set_a_new_hero);
-    auto new_hero_Sprite = Sprite::create(filename);
-    set_a_new_hero.sprite = new_hero_Sprite;
+inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_shop[], vector<MyHero>& Hero, cocos2d::Layer* parentLayer) {
+    /*for (int i = 0; i < 4; ++i) {
+        CCLOG("Hero_in_shop[%d]: %s", i, Hero_in_shop[i].c_str());
+    }*/
 
-    Hero.push_back(set_a_new_hero);
-    //可视化，并给position赋值
+    // 扣钱
+    int i = getHeroCost(hero_name);
+    if (player.getmoney() < i) {
+        PopupManager::displayPopup(parentLayer, "No enough Money to buy the hero");
+        return nullptr;
+    }
+    else if(Hero.size()>=max_hero_on_bench){
+        PopupManager::displayPopup(parentLayer, "Too much Hero on bench");
+        return nullptr;
+    }
+    else {
 
-    return set_a_new_hero;
+        CCLOG("decreasemoney %d", i);
+
+        player.decreasemoney(i);
+        CCLOG("money %d", player.getmoney());
+
+        string filename = hero_name + ".png";
+
+        // 分配在堆上
+        MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
+        Hero.push_back(*set_a_new_hero);
+
+        auto new_hero_Sprite = Sprite::create(filename);
+        set_a_new_hero->sprite = new_hero_Sprite;
+
+        // 可视化，并给position赋值
+
+        return set_a_new_hero;
+    }
 }
 
 

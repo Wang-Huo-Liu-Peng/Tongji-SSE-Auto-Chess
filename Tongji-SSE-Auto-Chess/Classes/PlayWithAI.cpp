@@ -22,13 +22,14 @@ bool PlayWithAI::init()
     Player[1].refresh_shop_free();
 
     Player[2].refresh_shop_free();
-
-    MyHero hero1 = set_a_hero("Annie", Player[1].Hero_in_shop, Player[1].Hero_on_court);
+    //接口怎么改
+    /*
+    MyHero hero1 = set_a_hero(Player[1],"Annie", Player[1].Hero_in_shop, Player[1].Hero_on_court);
     hero1.sprite->setPosition(Vec2(2000, 1000));
     Player[1].Hero_on_bench.push_back(hero1);
-    MyHero hero2 = set_a_hero("Evelynn", Player[2].Hero_in_shop, Player[2].Hero_on_court);
+    MyHero hero2 = set_a_hero(Player[1], "Evelynn", Player[2].Hero_in_shop, Player[2].Hero_on_court);
     hero2.sprite->setPosition(Vec2(500, 500));
-    Player[2].Hero_on_bench.push_back(hero2);
+    Player[2].Hero_on_bench.push_back(hero2);*/
     //this->addChild(Player[1].Hero_on_bench[0].sprite, 2);
 
     BattleLayer* HeroBattle = BattleLayer::create(1, 2);
@@ -79,7 +80,8 @@ void PlayWithAI::AIPlayerBrain() {
 
         if (max_pos > -1) {
             MyHero New;
-            New = set_a_hero(Player[0].Hero_in_shop[max_pos], Player[0].Hero_in_shop, Player[0].Hero_on_court);
+            //改接口
+            //New = set_a_hero(Player[0],Player[0].Hero_in_shop[max_pos], Player[0].Hero_in_shop, Player[0].Hero_on_court);
             // 将 New 放置到 Hero_on_court 中
             Player[0].make_a_random_hero();  // 重新生成商店英雄
         }

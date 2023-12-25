@@ -103,17 +103,26 @@ void BattleLayer::store_display()
     string card3 = Player[player1].Hero_in_shop[2] + "_Card.png";
     string card4 = Player[player1].Hero_in_shop[3] + "_Card.png";
 
-
+    
    cocos2d::Size targetSize(500, 500);
      auto HeroCard1 = MenuItemImage::create(
         card1,
         card1,
         [&](Ref* sender) {
-            set_a_hero(Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
-            Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-            this->addChild(Player[player1].Hero_on_bench.back().sprite);
-            card_remove(0);
-            Player[player1].Hero_in_shop[0] = "";
+             MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+             if (newHero) {
+                 // 设置位置
+                 if (newHero->sprite) {
+                     newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
+
+                     // 将 Sprite 添加到层中
+                     this->addChild(newHero->sprite);
+                 }
+                 // 移除商店中的卡片
+                 card_remove(0);
+                 Player[player1].Hero_in_shop[0] = "";
+             }
         });
     auto menu1 = Menu::create(HeroCard1, NULL);
     menu1->setTag(1);
@@ -125,11 +134,21 @@ void BattleLayer::store_display()
         card2,
         card2,
 		[&](Ref* sender) {
-			set_a_hero(Player[player1].Hero_in_shop[1], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
-			Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-			this->addChild(Player[player1].Hero_on_bench.back().sprite);
-			card_remove(1);
-            Player[player1].Hero_in_shop[1] = "";
+            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[1], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+            if (newHero) {
+                // 设置位置
+                if (newHero->sprite) {
+                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
+
+                    // 将 Sprite 添加到层中
+                    this->addChild(newHero->sprite);
+                }
+
+                // 移除商店中的卡片
+                card_remove(1);
+                Player[player1].Hero_in_shop[1] = "";
+            }
 		});
     auto menu2 = Menu::create(HeroCard2, NULL);
     menu2->setTag(2);
@@ -141,11 +160,23 @@ void BattleLayer::store_display()
         card3,
         card3,
         [&](Ref* sender) {
-            set_a_hero(Player[player1].Hero_in_shop[2], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
-            Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-            this->addChild(Player[player1].Hero_on_bench.back().sprite);
-            card_remove(2);
-            Player[player1].Hero_in_shop[2] = "";
+            // 假设 set_a_hero 函数的原型是 MyHero* set_a_hero(...)
+            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[2], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+            if (newHero) {
+                // 设置位置
+                if (newHero->sprite) {
+                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
+
+                    // 将 Sprite 添加到层中
+                    this->addChild(newHero->sprite);
+                }
+
+                // 移除商店中的卡片
+                card_remove(2);
+                Player[player1].Hero_in_shop[2] = "";
+            }
+
         });
     auto menu3 = Menu::create(HeroCard3, NULL);
     menu3->setTag(3);
@@ -157,11 +188,21 @@ void BattleLayer::store_display()
         card4,
         card4,
         [&](Ref* sender) {
-            set_a_hero(Player[player1].Hero_in_shop[3], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench);
-            Player[player1].Hero_on_bench.back().sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-            this->addChild(Player[player1].Hero_on_bench.back().sprite);
-            card_remove(3);
-            Player[player1].Hero_in_shop[3] = "";
+            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[3], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+            if (newHero) {
+                // 设置位置
+                if (newHero->sprite) {
+                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
+
+                    // 将 Sprite 添加到层中
+                    this->addChild(newHero->sprite);
+                }
+
+                // 移除商店中的卡片
+                card_remove(3);
+                Player[player1].Hero_in_shop[3] = "";
+            }
         });
     auto menu4 = Menu::create(HeroCard4, NULL);
     menu4->setTag(4);
