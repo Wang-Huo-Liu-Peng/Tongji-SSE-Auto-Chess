@@ -27,6 +27,12 @@ using namespace std;
 
 #define MAX_LEVEL 7
 
+#define ON_BENCH 0
+#define FIGHTING 1
+
+#define ME       0
+#define ENEMY    1
+
 class MyHero;
 class Equipment;
 class MySprite;
@@ -451,10 +457,16 @@ private:
 
 extern std::map<std::string, Equipment> Equipment_list;
 
-inline Vec2 reverse_map_px(int x,int y) {
+inline Vec2 reverse_map_px(int x,int y,int camp) {
     Vec2 pos;
-    pos.x = plaid / 2 + plaid * x + Fight_MAP_width;
-    pos.y = plaid / 2 + plaid * y + Fight_MAP_height;
+    int X, Y;
+    if (camp == ME)
+        X = x, Y = y;
+    else if (camp == ENEMY)
+        X = 7 - x, Y = 5 - y;
+
+    pos.x = plaid / 2 + plaid * X + Fight_MAP_width;
+    pos.y = plaid / 2 + plaid * Y + Fight_MAP_height;
     return pos;
 }
 
@@ -485,3 +497,16 @@ inline Vec2 card_px(int i)
 #define player1_px Vec2(418,654)
 #define player2_px Vec2(1895,1335)
 
+inline int reverse_x(float x)
+{
+    return (x - Fight_MAP_width) / plaid;
+}
+inline int reverse_y(float y)
+{
+    return (y - Fight_MAP_height) / plaid;
+}
+inline bool ifInMap(Vec2 pos)
+{
+    return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 7 * plaid) &&
+        (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 5 * plaid);
+}

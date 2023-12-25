@@ -52,10 +52,6 @@ bool BattleLayer::init(int Player1,int Player2)
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
 
-    test();
-    getHero(blueHero, player1);   //将玩家的英雄复制到场上
-    getHero(redHero, player2);
-
     auto sprite1 = Sprite::create("Annie.png");
     sprite1->setPosition(enemy_bench_px(1));
     this->addChild(sprite1, 1);
@@ -68,8 +64,11 @@ bool BattleLayer::init(int Player1,int Player2)
     sprite3->setPosition(enemy_bench_px(3));
     this->addChild(sprite3, 1);
 
-    addHero(blueHero);            //将场上英雄加入场景（可视化）
-    addHero(redHero);
+    //将双方的英雄加入场景中
+    addHero(Player[player1].Hero_on_bench,ON_BENCH,ME);           
+    addHero(Player[player1].Hero_on_bench,ON_BENCH,ME);
+    addHero(Player[player2].Hero_fighting,FIGHTING,ENEMY);
+    addHero(Player[player2].Hero_fighting,FIGHTING,ENEMY);
 
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
@@ -85,202 +84,40 @@ void BattleLayer::myupdate(float dt)
     /*以下为游戏中需要不断更新的东西*/
 
     checkBullet();        //检查子弹，并扣血
-    check_death(redHero); //检查英雄死亡并退场
-    check_death(blueHero);//检查英雄死亡并退场
-    seekAndMove(redHero, blueHero);
-    seekAndMove(blueHero,redHero);
+    check_death(Player[player1].Hero_fighting); //检查英雄死亡并退场
+    check_death(Player[player2].Hero_fighting); //检查英雄死亡并退场
+    seekAndMove(Player[player1].Hero_fighting, Player[player2].Hero_fighting);
+    seekAndMove(Player[player2].Hero_fighting, Player[player1].Hero_fighting);
 
     //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
     //蓝条满放大招，后续加入
-
 
     //if (gameOver(player1, player2) || gameOver(player2, player1)) {
     //    //里面应为退出本次战斗场景的一些操作，暂时没写
     //}
 }
-void BattleLayer::card_remove(int index)
-{
-    this->removeChildByTag(index + 1);
-}
-void BattleLayer::store_display()
-{
-    string hero1 = Player[player1].Hero_in_shop[0] + ".png";
-    string hero2 = Player[player1].Hero_in_shop[1] + ".png";
-    string hero3 = Player[player1].Hero_in_shop[2] + ".png";
-    string hero4 = Player[player1].Hero_in_shop[3] + ".png";
-    string card1 = Player[player1].Hero_in_shop[0] + "_Card.png";
-    string card2 = Player[player1].Hero_in_shop[1] + "_Card.png";
-    string card3 = Player[player1].Hero_in_shop[2] + "_Card.png";
-    string card4 = Player[player1].Hero_in_shop[3] + "_Card.png";
-    
-   cocos2d::Size targetSize(500, 500);
-     auto HeroCard1 = MenuItemImage::create(
-        card1,
-        card1,
-        [&](Ref* sender) {
-             MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
-
-             if (newHero) {
-                 // 设置位置
-                 if (newHero->sprite) {
-                     newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-
-                     // 将 Sprite 添加到层中
-                     this->addChild(newHero->sprite);
-                     Player[player1].Hero_on_bench.push_back(*newHero);
-                 }
-                 // 移除商店中的卡片
-                 card_remove(0);
-                 Player[player1].Hero_in_shop[0] = "";
-             }
-        });
-    auto menu1 = Menu::create(HeroCard1, NULL);
-    menu1->setTag(1);
-    menu1->setContentSize(targetSize);
-    menu1->setPosition(card_px(0));
-    this->addChild(menu1,0);
-    
-    auto HeroCard2 = MenuItemImage::create(
-        card2,
-        card2,
-		[&](Ref* sender) {
-            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[1], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
-
-            if (newHero) {
-                // 设置位置
-                if (newHero->sprite) {
-                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-
-                    // 将 Sprite 添加到层中
-                    this->addChild(newHero->sprite);
-                    Player[player1].Hero_on_bench.push_back(*newHero);
-                }
-                // 移除商店中的卡片
-                card_remove(1);
-                Player[player1].Hero_in_shop[1] = "";
-            }
-		});
-    auto menu2 = Menu::create(HeroCard2, NULL);
-    menu2->setTag(2);
-    menu2->setContentSize(targetSize);
-    menu2->setPosition(card_px(1));
-    this->addChild(menu2);
-
-    auto HeroCard3 = MenuItemImage::create(
-        card3,
-        card3,
-        [&](Ref* sender) {
-            // 假设 set_a_hero 函数的原型是 MyHero* set_a_hero(...)
-            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[2], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
-
-            if (newHero) {
-                // 设置位置
-                if (newHero->sprite) {
-                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-
-                    // 将 Sprite 添加到层中
-                    this->addChild(newHero->sprite);
-                    Player[player1].Hero_on_bench.push_back(*newHero);
-                }
-
-                // 移除商店中的卡片
-                card_remove(2);
-                Player[player1].Hero_in_shop[2] = "";
-            }
-
-        });
-    auto menu3 = Menu::create(HeroCard3, NULL);
-    menu3->setTag(3);
-    menu3->setContentSize(targetSize);
-    menu3->setPosition(card_px(2));
-    this->addChild(menu3);
-
-    auto HeroCard4 = MenuItemImage::create(
-        card4,
-        card4,
-        [&](Ref* sender) {
-            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[3], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
-
-            if (newHero) {
-                // 设置位置
-                if (newHero->sprite) {
-                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size() - 1));
-
-                    // 将 Sprite 添加到层中
-                    this->addChild(newHero->sprite);
-                    Player[player1].Hero_on_bench.push_back(*newHero);
-                }
-
-                // 移除商店中的卡片
-                card_remove(3);
-                Player[player1].Hero_in_shop[3] = "";
-            }
-        });
-    auto menu4 = Menu::create(HeroCard4, NULL);
-    menu4->setTag(4);
-    menu4->setContentSize(targetSize);
-    menu4->setPosition(card_px(3));
-    this->addChild(menu4);
-}
-
-void BattleLayer::attribute_display() // 血量与蓝条的展示
-{
-    auto mySprite = Sprite::create("kunkun.png");//创建精灵
-    this->addChild(mySprite, 0);
-    auto grey1 = Sprite::create("grey_bar.png");
-    auto grey2 = Sprite::create("grey_bar.png");
-    auto red = Sprite::create("red_bar.png");
-    auto blue = Sprite::create("blue_bar.png");
-    grey1->setAnchorPoint(Vec2(0, 0));
-    grey2->setAnchorPoint(Vec2(0, 0));
-    red->setAnchorPoint(Vec2(0, 0));
-    blue->setAnchorPoint(Vec2(0, 0));
-    cocos2d::Size targetSize(370, 37); // 调整血条的大小
-    grey1->setContentSize(targetSize);
-    grey2->setContentSize(targetSize);
-    red->setContentSize(targetSize);
-    blue->setContentSize(targetSize);
-    grey1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
-    red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
-    grey2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
-    blue->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
-    cocos2d::Size red_targetSize(150, 37);
-    cocos2d::Size blue_targetSize(270, 37);
-    red->setContentSize(red_targetSize);
-    blue->setContentSize(blue_targetSize);
-    this->addChild(grey1);
-    this->addChild(grey2);
-    this->addChild(red);
-    this->addChild(blue);
-}
 
 void BattleLayer::update_attack(float dt)
 {
-    auto it = blueHero.begin();
-    while (it != blueHero.end()) {
+    auto it = Player[player1].Hero_fighting.begin();
+    while (it != Player[player1].Hero_fighting.end()) {
         if (it->current_enemy != nullptr&&it->enemyInDistance()) {
             Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
-
-            //蓄力论述增加，蓝条增加动画
-
             auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
             b.sprite->runAction(moveTo);
         }
         it++;
     }
 
-    auto it2 = redHero.begin();
-    while (it2 != redHero.end()) {
+    auto it2 = Player[player2].Hero_fighting.begin();
+    while (it2 != Player[player2].Hero_fighting.end()) {
         if (it2->current_enemy != nullptr && it2->enemyInDistance()) {
             Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
-            this->addChild(b.sprite, 2);
-
-            //蓄力论述增加，蓝条增加动画
-
-            auto moveTo = MoveTo::create(it2->attack_cd, b.target);
+            this->addChild(b.sprite, 2);//子弹加入场景
+            auto moveTo = MoveTo::create(it2->attack_cd, b.target);//子弹飞行动作
             b.sprite->runAction(moveTo);
         }
         it2++;
@@ -375,28 +212,20 @@ bool BattleLayer::gameOver(int index1,int index2)
     return false;
 }
 
-void BattleLayer::getHero(vector<MyHero>& Hero,int i)
+void BattleLayer::addHero(vector<MyHero>& Hero,int station,int camp)
 {
-    //场上英雄复制
-    auto it = Player[i].Hero_on_bench.begin();
-    for (; it != Player[i].Hero_on_bench.end(); ++it)
-    {
-        MyHero a = *it;
-        Hero.push_back(a);
+    for (int i = 0; i < Hero.size(); i++) {
+        if (station == ON_BENCH) {
+            if (camp == ME)
+                Hero[i].sprite->setPosition(my_bench_px(i));
+            else if (camp == ENEMY)
+                Hero[i].sprite->setPosition(enemy_bench_px(i));
+        }
+        else if (station == FIGHTING) {
+            Hero[i].sprite->setPosition(reverse_map_px(Hero[i].location_x, Hero[i].location_y, camp));
+        }
+        this->addChild(Hero[i].sprite, 0);
     }
-}
-void BattleLayer::addHero(vector<MyHero>& Hero_fighting)
-{
-    for (int i = 0; i < Hero_fighting.size(); i++) {
-        this->addChild(Hero_fighting[i].sprite, 0);
-    }
-}
-//用于放置英雄测试
-void BattleLayer::test() {
-    MyHero hero1;
-    hero1.sprite = Sprite::create("Amumu.png");
-    hero1.sprite->setPosition(reverse_map_px(2, 3));
-    this->addChild(hero1.sprite, 0);
 }
 
 BattleLayer* BattleLayer::create(int Player1,int Player2)
@@ -413,6 +242,7 @@ BattleLayer* BattleLayer::create(int Player1,int Player2)
         return nullptr;
     }
 }
+
 
 /*========================================回调函数===========================================================*/
 bool BattleLayer::onTouchBegan(Touch* touch, Event* event)
@@ -433,20 +263,20 @@ bool BattleLayer::onTouchBegan(Touch* touch, Event* event)
     }
     return false;
 }
-
 void BattleLayer::onTouchMoved(Touch* touch, Event* event)
 {
     auto touchPoint = touch->getLocation();
     Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
 }
-
 void BattleLayer::onTouchEnded(Touch* touch, Event* event)
 {
     auto touchPoint = touch->getLocation();
-    //pjl把括号里的true改成坐标合格判断函数
-    if(true)
+
+    if(ifInMap(touchPoint))
     {
-        Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+        Player[player1].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
+        Player[player1].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
+        Player[player1].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(reverse_x(touchPoint.x),reverse_y(touchPoint.y),ME));
         Player[player1].Hero_on_court.push_back(Player[player1].Hero_on_bench[select_index]);// 加到court里
         Player[player1].Hero_on_bench.erase(Player[player1].Hero_on_bench.begin() + select_index);// 从bench里删除
     }
@@ -454,6 +284,163 @@ void BattleLayer::onTouchEnded(Touch* touch, Event* event)
     {
         Player[player1].Hero_on_bench[select_index].sprite->setPosition(initial_position);
     }
+}
+
+
+/*----------------------显示部分-------------------------*/
+void BattleLayer::card_remove(int index)
+{
+    this->removeChildByTag(index + 1);
+}
+void BattleLayer::store_display()
+{
+    string hero1 = Player[player1].Hero_in_shop[0] + ".png";
+    string hero2 = Player[player1].Hero_in_shop[1] + ".png";
+    string hero3 = Player[player1].Hero_in_shop[2] + ".png";
+    string hero4 = Player[player1].Hero_in_shop[3] + ".png";
+    string card1 = Player[player1].Hero_in_shop[0] + "_Card.png";
+    string card2 = Player[player1].Hero_in_shop[1] + "_Card.png";
+    string card3 = Player[player1].Hero_in_shop[2] + "_Card.png";
+    string card4 = Player[player1].Hero_in_shop[3] + "_Card.png";
+
+    cocos2d::Size targetSize(500, 500);
+    auto HeroCard1 = MenuItemImage::create(
+        card1,
+        card1,
+        [&](Ref* sender) {
+            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[0], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+            if (newHero) {
+                // 设置位置
+                if (newHero->sprite) {
+                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size()));
+
+                    // 将 Sprite 添加到层中
+                    this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
+                }
+                // 移除商店中的卡片
+                card_remove(0);
+                Player[player1].Hero_in_shop[0] = "";
+            }
+        });
+    auto menu1 = Menu::create(HeroCard1, NULL);
+    menu1->setTag(1);
+    menu1->setContentSize(targetSize);
+    menu1->setPosition(card_px(0));
+    this->addChild(menu1, 0);
+
+    auto HeroCard2 = MenuItemImage::create(
+        card2,
+        card2,
+        [&](Ref* sender) {
+            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[1], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+            if (newHero) {
+                // 设置位置
+                if (newHero->sprite) {
+                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size()));
+
+                    // 将 Sprite 添加到层中
+                    this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
+                }
+                // 移除商店中的卡片
+                card_remove(1);
+                Player[player1].Hero_in_shop[1] = "";
+            }
+        });
+    auto menu2 = Menu::create(HeroCard2, NULL);
+    menu2->setTag(2);
+    menu2->setContentSize(targetSize);
+    menu2->setPosition(card_px(1));
+    this->addChild(menu2);
+
+    auto HeroCard3 = MenuItemImage::create(
+        card3,
+        card3,
+        [&](Ref* sender) {
+            // 假设 set_a_hero 函数的原型是 MyHero* set_a_hero(...)
+            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[2], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+            if (newHero) {
+                // 设置位置
+                if (newHero->sprite) {
+                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size()));
+
+                    // 将 Sprite 添加到层中
+                    this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
+                }
+
+                // 移除商店中的卡片
+                card_remove(2);
+                Player[player1].Hero_in_shop[2] = "";
+            }
+
+        });
+    auto menu3 = Menu::create(HeroCard3, NULL);
+    menu3->setTag(3);
+    menu3->setContentSize(targetSize);
+    menu3->setPosition(card_px(2));
+    this->addChild(menu3);
+
+    auto HeroCard4 = MenuItemImage::create(
+        card4,
+        card4,
+        [&](Ref* sender) {
+            MyHero* newHero = set_a_hero(Player[player1], Player[player1].Hero_in_shop[3], Player[player1].Hero_in_shop, Player[player1].Hero_on_bench, this);
+
+            if (newHero) {
+                // 设置位置
+                if (newHero->sprite) {
+                    newHero->sprite->setPosition(my_bench_px(Player[player1].Hero_on_bench.size()));
+
+                    // 将 Sprite 添加到层中
+                    this->addChild(newHero->sprite);
+                    Player[player1].Hero_on_bench.push_back(*newHero);
+                }
+
+                // 移除商店中的卡片
+                card_remove(3);
+                Player[player1].Hero_in_shop[3] = "";
+            }
+        });
+    auto menu4 = Menu::create(HeroCard4, NULL);
+    menu4->setTag(4);
+    menu4->setContentSize(targetSize);
+    menu4->setPosition(card_px(3));
+    this->addChild(menu4);
+}
+void BattleLayer::attribute_display() // 血量与蓝条的展示
+{
+    auto mySprite = Sprite::create("kunkun.png");//创建精灵
+    this->addChild(mySprite, 0);
+    auto grey1 = Sprite::create("grey_bar.png");
+    auto grey2 = Sprite::create("grey_bar.png");
+    auto red = Sprite::create("red_bar.png");
+    auto blue = Sprite::create("blue_bar.png");
+    grey1->setAnchorPoint(Vec2(0, 0));
+    grey2->setAnchorPoint(Vec2(0, 0));
+    red->setAnchorPoint(Vec2(0, 0));
+    blue->setAnchorPoint(Vec2(0, 0));
+    cocos2d::Size targetSize(370, 37); // 调整血条的大小
+    grey1->setContentSize(targetSize);
+    grey2->setContentSize(targetSize);
+    red->setContentSize(targetSize);
+    blue->setContentSize(targetSize);
+    grey1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
+    red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
+    grey2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
+    blue->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
+    cocos2d::Size red_targetSize(150, 37);
+    cocos2d::Size blue_targetSize(270, 37);
+    red->setContentSize(red_targetSize);
+    blue->setContentSize(blue_targetSize);
+    this->addChild(grey1);
+    this->addChild(grey2);
+    this->addChild(red);
+    this->addChild(blue);
 }
 
 

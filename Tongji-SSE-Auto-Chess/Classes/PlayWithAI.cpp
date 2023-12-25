@@ -34,6 +34,7 @@ bool PlayWithAI::init()
 
     BattleLayer* HeroBattle = BattleLayer::create(1, 2);
     this->addChild(HeroBattle);
+
     ///////////////////////////////
 
     //退出当前场景的按钮
