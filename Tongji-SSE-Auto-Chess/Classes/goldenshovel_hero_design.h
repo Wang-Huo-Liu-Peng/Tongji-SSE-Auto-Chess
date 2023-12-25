@@ -417,7 +417,6 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         // ·ÖÅäÔÚ¶ÑÉÏ
         MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
-        Hero.push_back(*set_a_new_hero);
 
         auto new_hero_Sprite = Sprite::create(filename);
         set_a_new_hero->sprite = new_hero_Sprite;
