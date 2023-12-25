@@ -117,7 +117,7 @@
     <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp">
       <Filter>src\goldenshovel_hero_design</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Client.cpp">
+    <ClCompile Include="..\Classes\Client.h">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\CSocket.cpp">
