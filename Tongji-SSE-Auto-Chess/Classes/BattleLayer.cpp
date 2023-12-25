@@ -18,6 +18,13 @@ bool BattleLayer::init(int Player1,int Player2)
     player1 = Player1;
     player2 = Player2;
 
+    /*===================监听器的创建=======================*/
+    //auto listener = EventListenerTouchOneByOne::create();
+    //listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
+    //listener->onTouchMoved = CC_CALLBACK_2(BattleLayer::onTouchMoved, this);  // Added onTouchMoved
+    //listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
+    //_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
         "refresh_shop.png",
@@ -342,6 +349,7 @@ BattleLayer* BattleLayer::create(int Player1,int Player2)
     }
 }
 
+/*========================================回调函数===========================================================*/
 
 
 

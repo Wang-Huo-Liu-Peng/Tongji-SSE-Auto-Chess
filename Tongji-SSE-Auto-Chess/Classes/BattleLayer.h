@@ -42,6 +42,12 @@ public:
 
     void attribute_display();
 
+    /*==============¼àÌýÆ÷»Øµ÷º¯Êý=================*/
+   /* bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);*/
+
+
     //virtual void onEnter();
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
