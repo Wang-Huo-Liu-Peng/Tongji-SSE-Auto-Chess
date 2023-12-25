@@ -438,10 +438,16 @@ void BattleLayer::onTouchMoved(Touch* touch, Event* event)
 {
     auto touchPoint = touch->getLocation();
     Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+
+   /* auto selected_background = Sprite::create("selected_background.png");
+    selected_background->setTag(10);
+    this->addChild(selected_background);*/
 }
 
 void BattleLayer::onTouchEnded(Touch* touch, Event* event)
 {
+    /*this->removeChildByTag(10);*/
+
     auto touchPoint = touch->getLocation();
     //pjl把括号里的true改成坐标合格判断函数
     if(true)
