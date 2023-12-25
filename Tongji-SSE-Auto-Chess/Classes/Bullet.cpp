@@ -15,6 +15,16 @@ Bullet::Bullet(MyHero* targetHero,Vec2 loc,int h,string name)
 	sprite = Sprite::create(name+".png");
 	sprite->setPosition(loc);//loc为发射子弹的英雄的位置
 }
+Bullet::Bullet(MySprite* targetSprite, Vec2 loc, int h, string name)
+{
+	//参数依次为：目标英雄，子弹生成的位置，伤害，图片名字
+
+	target_sprite = targetSprite;//传入的目标英雄
+	target = target_hero->sprite->getPosition();//目标位置
+	hurt = h;//子弹伤害为1
+	sprite = Sprite::create(name + ".png");
+	sprite->setPosition(loc);//loc为发射子弹的英雄的位置
+}
 
 bool Bullet::Hitted()
 {

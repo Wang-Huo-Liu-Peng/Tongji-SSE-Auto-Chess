@@ -91,10 +91,12 @@ void BattleLayer::myupdate(float dt)
     seekAndMove(blueHero,redHero);
 
     //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
-
-    //血量和蓝量更新显示
     //蓝条满放大招，后续加入
-    //有一方场上英雄死完，停止战斗，然后根据胜者剩余英雄数对败者进行扣血
+
+
+    //if (gameOver(player1, player2) || gameOver(player2, player1)) {
+    //    //里面应为退出本次战斗场景的一些操作，暂时没写
+    //}
 }
 void BattleLayer::card_remove(int index)
 {
@@ -320,6 +322,10 @@ void BattleLayer::checkBullet()
                 it->target_hero->current_hp -= it->hurt;//扣血
                 //扣血动画
             }
+            if (it->target_sprite != nullptr) {//打中小小英雄
+                it->target_sprite->current_hp -= it->hurt;//扣血
+                //扣血动画
+            }
             //子弹回收动画？
             this->removeChild(it->sprite, true);//退场
             it=bullet.erase(it);
@@ -350,6 +356,23 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
         it++;
     }
     //it->enemyInDistance()
+}
+
+bool BattleLayer::gameOver(int index1,int index2)
+{
+    if (Player[index1].Hero_fighting.empty()) {//玩家1的英雄死完了
+        auto it = Player[index2].Hero_fighting.begin();
+        while(it!= Player[index2].Hero_fighting.end()){
+            Bullet b(&Player[index1], Player[index1].sprite->getPosition(), 1, "basketball");
+            bullet.push_back(b);
+            this->addChild(b.sprite, 2);//子弹加入场景
+            auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
+            b.sprite->runAction(moveTo);
+            it++;
+        }
+        return true;//返回true，表明本次战斗结束
+    }
+    return false;
 }
 
 void BattleLayer::getHero(vector<MyHero>& Hero,int i)
