@@ -34,8 +34,11 @@ public:
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除
 
-    void error_display();//错误弹窗
-    void error_window_close();//关闭弹窗
+    /*cocos2d::RefPtr<cocos2d::Sprite> backgroundRef;
+    cocos2d::RefPtr<cocos2d::Label> labelRef;*/
+
+    void error_display(const std::string& displayText);
+    void error_window_close();
 
     //virtual void onEnter();
     // a selector callback

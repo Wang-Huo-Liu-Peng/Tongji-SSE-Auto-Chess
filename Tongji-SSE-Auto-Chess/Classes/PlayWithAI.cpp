@@ -19,17 +19,9 @@ bool PlayWithAI::init()
     BackGroundLayer* Map = BackGroundLayer::create();
     this->addChild(Map);
 
-    Player[1].Hero_in_shop[0] = "Annie";
-    Player[1].Hero_in_shop[1] = "Corki";
-    Player[1].Hero_in_shop[2] = "Taric";
-    Player[1].Hero_in_shop[3] = "Twitch";
-    Player[1].Hero_in_shop[4] = "Senna";
+    Player[1].refresh_shop_free();
 
-    Player[2].Hero_in_shop[0] = "Evelynn";
-    Player[2].Hero_in_shop[1] = "Kayle";
-    Player[2].Hero_in_shop[2] = "Corki";
-    Player[2].Hero_in_shop[3] = "Annie";
-    Player[2].Hero_in_shop[4] = "Garen";
+    Player[2].refresh_shop_free();
 
     MyHero hero1 = set_a_hero("Annie", Player[1].Hero_in_shop, Player[1].Hero_on_court);
     hero1.sprite->setPosition(Vec2(2000, 1000));

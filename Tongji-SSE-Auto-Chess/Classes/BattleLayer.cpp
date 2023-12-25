@@ -3,7 +3,9 @@
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
 #include "GameMap.h"
-using namespace std;
+#include <ui/UILayout.h>
+using namespace std; 
+
 
 USING_NS_CC;
 
@@ -28,7 +30,7 @@ bool BattleLayer::init(int Player1,int Player2)
                     this->removeChild(node_with_tag_i, true);
                 }
             }
-            Player[player1].refresh_shop_free();// 刷新商店
+            Player[player1].refresh_shop(this);
             store_display();// 初始化商店
         });
     cocos2d::Size targetSize(100, 100);
@@ -43,8 +45,6 @@ bool BattleLayer::init(int Player1,int Player2)
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
 
-    //弹窗
-    error_display();
 
     test();
     getHero(blueHero, player1);   //将玩家的英雄复制到场上
@@ -73,25 +73,6 @@ bool BattleLayer::init(int Player1,int Player2)
     return true;
 }
 
-void BattleLayer::error_window_close()
-{
-    this->removeChildByTag(7);
-}
-
-void BattleLayer::error_display()
-{
-    auto pop_up_windows = MenuItemImage::create(
-        "Blank_pop-up.png",
-        "Blank_pop-up.png",
-        [&](Ref* sender) {
-            error_window_close();
-        });
-    cocos2d::Size targetSize(100, 100);
-    auto window = Menu::create(pop_up_windows, NULL);
-    window->setTag(7);
-    window->setPosition(500, 700);
-    this->addChild(window);
-}
 
 void BattleLayer::myupdate(float dt)
 {
@@ -327,3 +308,7 @@ BattleLayer* BattleLayer::create(int Player1,int Player2)
         return nullptr;
     }
 }
+
+
+
+

@@ -162,6 +162,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\HeroLayer.cpp" />
     <ClCompile Include="..\Classes\PlayWithAI.cpp" />
     <ClCompile Include="..\Classes\PlayWithPlayer.cpp" />
+    <ClCompile Include="..\Classes\PopupManager.cpp" />
     <ClCompile Include="..\Classes\SelectModeScene.cpp" />
     <ClCompile Include="..\Classes\Store.cpp" />
     <ClCompile Include="..\Classes\StoreLayer.cpp" />
@@ -185,6 +186,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\NetworkConnection.h" />
     <ClInclude Include="..\Classes\PlayWithAI.h" />
     <ClInclude Include="..\Classes\PlayWithPlayer.h" />
+    <ClInclude Include="..\Classes\PopupManager.h" />
     <ClInclude Include="..\Classes\SelectModeScene.h" />
     <ClInclude Include="..\Classes\Show_Chinese.h" />
     <ClInclude Include="..\Classes\SocketEnum.h" />

@@ -6,6 +6,9 @@
 #include "thread_pool.h"
 #include "cocos2d.h"
 #include"Test_Scene_2.h"
+#include "PopupManager.h"
+
+using namespace cocos2d;
 
 USING_NS_CC;
 
@@ -231,16 +234,16 @@ class MySprite :public MyObject {
     friend class PlayWithAI;
 public:
     MySprite() {};
-    MySprite(int level, int hp,/* int xp, int av,*/ int money, int x = -1, int y = -1) :        // 构造函数
-        MyObject(hp/*, xp, av*/, x, y), star_level(level) {};
+    MySprite(int level, int hp,int money, int x = -1, int y = -1) :        // 构造函数
+        MyObject(hp/*, xp, av*/, x, y), star_level(level),current_exp(0),money(money){};
     //virtual void my_move(int new_x, int new_y);                                  // 移动函数
-
+    
     bool operator==(const MySprite& other) const {
         // 在这里判断两个 MySprite 对象是否相等
         return this->location_x == other.location_x && this->location_y == other.location_y;
     }
     inline void refresh_shop_free();
-    inline void refresh_shop();//刷新商店英雄
+    inline void refresh_shop(cocos2d::Layer* parentLayer);//刷新商店英雄
     inline void make_a_random_hero();   //补充商店英雄
     inline void erase_a_player();//删除死了个玩家
     inline void set_a_hero(string hero_name);//将一个英雄从商店选出
@@ -256,6 +259,8 @@ private:
     MySprite* current_enemy;
     int current_exp;    //当前有的经验值
 };
+
+
 
 inline void MySprite::erase_a_player() {
     auto it = std::find(Player.begin(), Player.end(), *this);
@@ -304,10 +309,16 @@ inline void MySprite::refresh_shop_free() {
     make_a_random_hero();
 }
 
-inline void MySprite::refresh_shop() {
+inline void MySprite::refresh_shop(cocos2d::Layer* parentLayer) {
     if (this->money < 2) {
-        CCLOG("dead");
+        CCLOG("Money_left%d", this->star_level);
+        CCLOG("current_hp%d", this->current_hp);
+        CCLOG("current_exp%d", this->current_exp);
+        CCLOG("Money_left%d",this->money);
+        CCLOG("No_Money");
+        PopupManager::displayPopup(parentLayer, "No enough Money");
         //错误提示待写
+        
     }
     else {
         this->money -= 2;//刷新扣除金额
@@ -433,3 +444,4 @@ inline Vec2 card_px(int i)
 
 #define player1_px Vec2(418,654)
 #define player2_px Vec2(1895,1335)
+

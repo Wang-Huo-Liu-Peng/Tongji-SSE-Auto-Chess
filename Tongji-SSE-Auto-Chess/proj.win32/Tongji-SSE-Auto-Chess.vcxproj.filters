@@ -61,6 +61,9 @@
     <Filter Include="src\Network Connection">
       <UniqueIdentifier>{c68ce378-a503-4fef-8541-886d63406fad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\PopupManager">
+      <UniqueIdentifier>{95da211c-986d-42fa-8a52-e041312a9ad9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\CSocket.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PopupManager.cpp">
+      <Filter>src\PopupManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SocketEnum.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PopupManager.h">
+      <Filter>src\PopupManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
