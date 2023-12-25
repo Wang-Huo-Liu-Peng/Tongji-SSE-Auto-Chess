@@ -508,5 +508,5 @@ inline int reverse_y(float y)
 inline bool ifInMap(Vec2 pos)
 {
     return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 7 * plaid) &&
-        (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 5 * plaid);
+        (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 2 * plaid);
 }
