@@ -61,6 +61,12 @@
     <Filter Include="src\PrepareScene">
       <UniqueIdentifier>{4ff38ceb-b70a-429d-89c9-1e106b8e5e8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\BattleScene">
+      <UniqueIdentifier>{07d1acee-4042-4229-857c-4c19c9f43ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PrepareLayer">
+      <UniqueIdentifier>{ac7dd7e0-2ef3-42e3-bbd4-497f128adaae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\PrepareScene.cpp">
       <Filter>src\PrepareScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BattleScene.cpp">
+      <Filter>src\BattleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PrepareLayer.cpp">
+      <Filter>src\PrepareLayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ThreadPool.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BattleScene.h">
+      <Filter>src\BattleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PrepareLayer.h">
+      <Filter>src\PrepareLayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

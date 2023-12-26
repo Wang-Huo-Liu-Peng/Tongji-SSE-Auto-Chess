@@ -26,6 +26,12 @@ using namespace std;
 
 #define MAX_LEVEL 7
 
+#define ON_BENCH 0
+#define FIGHTING 1
+
+#define ME       0
+#define ENEMY    1
+
 class MyHero;
 class Equipment;
 class MySprite;
@@ -57,6 +63,7 @@ protected:
 /*====================英雄类====================*/
 class MyHero : public MyObject {
     friend class BattleLayer;
+    friend class PrepareLayer;
     friend class PlayeWithAI;
 public:
     MyHero() {};
@@ -230,6 +237,7 @@ extern int level_up_exp[6];
 /*====================精灵类====================*/
 class MySprite :public MyObject {
     friend class BattleLayer;
+    friend class PrepareLayer;
     friend class PlayWithAI;
 public:
     MySprite() {};
@@ -249,6 +257,7 @@ public:
     inline void erase_a_player();//删除死了个玩家
     inline void set_a_hero(string hero_name);//将一个英雄从商店选出
     inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
+    inline void copy();//将court上的英雄复制到fighting上
 private:
     int star_level;     // 星级
     int max_hero = star_level + 2;//最多英雄人数
@@ -426,6 +435,14 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
     }
 }
 
+inline void MySprite::copy()
+{
+    Hero_fighting.clear();
+    for (int i = 0; i < Hero_on_court.size(); i++) {
+        Hero_fighting.push_back(Hero_on_court[i]);
+    }
+}
+
 
 
 class Equipment {
@@ -450,10 +467,16 @@ private:
 
 extern std::map<std::string, Equipment> Equipment_list;
 
-inline Vec2 reverse_map_px(int x,int y) {
+inline Vec2 reverse_map_px(int x,int y,int camp) {
     Vec2 pos;
-    pos.x = plaid / 2 + plaid * x + Fight_MAP_width;
-    pos.y = plaid / 2 + plaid * y + Fight_MAP_height;
+    int X, Y;
+    if (camp == ME)
+        X = x, Y = y;
+    else if (camp == ENEMY)
+        X = 7 - x, Y = 5 - y;
+
+    pos.x = plaid / 2 + plaid * X + Fight_MAP_width;
+    pos.y = plaid / 2 + plaid * Y + Fight_MAP_height;
     return pos;
 }
 
@@ -484,3 +507,16 @@ inline Vec2 card_px(int i)
 #define player1_px Vec2(418,654)
 #define player2_px Vec2(1895,1335)
 
+inline int reverse_x(float x)
+{
+    return (x - Fight_MAP_width) / plaid;
+}
+inline int reverse_y(float y)
+{
+    return (y - Fight_MAP_height) / plaid;
+}
+inline bool ifInMap(Vec2 pos)
+{
+    return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 7 * plaid) &&
+        (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 3 * plaid);
+}
