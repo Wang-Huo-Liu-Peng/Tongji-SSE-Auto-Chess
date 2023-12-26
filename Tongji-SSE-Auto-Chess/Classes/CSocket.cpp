@@ -1,9 +1,11 @@
 #include "CSocket.h"
+#define BUF_LEN 1024
 
-CSocket::CSocket(SocketEnum::SocketType _socketType) :csocket(INVALID_SOCKET), isConnected(false), buffer(NULL),
+
+CSocket::CSocket(SocketEnum::SocketType _socketType) :csocket(INVALID_SOCKET), isConnected(false),
 sendCount(0), recvCount(0), isBlocking(true), socketError(SocketEnum::InvalidSocket), socketType(_socketType)
 {
-
+	_passInfo = new passinfo;
 }
 
 bool CSocket::Connect(const char* ip, int port)
@@ -67,36 +69,25 @@ bool CSocket::SetBlocking(bool isBlock)
 
 bool CSocket::IsExit()
 {
-	if (buffer == NULL)
-		buffer = new char[1024];
-	int len = strlen(buffer);
-	int i = 0;
-	int size = 4;
-	if (len == size)
+	if (strcmp(_passInfo->event, Exit) == 0)
 	{
-		char* exit = "EXIT";
-		for (i = 0; i < size; i++)
-		{
-			if (buffer[i] != *(exit + i) && buffer[i] - 32 != *(exit + i))
-			{
-				break;
-			}
-		}
+		return 1;
 	}
-	return i == size;
+	return 0;
 }
 
-int CSocket::Send(char* pBuf, int len)
+int CSocket::Send(passinfo* passInfo, int len)
 {
 	if (!IsSocketValid() || !isConnected)
 	{
 		return 0;
 	}
-	if (pBuf == NULL || len < 1)
+	if (passInfo == NULL || len < 1)
 	{
 		return 0;
 	}
-	sendCount = send(csocket, pBuf, len, 0);
+	sendCount = send(csocket, (char*)passInfo, len, 0);
+	//cout << "sc: " << sendCount << endl;
 	if (sendCount <= 0)
 	{
 		SetSocketError();
@@ -115,26 +106,19 @@ int CSocket::Receive(int strLen)
 	{
 		return recvCount;
 	}
-	if (buffer != NULL)
-	{
-		delete buffer;
-		buffer = NULL;
-	}
-	buffer = new char[strLen];
 	SetSocketError(SocketEnum::Success);
 	while (1) {
-		recvCount = recv(csocket, buffer, strLen, 0);
+		recvCount = recv(csocket, (char*)_passInfo, strLen, 0);
 		if (recvCount > 0) {
-			buffer[recvCount] = '\0';
 			if (IsExit())
 			{
-				delete buffer;
-				buffer = NULL;
+				delete _passInfo;
+				_passInfo = NULL;
 				recvCount = 0;
 				break;
 			}
 			else {
-				cout << buffer << endl;
+				//cout << _passInfo->_result << endl;
 			}
 		}
 	}
@@ -224,10 +208,10 @@ CSocket::~CSocket()
 
 void CSocket::Close()
 {
-	if (buffer != NULL)
+	if (_passInfo != NULL)
 	{
-		delete buffer;
-		buffer = NULL;
+		delete _passInfo;
+		_passInfo = NULL;
 	}
 	ShutDown(SocketEnum::Both);
 	if (closesocket(csocket) != SocketEnum::Error)
@@ -244,9 +228,9 @@ bool CSocket::ShutDown(SocketEnum::ShutdownMode mode)
 	return (nRetVal == SocketEnum::Success) ? true : false;
 }
 
-const char* CSocket::GetData() const
+const passinfo* CSocket::GetData() const
 {
-	return buffer;
+	return _passInfo;
 }
 
 void CSocket::SetSocketHandle(SOCKET socket)

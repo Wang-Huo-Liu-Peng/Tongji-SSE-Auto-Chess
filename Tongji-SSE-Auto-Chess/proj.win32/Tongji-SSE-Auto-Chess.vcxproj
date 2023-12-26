@@ -186,6 +186,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\HeroLayer.h" />
     <ClInclude Include="..\Classes\load_server.h" />
     <ClInclude Include="..\Classes\NetworkConnection.h" />
+    <ClInclude Include="..\Classes\passinfo.h" />
     <ClInclude Include="..\Classes\PlayWithAI.h" />
     <ClInclude Include="..\Classes\PlayWithPlayer.h" />
     <ClInclude Include="..\Classes\PopupManager.h" />

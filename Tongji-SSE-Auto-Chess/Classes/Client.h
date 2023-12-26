@@ -2,6 +2,7 @@
 #include <process.h>
 #include <iostream>
 using namespace std;
+#include <string>
 #pragma comment(lib,"ws2_32.lib") 
 #include "CSocket.h"
 #include"ThreadPool.h"
@@ -19,22 +20,16 @@ public:
 		return &_client;
 	}
 
-	char msg[BUF_LEN];
-	char* EXIT = "EXIT";
-	char* CONNECTED = "CONNECTED";
+
 	inline int connect_to_server();
 	inline void recv_msg();
-	inline int send_msg(char* msg);
+	inline void send_msg(passinfo* passInfo);
 	inline void begin_send_and_listen();
 	ThreadPool pool;
 	CSocket csocket;
 private:
 	Client() {
 		pool.init();
-	}
-
-	~Client() {
-		send_msg(EXIT);
 	}
 };
 
@@ -43,7 +38,7 @@ void Client::recv_msg()
 	if (&(this->csocket) != NULL)
 	{
 		csocket.Receive(BUF_LEN);
-		//_endthread();
+		_endthread();
 	}
 }
 
@@ -53,40 +48,24 @@ int Client::connect_to_server() {
 	return connect;
 }
 
-int Client::send_msg(char* msg) {
-	//char buf[BUF_LEN];
-	/*if ((csocket.buffer_send) != NULL)
-		delete[](csocket.buffer_send);
-	csocket.buffer_send = new char[BUF_LEN];
-	strcpy(csocket.buffer_send, msg);*/
-	//cin >> csocket.buffer_send;
-	//csocket.Send(csocket.buffer_send, strlen(csocket.buffer_send));
-	int result = csocket.Send(msg, strlen(msg));
-	return result;
+void Client::send_msg(passinfo* passInfo) {
+	csocket.Send(passInfo, sizeof(passinfo));
+	return;
 }
 
 void Client::begin_send_and_listen() {
-	auto lambda = [=]() {
+	auto lambda = [&]() {
 		if (&(this->csocket) != NULL)
 		{
-			this->csocket.Receive(BUF_LEN);
+			this->csocket.Receive(sizeof(passinfo));
 			//_endthread();
 		}
 	};
 	pool.submit(lambda);
-	/*while (1)
+
+	if (csocket.IsExit())
 	{
-		char buf[BUF_LEN];
-		cin >> buf;
-
-		csocket.Send(buf, strlen(buf));
-		if (csocket.IsExit())
-		{
-			csocket.Close();
-			cout << "exit success" << endl;
-			break;
-		}
+		csocket.Close();
+		cout << "exit success" << endl;
 	}
-	getchar();*/
 }
-

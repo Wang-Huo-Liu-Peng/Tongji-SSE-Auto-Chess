@@ -218,6 +218,9 @@
     <ClInclude Include="..\Classes\PrepareLayer.h">
       <Filter>src\PrepareLayer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\passinfo.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
