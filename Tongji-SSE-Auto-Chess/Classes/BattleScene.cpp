@@ -1,4 +1,5 @@
 #include "BattleScene.h"
+#include "PrepareScene.h"
 #include "BackGroundLayer.h"
 #include "BattleLayer.h"
 
@@ -10,16 +11,11 @@ bool BattleScene::init(int Player1,int Player2)
     player1 = Player1;    //当前玩家下标
     player2 = Player2;    //当前玩家下标
 
-    //Player[player1].copy();
-    //Player[player2].copy();
-
     BackGroundLayer* Map = BackGroundLayer::create();
     this->addChild(Map);//背景图片层
 
-    BattleLayer* HeroBattle = BattleLayer::create(1, 2);
+    HeroBattle = BattleLayer::create(1, 2);
     this->addChild(HeroBattle);//战斗层
-
-
 
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
@@ -36,6 +32,8 @@ bool BattleScene::init(int Player1,int Player2)
     exitMenu->setPosition(Vec2::ZERO);
     this->addChild(exitMenu, 1);
 
+    this->schedule(schedule_selector(BattleScene::ifGameOver));
+
     return true;
 }
 
@@ -51,5 +49,15 @@ BattleScene* BattleScene::create(int Player1,int Player2)
     {
         CC_SAFE_DELETE(ret);
         return nullptr;
+    }
+}
+
+void BattleScene::ifGameOver(float dt)
+{
+    if (HeroBattle->situation == GameOver) {
+        this->removeAllChildrenWithCleanup(true);
+        Director::getInstance()->popScene();
+        PrepareScene* prepare = PrepareScene::create(player1);
+        Director::getInstance()->replaceScene(prepare);
     }
 }

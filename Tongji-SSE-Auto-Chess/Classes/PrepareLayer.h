@@ -13,7 +13,7 @@ public:
 
     int player;//玩家1
 
-    void addHero(vector<MyHero>& Hero, int, int);//英雄加入场上
+    void addHero(int, int, int);//英雄加入场上
 
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除

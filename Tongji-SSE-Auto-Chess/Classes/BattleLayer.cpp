@@ -3,6 +3,7 @@
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
 #include "GameMap.h"
+#include "PrepareLayer.h"
 #include <ui/UILayout.h>
 using namespace std; 
 
@@ -17,6 +18,17 @@ bool BattleLayer::init(int Player1,int Player2)
     player1 = Player1;
     player2 = Player2;
 
+    Player[player1].sprite->setPosition(player1_px);
+    Player[player1].sprite->retain();
+    Player[player1].sprite->removeFromParentAndCleanup(false);
+    this->addChild(Player[player1].sprite, 1);
+
+    Player[player2].sprite->setPosition(player2_px);
+    Player[player2].sprite->retain();
+    Player[player2].sprite->removeFromParentAndCleanup(false);
+    this->addChild(Player[player2].sprite, 1);
+
+    //手动给敌方加英雄
     MyHero* newHero = set_a_hero(Player[player2], Player[player2].Hero_in_shop[0], Player[player2].Hero_in_shop, Player[player2].Hero_on_bench, this);
     newHero->location_x = 1;
     newHero->location_y = 1;
@@ -36,14 +48,7 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player2].Hero_on_court.push_back(*newHero2);
 
     Player[player1].copy();//将court中的英雄复制到fighting上
-    Player[player2].copy();//
-
-    /*===================监听器的创建=======================*/
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
-    listener->onTouchMoved = CC_CALLBACK_2(BattleLayer::onTouchMoved, this);  // Added onTouchMoved
-    listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    Player[player2].copy();//将court中的英雄复制到fighting上
 
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
@@ -72,17 +77,6 @@ bool BattleLayer::init(int Player1,int Player2)
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
 
-    auto sprite1 = Sprite::create("Annie.png");
-    sprite1->setPosition(enemy_bench_px(1));
-    this->addChild(sprite1, 1);
-
-    auto sprite2 = Sprite::create("Evelynn.png");
-    sprite2->setPosition(enemy_bench_px(2));
-    this->addChild(sprite2, 1);
-
-    auto sprite3 = Sprite::create("Evelynn.png");
-    sprite3->setPosition(enemy_bench_px(3));
-    this->addChild(sprite3, 1);
 
     //将双方的英雄加入场景中
     addHero(player1,ON_BENCH,ME);           
@@ -112,9 +106,19 @@ void BattleLayer::myupdate(float dt)
     //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
     //蓝条满放大招，后续加入
 
-    //if (gameOver(player1, player2) || gameOver(player2, player1)) {
-    //    //里面应为退出本次战斗场景的一些操作，暂时没写
-    //}
+    if (gameOver(player1, player2)) {
+        situation = GameOver;
+        //OverShoot(player1,player2);
+        this->unschedule(schedule_selector(BattleLayer::myupdate));
+        this->unschedule(schedule_selector(BattleLayer::update_attack));
+    }
+    else if (gameOver(player2, player1)) {
+        situation = GameOver;
+        //OverShoot(player1, player2);
+        this->unschedule(schedule_selector(BattleLayer::myupdate));
+        this->unschedule(schedule_selector(BattleLayer::update_attack));
+    }
+
 }
 
 void BattleLayer::update_attack(float dt)
@@ -218,18 +222,24 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
 bool BattleLayer::gameOver(int index1,int index2)
 {
     if (Player[index1].Hero_fighting.empty()) {//玩家1的英雄死完了
-        auto it = Player[index2].Hero_fighting.begin();
-        while(it!= Player[index2].Hero_fighting.end()){
-            Bullet b(&Player[index1], Player[index1].sprite->getPosition(), 1, "basketball");
-            bullet.push_back(b);
-            this->addChild(b.sprite, 2);//子弹加入场景
-            auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
-            b.sprite->runAction(moveTo);
-            it++;
-        }
+        Player[index1].current_hp -= Player[index2].Hero_fighting.size();
+        //this->unschedule(schedule_selector(BattleLayer::update_attack));
         return true;//返回true，表明本次战斗结束
     }
     return false;
+}
+
+void BattleLayer::OverShoot(int index1,int index2)
+{
+    auto it = Player[index2].Hero_fighting.begin();
+    while (it != Player[index2].Hero_fighting.end()) {
+        Bullet b(&Player[index1], Player[index2].sprite->getPosition(), 1, "basketball");
+        bullet.push_back(b);
+        this->addChild(b.sprite, 2);//子弹加入场景
+        auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
+        b.sprite->runAction(moveTo);
+        it++;
+    }
 }
 
 void BattleLayer::addHero(int player,int station,int camp)
@@ -271,56 +281,6 @@ BattleLayer* BattleLayer::create(int Player1,int Player2)
         return nullptr;
     }
 }
-
-
-/*========================================回调函数===========================================================*/
-bool BattleLayer::onTouchBegan(Touch* touch, Event* event)
-{
-    // 获取触摸点坐标
-    Vec2 touchPoint = touch->getLocation();
-
-    // 检查是否点击到英雄，这里假设英雄的sprite是可点击的
-    for (int i = 0; i < Player[player1].Hero_on_bench.size(); i++)
-    {
-        Player[player1].Hero_on_bench[i].sprite->stopAllActions();
-        if (Player[player1].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
-        {
-            initial_position = Player[player1].Hero_on_bench[i].sprite->getPosition();
-            select_index = i;
-            return true;
-        }
-    }
-    return false;
-}
-void BattleLayer::onTouchMoved(Touch* touch, Event* event)
-{
-    auto touchPoint = touch->getLocation();
-    Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
-
-   /* auto selected_background = Sprite::create("selected_background.png");
-    selected_background->setTag(10);
-    this->addChild(selected_background);*/
-}
-void BattleLayer::onTouchEnded(Touch* touch, Event* event)
-{
-    /*this->removeChildByTag(10);*/
-
-    auto touchPoint = touch->getLocation();
-
-    if(ifInMap(touchPoint))
-    {
-        int X = Player[player1].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
-        int Y = Player[player1].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
-        Player[player1].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X,Y,ME));
-        Player[player1].Hero_on_court.push_back(Player[player1].Hero_on_bench[select_index]);// 加到court里
-        Player[player1].Hero_on_bench.erase(Player[player1].Hero_on_bench.begin() + select_index);// 从bench里删除
-    }
-    else
-    {
-        Player[player1].Hero_on_bench[select_index].sprite->setPosition(initial_position);
-    }
-}
-
 
 /*----------------------显示部分-------------------------*/
 void BattleLayer::card_remove(int index)

@@ -15,6 +15,10 @@ public:
     int player1;//玩家1
     int player2;//玩家2
 
+    int situation=Fighting;
+
+    void OverShoot(int,int);
+
     void addHero(int,int,int);//英雄加入场上
 
     vector<Bullet> bullet;        //管理子弹
@@ -37,11 +41,6 @@ public:
 
     void error_display(const std::string& displayText);
     void error_window_close();
-
-    /*==============监听器回调函数=================*/
-    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
-    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
-    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 
 private:
     int select_index; // 用于存储当前选中的备战席上的英雄的索引
