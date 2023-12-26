@@ -158,6 +158,8 @@ void BattleLayer::myupdate(float dt)
     check_death(Player[player2].Hero_fighting); //检查英雄死亡并退场
     seekAndMove(Player[player1].Hero_fighting, Player[player2].Hero_fighting);
     seekAndMove(Player[player2].Hero_fighting, Player[player1].Hero_fighting);
+    attribute(Player[player1].Hero_fighting);   //红蓝条
+    attribute(Player[player2].Hero_fighting);
 
 
     // 获取MySprite类中的信息
@@ -196,6 +198,7 @@ void BattleLayer::update_attack(float dt)
     auto it = Player[player1].Hero_fighting.begin();
     while (it != Player[player1].Hero_fighting.end()) {
         if (it->current_enemy != nullptr&&it->enemyInDistance()) {
+            it->current_cooldown_round++;//蓝条增加
             Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
@@ -208,6 +211,7 @@ void BattleLayer::update_attack(float dt)
     auto it2 = Player[player2].Hero_fighting.begin();
     while (it2 != Player[player2].Hero_fighting.end()) {
         if (it2->current_enemy != nullptr && it2->enemyInDistance()) {
+            it2->current_cooldown_round++;//蓝条增加
             Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
@@ -328,6 +332,33 @@ void BattleLayer::addHero(int player,int station,int camp)
             Player[player].Hero_fighting[i].sprite->retain();
             Player[player].Hero_fighting[i].sprite->removeFromParentAndCleanup(false);
             this->addChild(Player[player].Hero_fighting[i].sprite, 0);
+            //attribute_display(Player[player].Hero_fighting[i].sprite);
+            /*auto grey1 = Sprite::create("grey_bar.png");
+            auto grey2 = Sprite::create("grey_bar.png");
+            auto red = Sprite::create("red_bar.png");
+            auto blue = Sprite::create("blue_bar.png");
+            grey1->setAnchorPoint(Vec2(0, 0));
+            grey2->setAnchorPoint(Vec2(0, 0));
+            red->setAnchorPoint(Vec2(0, 0));
+            blue->setAnchorPoint(Vec2(0, 0));
+            cocos2d::Size targetSize(BAR_LENGTH, BAR_HEIGHT); // 调整血条的大小
+            grey1->setContentSize(targetSize);
+            grey2->setContentSize(targetSize);
+            red->setContentSize(targetSize);
+            blue->setContentSize(targetSize);
+            grey1->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height + BAR_HEIGHT));
+            red->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height+ BAR_HEIGHT));
+            grey2->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height));
+            blue->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height));
+            cocos2d::Size red_targetSize(BAR_LENGTH, BAR_HEIGHT);
+            cocos2d::Size blue_targetSize(BAR_LENGTH, BAR_HEIGHT);
+            red->setContentSize(red_targetSize);
+            blue->setContentSize(blue_targetSize);
+
+            Player[player].Hero_fighting[i].sprite->addChild(grey1);
+            Player[player].Hero_fighting[i].sprite->addChild(grey2);
+            Player[player].Hero_fighting[i].sprite->addChild(red,RED_TAG);
+            Player[player].Hero_fighting[i].sprite->addChild(blue,BLUE_TAG);*/
         }
     }
 }
@@ -522,10 +553,10 @@ void BattleLayer::store_display()
     menu4->setPosition(card_px(3));
     this->addChild(menu4);
 }
-void BattleLayer::attribute_display() // 血量与蓝条的展示
+void BattleLayer::attribute_display(Sprite* mySprite) // 血量与蓝条的展示
 {
-    auto mySprite = Sprite::create("kunkun.png");//创建精灵
-    this->addChild(mySprite, 0);
+    //auto mySprite = Sprite::create("kunkun.png");//创建精灵
+    //this->addChild(mySprite, 0);
     auto grey1 = Sprite::create("grey_bar.png");
     auto grey2 = Sprite::create("grey_bar.png");
     auto red = Sprite::create("red_bar.png");
@@ -547,10 +578,26 @@ void BattleLayer::attribute_display() // 血量与蓝条的展示
     cocos2d::Size blue_targetSize(270, 37);
     red->setContentSize(red_targetSize);
     blue->setContentSize(blue_targetSize);
-    this->addChild(grey1);
+    /*this->addChild(grey1);
     this->addChild(grey2);
     this->addChild(red);
-    this->addChild(blue);
+    this->addChild(blue);*/
+
+    mySprite->addChild(grey1);
+    mySprite->addChild(grey2);
+    mySprite->addChild(red);
+    mySprite->addChild(blue);
+}
+void BattleLayer::attribute(vector<MyHero>& Hero_fighting)
+{
+    auto it = Hero_fighting.begin();
+    while (it != Hero_fighting.end()) {
+        it->sprite->getChildByTag(RED_TAG)->setScaleX(float(it->current_hp) / float(it->full_hp) );
+        it->sprite->getChildByTag(BLUE_TAG)->setScaleX(float(it->current_cooldown_round) / float(it->needed_cooldown_round) );
+        if(float(it->current_cooldown_round) / float(it->needed_cooldown_round)==1)
+            it->current_cooldown_round=0;
+        it++;
+    }
 }
 
 

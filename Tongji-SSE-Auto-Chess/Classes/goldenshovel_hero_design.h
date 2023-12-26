@@ -35,6 +35,11 @@ using namespace std;
 #define Fighting 0
 #define GameOver 1
 
+#define BAR_LENGTH 150
+#define BAR_HEIGHT 20
+#define RED_TAG  0
+#define BLUE_TAG 1
+
 class MyHero;
 class Equipment;
 class MySprite;
@@ -47,7 +52,10 @@ class MyObject{
 public:
 	MyObject() {};
 	MyObject(int hp,/* int xp, int av,*/ int x = -1, int y = -1) :                             // 构造函数
-		current_hp(hp), /*current_xp(xp), armor_value(av),*/ location_x(x), location_y(y) {};
+		current_hp(hp), /*current_xp(xp), armor_value(av),*/ location_x(x), location_y(y) 
+    {
+        full_hp = current_hp;
+    };
 
 	//virtual void my_move(int new_x, int new_y) = 0;                                        // 移动函数（纯虚函数）
     vector<Equipment> equipment;
@@ -405,6 +413,42 @@ inline int getHeroCost(const string& heroName) {
     return 0;
 }
 
+inline void attribute(Sprite* mySprite) // 血量与蓝条的展示
+{
+    //auto mySprite = Sprite::create("kunkun.png");//创建精灵
+    //this->addChild(mySprite, 0);
+    auto grey1 = Sprite::create("grey_bar.png");
+    auto grey2 = Sprite::create("grey_bar.png");
+    auto red = Sprite::create("red_bar.png");
+    auto blue = Sprite::create("blue_bar.png");
+    grey1->setAnchorPoint(Vec2(0, 0));
+    grey2->setAnchorPoint(Vec2(0, 0));
+    red->setAnchorPoint(Vec2(0, 0));
+    blue->setAnchorPoint(Vec2(0, 0));
+    cocos2d::Size targetSize(BAR_LENGTH, BAR_HEIGHT); // 调整血条的大小
+    grey1->setContentSize(targetSize);
+    grey2->setContentSize(targetSize);
+    red->setContentSize(targetSize);
+    blue->setContentSize(targetSize);
+    grey1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height + BAR_HEIGHT));
+    red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height + BAR_HEIGHT));
+    grey2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height));
+    blue->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height));
+    cocos2d::Size red_targetSize(BAR_LENGTH, BAR_HEIGHT);
+    cocos2d::Size blue_targetSize(BAR_LENGTH, BAR_HEIGHT);
+    red->setContentSize(red_targetSize);
+    blue->setContentSize(blue_targetSize);
+    /*this->addChild(grey1);
+    this->addChild(grey2);
+    this->addChild(red);
+    this->addChild(blue);*/
+
+    mySprite->addChild(grey1);
+    mySprite->addChild(grey2);
+    mySprite->addChild(red,1,RED_TAG);
+    mySprite->addChild(blue,1,BLUE_TAG);
+}
+
 inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_shop[], vector<MyHero>& Hero, cocos2d::Layer* parentLayer) {
     /*for (int i = 0; i < 4; ++i) {
         CCLOG("Hero_in_shop[%d]: %s", i, Hero_in_shop[i].c_str());
@@ -433,33 +477,17 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
         MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
 
         auto new_hero_Sprite = Sprite::create(filename);
+
+        attribute(new_hero_Sprite);//红蓝条加入子节点
+
         set_a_new_hero->sprite = new_hero_Sprite;
+
+
 
         // 可视化，并给position赋值
 
         return set_a_new_hero;
     }
-}
-
-inline MyHero* set_a_hero_test(MySprite& player, string hero_name, string Hero_in_shop[]) {
-    /*for (int i = 0; i < 4; ++i) {
-        CCLOG("Hero_in_shop[%d]: %s", i, Hero_in_shop[i].c_str());
-    }*/
-
-    // 扣钱
-
-        string filename = hero_name + ".png";
-
-        // 分配在堆上
-        MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
-
-        auto new_hero_Sprite = Sprite::create(filename);
-        set_a_new_hero->sprite = new_hero_Sprite;
-
-        // 可视化，并给position赋值
-
-        return set_a_new_hero;
-
 }
 
 inline void MySprite::copy()
