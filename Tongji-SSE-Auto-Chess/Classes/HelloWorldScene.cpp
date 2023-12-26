@@ -3,8 +3,6 @@
 #include "Test.h"
 #include <Show_Chinese.h>
 #include "NetworkConnection.h"
-#include "Client.h"
-
 
 USING_NS_CC;
 
@@ -23,7 +21,6 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-   
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -39,10 +36,9 @@ bool HelloWorld::init()
     // 使用 NetworkManager 检查网络连接
     NetworkManager::getInstance()->checkNetworkConnection();
     /*****************************************************/
- 
-    
 
-    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
     bool sound = UserDefault::getInstance()->getBoolForKey("SOUND"); //声音变量
     LabelTTF* isSoundBtn; //声音切换按钮
     if (sound)
@@ -182,8 +178,6 @@ bool HelloWorld::init()
         origin.y + visibleSize.height / 2 - height * 2));
     this->addChild(GameMenu, 1);//将整个菜单加入场景中
 
-    char* msg = "3Hello";
-    Client::getInstance()->send_msg(msg);
     return true;
 }
 
