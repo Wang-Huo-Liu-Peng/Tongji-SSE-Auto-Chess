@@ -23,7 +23,7 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-   
+    Client::getInstance()->connect_to_server();
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -181,9 +181,18 @@ bool HelloWorld::init()
     GameMenu->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 2 - height * 2));
     this->addChild(GameMenu, 1);//将整个菜单加入场景中
-
+    if (Client::getInstance()->csocket.isConnected)
+        CCLOG("connected");
+    else
+        CCLOG("not connected");
     char* msg = "3Hello";
+    char result=Client::getInstance()->send_msg(msg);
+    CCLOG(&result);
     Client::getInstance()->send_msg(msg);
+    Client::getInstance()->send_msg(msg);
+    Client::getInstance()->send_msg(msg);
+    Client::getInstance()->send_msg(msg);
+    CCLOG("aaa");
     return true;
 }
 

@@ -8,7 +8,7 @@ using namespace std;
 #include"ThreadPool.h"
 
 #define  BUF_LEN 1024
-#define serverIp  "192.168.14.164"
+#define serverIp  "100.67.79.238"
 //192.168.14.164
 #define serverPort 1986
 
@@ -25,21 +25,15 @@ public:
 	char* CONNECTED = "CONNECTED";
 	inline int connect_to_server();
 	inline void recv_msg();
-	inline void send_msg(char* msg);
+	inline int send_msg(char* msg);
 	inline void begin_send_and_listen();
 	ThreadPool pool;
 	CSocket csocket;
 private:
 	Client() {
 		pool.init();
-		int connect = connect_to_server();
 
 		begin_send_and_listen();
-		Sleep(100);
-		if (connect)
-		{
-			send_msg(CONNECTED);
-		}
 	}
 
 	~Client() {
@@ -62,7 +56,7 @@ int Client::connect_to_server() {
 	return connect;
 }
 
-void Client::send_msg(char* msg) {
+int Client::send_msg(char* msg) {
 	//char buf[BUF_LEN];
 	/*if ((csocket.buffer_send) != NULL)
 		delete[](csocket.buffer_send);
@@ -70,8 +64,8 @@ void Client::send_msg(char* msg) {
 	strcpy(csocket.buffer_send, msg);*/
 	//cin >> csocket.buffer_send;
 	//csocket.Send(csocket.buffer_send, strlen(csocket.buffer_send));
-	csocket.Send(msg, strlen(msg));
-	return;
+	int result=csocket.Send(msg, strlen(msg));
+	return result;
 }
 
 void Client::begin_send_and_listen() {
@@ -79,7 +73,7 @@ void Client::begin_send_and_listen() {
 		if (&(this->csocket) != NULL)
 		{
 			this->csocket.Receive(BUF_LEN);
-			_endthread();
+			//_endthread();
 		}
 	};
 	pool.submit(lambda);
