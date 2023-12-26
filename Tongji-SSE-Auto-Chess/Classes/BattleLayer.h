@@ -37,7 +37,8 @@ public:
 
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除
-    void attribute_display();// 血条与蓝条的显示
+    void attribute_display(Sprite*);// 血条与蓝条的显示
+    void attribute(vector<MyHero>& Hero_fighting);
 
     /*cocos2d::RefPtr<cocos2d::Sprite> backgroundRef;
     cocos2d::RefPtr<cocos2d::Label> labelRef;*/
