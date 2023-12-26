@@ -185,13 +185,9 @@ bool HelloWorld::init()
         CCLOG("connected");
     else
         CCLOG("not connected");
-    char* msg = "3Hello";
+    char* msg = "ThisisClient";
     char result=Client::getInstance()->send_msg(msg);
     CCLOG(&result);
-    Client::getInstance()->send_msg(msg);
-    Client::getInstance()->send_msg(msg);
-    Client::getInstance()->send_msg(msg);
-    Client::getInstance()->send_msg(msg);
     CCLOG("aaa");
     return true;
 }
