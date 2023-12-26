@@ -1,6 +1,5 @@
 #pragma once
-#ifndef __THREADPOOL_H__
-#define __THREADPOOL_H__
+
 #include <functional>
 #include <future>
 #include <mutex>
@@ -10,7 +9,6 @@
 #include <vector>
 
 #include "SafeQueue.h"
-#define Threads 10
 
 class ThreadPool {
 private:
@@ -47,11 +45,8 @@ private:
   std::mutex m_conditional_mutex;
   std::condition_variable m_conditional_lock;
 public:
-  ThreadPool(const int n_threads=Threads)
+  ThreadPool(const int n_threads=1)
     : m_threads(std::vector<std::thread>(n_threads)), m_shutdown(false) {
-  }
-  ~ThreadPool() {
-      shutdown();
   }
 
   ThreadPool(const ThreadPool &) = delete;
@@ -102,4 +97,3 @@ public:
     return task_ptr->get_future();
   }
 };
-#endif

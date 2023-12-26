@@ -1,6 +1,7 @@
 #include "BattleScene.h"
 #include "BackGroundLayer.h"
 #include "BattleLayer.h"
+#include "PrepareScene.h"
 
 bool BattleScene::init(int Player1,int Player2)
 {
@@ -16,10 +17,10 @@ bool BattleScene::init(int Player1,int Player2)
     BackGroundLayer* Map = BackGroundLayer::create();
     this->addChild(Map);//背景图片层
 
-    BattleLayer* HeroBattle = BattleLayer::create(1, 2);
+    HeroBattle = BattleLayer::create(1, 2);
     this->addChild(HeroBattle);//战斗层
 
-
+    this->schedule(schedule_selector(BattleScene::ifGameOver));
 
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
@@ -51,5 +52,15 @@ BattleScene* BattleScene::create(int Player1,int Player2)
     {
         CC_SAFE_DELETE(ret);
         return nullptr;
+    }
+}
+
+void BattleScene::ifGameOver(float dt)
+{
+    if (HeroBattle->situation == GameOver) {
+        this->removeAllChildrenWithCleanup(true);
+        Director::getInstance()->popScene(); // 释放当前场景
+        PrepareScene* battle = PrepareScene::create(1);
+        Director::getInstance()->replaceScene(battle);
     }
 }

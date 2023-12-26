@@ -2,7 +2,6 @@
 #include <process.h>
 #include <iostream>
 using namespace std;
-#include <string>
 #pragma comment(lib,"ws2_32.lib") 
 #include "CSocket.h"
 #include"ThreadPool.h"
@@ -16,8 +15,8 @@ using namespace std;
 class Client {
 public:
 	static Client* getInstance() {
-		static Client instance;
-		return &instance;
+		static Client _client;
+		return &_client;
 	}
 
 	char msg[BUF_LEN];
@@ -32,7 +31,6 @@ public:
 private:
 	Client() {
 		pool.init();
-
 		begin_send_and_listen();
 	}
 
@@ -41,7 +39,7 @@ private:
 	}
 };
 
-void Client::recv_msg()
+void Client::recv()
 {
 	if (&(this->csocket) != NULL)
 	{
@@ -64,12 +62,12 @@ int Client::send_msg(char* msg) {
 	strcpy(csocket.buffer_send, msg);*/
 	//cin >> csocket.buffer_send;
 	//csocket.Send(csocket.buffer_send, strlen(csocket.buffer_send));
-	int result=csocket.Send(msg, strlen(msg));
+	int result = csocket.Send(msg, strlen(msg));
 	return result;
 }
 
-void Client::begin_send_and_listen() {
-	auto lambda = [&]() {
+void Client::begin_listen() {
+	auto lambda = [=]() {
 		if (&(this->csocket) != NULL)
 		{
 			this->csocket.Receive(BUF_LEN);
@@ -77,9 +75,19 @@ void Client::begin_send_and_listen() {
 		}
 	};
 	pool.submit(lambda);
-	if (csocket.IsExit())
+	while (1)
 	{
-		csocket.Close();
-		cout << "exit success" << endl;
+		char buf[BUF_LEN];
+		cin >> buf;
+
+		csocket.Send(buf, strlen(buf));
+		if (csocket.IsExit())
+		{
+			csocket.Close();
+			cout << "exit success" << endl;
+			break;
+		}
 	}
+	getchar();
 }
+

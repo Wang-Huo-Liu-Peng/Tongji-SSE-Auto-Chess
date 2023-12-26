@@ -3,8 +3,6 @@
 #include "Test.h"
 #include <Show_Chinese.h>
 #include "NetworkConnection.h"
-#include "Client.h"
-
 
 USING_NS_CC;
 
@@ -39,10 +37,9 @@ bool HelloWorld::init()
     // 使用 NetworkManager 检查网络连接
     NetworkManager::getInstance()->checkNetworkConnection();
     /*****************************************************/
- 
-    
 
-    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
     bool sound = UserDefault::getInstance()->getBoolForKey("SOUND"); //声音变量
     LabelTTF* isSoundBtn; //声音切换按钮
     if (sound)
@@ -186,9 +183,7 @@ bool HelloWorld::init()
     else
         CCLOG("not connected");
     char* msg = "ThisisClient";
-    char result=Client::getInstance()->send_msg(msg);
-    CCLOG(&result);
-    CCLOG("aaa");
+    char result = Client::getInstance()->send_msg(msg);
     return true;
 }
 
@@ -202,4 +197,5 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
 }

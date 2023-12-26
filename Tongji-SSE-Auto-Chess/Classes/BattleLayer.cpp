@@ -38,6 +38,19 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//
 
+    //有bug待删除
+    Player[1].sprite->setPosition(player1_px);
+    Player[2].sprite = Sprite::create("Player_2.png");
+    Player[2].sprite->setPosition(player2_px);
+
+    Player[player1].sprite->retain();
+    Player[player1].sprite->removeFromParentAndCleanup(false);
+    this->addChild(Player[player1].sprite, 1);
+    Player[player2].sprite->retain();
+    Player[player2].sprite->removeFromParentAndCleanup(false);
+    this->addChild(Player[player2].sprite, 1);
+
+
     /*===================监听器的创建=======================*/
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
@@ -127,8 +140,6 @@ bool BattleLayer::init(int Player1,int Player2)
     levelLabel->setPosition(Vec2(100, 200));
     this->addChild(levelLabel);
 
-
-
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
 
@@ -162,9 +173,22 @@ void BattleLayer::myupdate(float dt)
     //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
     //蓝条满放大招，后续加入
 
-    //if (gameOver(player1, player2) || gameOver(player2, player1)) {
-    //    //里面应为退出本次战斗场景的一些操作，暂时没写
-    //}
+    if (gameOver(player1, player2)) {
+        situation = GameOver;
+        //OverShoot(player1,player2);
+        if (bullet.empty()) {
+            this->unschedule(schedule_selector(BattleLayer::myupdate));
+            this->unschedule(schedule_selector(BattleLayer::update_attack));
+        }
+    }
+    else if (gameOver(player2, player1)) {
+        situation = GameOver;
+        //OverShoot(player1, player2);
+        if (bullet.empty()) {
+            this->unschedule(schedule_selector(BattleLayer::myupdate));
+            this->unschedule(schedule_selector(BattleLayer::update_attack));
+        }
+    }
 }
 
 void BattleLayer::update_attack(float dt)
@@ -268,7 +292,7 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
 bool BattleLayer::gameOver(int index1,int index2)
 {
     if (Player[index1].Hero_fighting.empty()) {//玩家1的英雄死完了
-        auto it = Player[index2].Hero_fighting.begin();
+        /*auto it = Player[index2].Hero_fighting.begin();
         while(it!= Player[index2].Hero_fighting.end()){
             Bullet b(&Player[index1], Player[index1].sprite->getPosition(), 1, "basketball");
             bullet.push_back(b);
@@ -276,7 +300,8 @@ bool BattleLayer::gameOver(int index1,int index2)
             auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
             b.sprite->runAction(moveTo);
             it++;
-        }
+        }*/
+        Player[index1].current_hp -= Player[index2].Hero_fighting.size();
         return true;//返回true，表明本次战斗结束
     }
     return false;

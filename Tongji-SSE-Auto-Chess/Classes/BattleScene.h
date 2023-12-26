@@ -10,9 +10,12 @@ class BattleScene : public cocos2d::Scene
 public:
     static BattleScene* create(int Player1,int Player2);
     virtual bool init(int Player1,int Player2);
+    BattleLayer* HeroBattle;
 
     int player1;       //玩家下标
     int player2;       //玩家下标
+
+    void ifGameOver(float);
 
 };
 

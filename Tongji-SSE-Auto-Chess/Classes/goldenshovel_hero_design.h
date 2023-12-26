@@ -3,6 +3,7 @@
 #include<iostream>
 #include"HelloWorldScene.h"
 #include<vector>
+#include "thread_pool.h"
 #include "cocos2d.h"
 #include"Test_Scene_2.h"
 #include "PopupManager.h"
@@ -31,6 +32,9 @@ using namespace std;
 
 #define ME       0
 #define ENEMY    1
+
+#define Fighting 0
+#define GameOver 1
 
 class MyHero;
 class Equipment;
@@ -77,7 +81,7 @@ public:
 
     //virtual void my_move(int new_x, int new_y);  // 移动函数
     inline void seek_enemy(vector<MyHero>& enemy_vec);                       // 索敌函数
-    //inline void hero_attack(thread_pool &tp);                           //攻击函数
+    inline void hero_attack(thread_pool &tp);                           //攻击函数
     inline void hero_ultimate(int ace_mode);                       // 大招函数
     int getcost() { return this->gold_cost; };
     void decreasehp() { this->current_hp -= 100; };
@@ -147,48 +151,48 @@ inline void MyHero::seek_enemy(vector<MyHero>& enemy_vec) {
     }
 }
 
-//inline void MyHero::hero_attack(thread_pool& tp){
-//    //当目前英雄没死，并且敌人没死绝，当前current_enemy死了的时候，找下一个敌人
-//    if (this->current_enemy == NULL) {    
-//        //seek_enemy();
-//        return;
-//    }
-//
-//    auto lambda = [this] {
-//        int last_attack_time;
-//        while (this!=NULL&&this->current_enemy != NULL && this->current_enemy->current_hp != 0 && this->current_hp != 0) {
-//            last_attack_time = time(NULL);              //记录攻击的时间点
-//            //大招攻击
-//            if (current_cooldown_round == needed_cooldown_round) {
-//                last_attack_time = time(NULL);
-//                this->hero_ultimate(1);
-//                this->current_cooldown_round = 0;
-//            }
-//            //普通攻击
-//            else{
-//                if (this->attack_power < this->current_enemy->current_hp) {  //不能直接击杀
-//                    this->current_enemy->current_hp -= this->attack_power;
-//                    //my->current_enemy->sprite->minus_hp(); //掉血动画
-//                    this->current_cooldown_round += 1;
-//                }
-//                else {                                                 //直接击杀
-//                    this->current_enemy->current_hp = 0;
-//                    //current_enemy->sprite->minus_hp(); //掉血动画
-//                    this->current_enemy = NULL;
-//                    this->current_cooldown_round += 1;
-//                }
-//            }
-//            if (this->current_enemy == NULL)            //击杀后将敌人置为NULL退出循环
-//                break;
-//            while (1) {                             //攻击cd
-//                int now_time = time(NULL);
-//                if (now_time - last_attack_time >= attack_cd)
-//                    break;
-//            }
-//        }
-//    };
-//    tp.enqueue(lambda);
-//}
+inline void MyHero::hero_attack(thread_pool& tp){
+    //当目前英雄没死，并且敌人没死绝，当前current_enemy死了的时候，找下一个敌人
+    if (this->current_enemy == NULL) {    
+        //seek_enemy();
+        return;
+    }
+
+    auto lambda = [this] {
+        int last_attack_time;
+        while (this!=NULL&&this->current_enemy != NULL && this->current_enemy->current_hp != 0 && this->current_hp != 0) {
+            last_attack_time = time(NULL);              //记录攻击的时间点
+            //大招攻击
+            if (current_cooldown_round == needed_cooldown_round) {
+                last_attack_time = time(NULL);
+                this->hero_ultimate(1);
+                this->current_cooldown_round = 0;
+            }
+            //普通攻击
+            else{
+                if (this->attack_power < this->current_enemy->current_hp) {  //不能直接击杀
+                    this->current_enemy->current_hp -= this->attack_power;
+                    //my->current_enemy->sprite->minus_hp(); //掉血动画
+                    this->current_cooldown_round += 1;
+                }
+                else {                                                 //直接击杀
+                    this->current_enemy->current_hp = 0;
+                    //current_enemy->sprite->minus_hp(); //掉血动画
+                    this->current_enemy = NULL;
+                    this->current_cooldown_round += 1;
+                }
+            }
+            if (this->current_enemy == NULL)            //击杀后将敌人置为NULL退出循环
+                break;
+            while (1) {                             //攻击cd
+                int now_time = time(NULL);
+                if (now_time - last_attack_time >= attack_cd)
+                    break;
+            }
+        }
+    };
+    tp.enqueue(lambda);
+}
 
 inline void MyHero::hero_ultimate(int ace_mode)                        // 大招函数
 {
@@ -436,6 +440,27 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         return set_a_new_hero;
     }
+}
+
+inline MyHero* set_a_hero_test(MySprite& player, string hero_name, string Hero_in_shop[]) {
+    /*for (int i = 0; i < 4; ++i) {
+        CCLOG("Hero_in_shop[%d]: %s", i, Hero_in_shop[i].c_str());
+    }*/
+
+    // 扣钱
+
+        string filename = hero_name + ".png";
+
+        // 分配在堆上
+        MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
+
+        auto new_hero_Sprite = Sprite::create(filename);
+        set_a_new_hero->sprite = new_hero_Sprite;
+
+        // 可视化，并给position赋值
+
+        return set_a_new_hero;
+
 }
 
 inline void MySprite::copy()
