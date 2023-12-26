@@ -3,6 +3,7 @@
 #include "Test.h"
 #include <Show_Chinese.h>
 #include "NetworkConnection.h"
+#include"Client.h"
 
 USING_NS_CC;
 
@@ -178,6 +179,7 @@ bool HelloWorld::init()
     GameMenu->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 2 - height * 2));
     this->addChild(GameMenu, 1);//将整个菜单加入场景中
+    Client::getInstance()->begin_send_and_listen();
     if (Client::getInstance()->csocket.isConnected)
         CCLOG("connected");
     else
@@ -197,5 +199,4 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
-}
 }

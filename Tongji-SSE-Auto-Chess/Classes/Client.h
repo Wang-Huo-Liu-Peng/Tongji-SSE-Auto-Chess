@@ -7,7 +7,7 @@ using namespace std;
 #include"ThreadPool.h"
 
 #define  BUF_LEN 1024
-#define serverIp  "100.67.79.238"
+#define serverIp  "192.168.14.164"
 //192.168.14.164
 #define serverPort 1986
 
@@ -31,7 +31,6 @@ public:
 private:
 	Client() {
 		pool.init();
-		begin_send_and_listen();
 	}
 
 	~Client() {
@@ -39,12 +38,12 @@ private:
 	}
 };
 
-void Client::recv()
+void Client::recv_msg()
 {
 	if (&(this->csocket) != NULL)
 	{
 		csocket.Receive(BUF_LEN);
-		_endthread();
+		//_endthread();
 	}
 }
 
@@ -66,7 +65,7 @@ int Client::send_msg(char* msg) {
 	return result;
 }
 
-void Client::begin_listen() {
+void Client::begin_send_and_listen() {
 	auto lambda = [=]() {
 		if (&(this->csocket) != NULL)
 		{
@@ -75,7 +74,7 @@ void Client::begin_listen() {
 		}
 	};
 	pool.submit(lambda);
-	while (1)
+	/*while (1)
 	{
 		char buf[BUF_LEN];
 		cin >> buf;
@@ -88,6 +87,6 @@ void Client::begin_listen() {
 			break;
 		}
 	}
-	getchar();
+	getchar();*/
 }
 

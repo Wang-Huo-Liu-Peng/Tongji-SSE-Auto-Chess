@@ -20,13 +20,13 @@ public:
 	void SetSocketHandle(SOCKET socket);
 	void Close();
 	bool IsExit();
+	bool isConnected;	//链接状态
 private:
 
 	void SetSocketError(SocketEnum::SocketError error);	//设置错误信息
 	void SetSocketError(void);
 	bool IsSocketValid(void);
 	SOCKET csocket;
-	bool isConnected;	//链接状态
 	struct sockaddr_in serverAddress;
 	char* buffer;	//存接收数据
 	int sendCount;	//发送数据长度

@@ -67,6 +67,8 @@ bool CSocket::SetBlocking(bool isBlock)
 
 bool CSocket::IsExit()
 {
+	if (buffer == NULL)
+		buffer = new char[1024];
 	int len = strlen(buffer);
 	int i = 0;
 	int size = 4;
