@@ -45,6 +45,7 @@ bool BattleLayer::init(int Player1,int Player2)
     listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
+
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
         "refresh_shop.png",
@@ -68,6 +69,27 @@ bool BattleLayer::init(int Player1,int Player2)
     this->addChild(menu0);
 
 
+    auto my_buy_exp_button = MenuItemImage::create(
+        "buy_exp.png", // 设置按钮的背景图
+        "buy_exp.png",
+        [&](Ref* sender) {
+            if (Player[player1].getmoney() < 4) {
+                PopupManager::displayPopup(this, "No enough Money to buy exp");
+            }
+            else {
+                Player[player1].increaseexp(4);
+                Player[player1].decreasemoney(4);
+                Player[player1].level_up();
+            }
+            CCLOG("buy_exp按钮被点击");
+        });
+
+    auto menu_buy_exp = Menu::create(my_buy_exp_button, nullptr);
+    menu_buy_exp->setTag(0); // 设置按钮的tag（这里假设buy_exp按钮的tag为1）
+    menu_buy_exp->setContentSize(targetSize);
+    menu_buy_exp->setPosition(buyexp_button); // 设置buy_exp按钮的位置
+    this->addChild(menu_buy_exp);
+
     Player[player1].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
@@ -90,6 +112,23 @@ bool BattleLayer::init(int Player1,int Player2)
     addHero(player1,FIGHTING,ME);
     addHero(player2,FIGHTING,ENEMY);
 
+    // 创建用于显示current_exp的标签
+    expLabel = Label::createWithTTF("Exp: 0", "fonts/arial.ttf", 30);
+    expLabel->setPosition(Vec2(100, 300));
+    this->addChild(expLabel);
+
+    // 创建用于显示current_money的标签
+    moneyLabel = Label::createWithTTF("Money: 0", "fonts/arial.ttf", 30);
+    moneyLabel->setPosition(Vec2(100, 250));
+    this->addChild(moneyLabel);
+
+    // 创建用于显示star_level的标签
+    levelLabel = Label::createWithTTF("Level: 0", "fonts/arial.ttf", 30);
+    levelLabel->setPosition(Vec2(100, 200));
+    this->addChild(levelLabel);
+
+
+
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
 
@@ -108,6 +147,17 @@ void BattleLayer::myupdate(float dt)
     check_death(Player[player2].Hero_fighting); //检查英雄死亡并退场
     seekAndMove(Player[player1].Hero_fighting, Player[player2].Hero_fighting);
     seekAndMove(Player[player2].Hero_fighting, Player[player1].Hero_fighting);
+
+
+    // 获取MySprite类中的信息
+    int currentExp = Player[player1].getexp();
+    int currentMoney = Player[player1].getmoney();
+    int starLevel = Player[player1].getlevel();
+
+    // 更新标签内容
+    expLabel->setString(StringUtils::format("Exp: %d", currentExp));
+    moneyLabel->setString(StringUtils::format("Money: %d", currentMoney));
+    levelLabel->setString(StringUtils::format("Level: %d", starLevel));
 
     //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
     //蓝条满放大招，后续加入
