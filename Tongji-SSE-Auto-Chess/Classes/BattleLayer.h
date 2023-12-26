@@ -15,9 +15,16 @@ public:
     int player1;//玩家1
     int player2;//玩家2
 
+<<<<<<< .merge_file_Nwb0dp
     int situation=Fighting;
 
     void OverShoot(int,int);
+=======
+    cocos2d::Label* expLabel;
+    cocos2d::Label* moneyLabel;
+    cocos2d::Label* levelLabel;
+
+>>>>>>> .merge_file_w7w8Kz
 
     void addHero(int,int,int);//英雄加入场上
 

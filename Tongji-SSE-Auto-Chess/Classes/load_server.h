@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __LOAD__SERVER__H__
+#define __LOAD__SERVER__H__
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -125,3 +127,4 @@ int load_server::end() {
 	fs.close();
 	return 1;
 }
+#endif //__LOAD__SERVER__H__

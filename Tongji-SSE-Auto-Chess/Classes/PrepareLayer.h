@@ -10,11 +10,18 @@ class PrepareLayer : public cocos2d::Layer
 public:
     virtual bool init(int index);
     static PrepareLayer* create(int index);
-
+    void update(float dt);
     int player;//玩家1
 
+<<<<<<< .merge_file_gfT9fK
     void addHero(int, int, int);//英雄加入场上
 
+=======
+    void addHero(vector<MyHero>& Hero, int, int);//英雄加入场上
+    cocos2d::Label* expLabel;
+    cocos2d::Label* moneyLabel;
+    cocos2d::Label* levelLabel;
+>>>>>>> .merge_file_tYK2ji
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除
 
