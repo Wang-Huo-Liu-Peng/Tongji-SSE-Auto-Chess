@@ -15,6 +15,8 @@ public:
     int player1;//Íæ¼Ò1
     int player2;//Íæ¼Ò2
 
+    int situation=Fighting;
+
     cocos2d::Label* expLabel;
     cocos2d::Label* moneyLabel;
     cocos2d::Label* levelLabel;

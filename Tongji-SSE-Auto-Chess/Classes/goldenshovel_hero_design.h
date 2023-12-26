@@ -33,6 +33,9 @@ using namespace std;
 #define ME       0
 #define ENEMY    1
 
+#define Fighting 0
+#define GameOver 1
+
 class MyHero;
 class Equipment;
 class MySprite;
@@ -437,6 +440,27 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         return set_a_new_hero;
     }
+}
+
+inline MyHero* set_a_hero_test(MySprite& player, string hero_name, string Hero_in_shop[]) {
+    /*for (int i = 0; i < 4; ++i) {
+        CCLOG("Hero_in_shop[%d]: %s", i, Hero_in_shop[i].c_str());
+    }*/
+
+    // 扣钱
+
+        string filename = hero_name + ".png";
+
+        // 分配在堆上
+        MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
+
+        auto new_hero_Sprite = Sprite::create(filename);
+        set_a_new_hero->sprite = new_hero_Sprite;
+
+        // 可视化，并给position赋值
+
+        return set_a_new_hero;
+
 }
 
 inline void MySprite::copy()

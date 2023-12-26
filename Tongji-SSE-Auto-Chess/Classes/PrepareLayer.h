@@ -13,7 +13,7 @@ public:
     void update(float dt);
     int player;//玩家1
 
-    void addHero(vector<MyHero>& Hero, int, int);//英雄加入场上
+    void addHero(int, int, int);//英雄加入场上
     cocos2d::Label* expLabel;
     cocos2d::Label* moneyLabel;
     cocos2d::Label* levelLabel;

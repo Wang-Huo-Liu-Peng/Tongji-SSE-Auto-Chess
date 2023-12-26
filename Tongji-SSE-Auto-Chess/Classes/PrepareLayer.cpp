@@ -16,6 +16,8 @@ bool PrepareLayer::init(int index)
 
     player = index;
 
+    Player[index].copy();
+
     /*===================监听器的创建=======================*/
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(PrepareLayer::onTouchBegan, this);
@@ -75,12 +77,13 @@ bool PrepareLayer::init(int index)
     /*====================商店部分结束========================*/
 
     //将双方的英雄加入场景中
-    addHero(Player[player].Hero_on_bench, ON_BENCH, ME);
-    addHero(Player[player].Hero_fighting, FIGHTING, ME);
+    addHero(player, ON_BENCH, ME);
+    addHero(player, FIGHTING, ME);
 
-    Player[player].sprite->setPosition(player1_px);
+
+    Player[1].sprite->setPosition(player1_px);
+    Player[2].sprite->setPosition(player2_px);
     this->addChild(Player[player].sprite,1);
-
 
 
     // 创建用于显示current_exp的标签
@@ -105,19 +108,29 @@ bool PrepareLayer::init(int index)
 }
 
 
-void PrepareLayer::addHero(vector<MyHero>& Hero, int station, int camp)
+void PrepareLayer::addHero(int player, int station, int camp)
 {
-    for (int i = 0; i < Hero.size(); i++) {
-        if (station == ON_BENCH) {
+    if (station == ON_BENCH) {
+        CCLOG("%d", Player[player].Hero_on_bench.size());
+        for (int i = 0; i < Player[player].Hero_on_bench.size(); i++) {
             if (camp == ME)
-                Hero[i].sprite->setPosition(my_bench_px(i));
+                Player[player].Hero_on_bench[i].sprite->setPosition(my_bench_px(i));
             else if (camp == ENEMY)
-                Hero[i].sprite->setPosition(enemy_bench_px(i));
+                Player[player].Hero_on_bench[i].sprite->setPosition(enemy_bench_px(i));
+            Player[player].Hero_on_bench[i].sprite->retain();
+            Player[player].Hero_on_bench[i].sprite->removeFromParentAndCleanup(false);
+            this->addChild(Player[player].Hero_on_bench[i].sprite, 0);
         }
-        else if (station == FIGHTING) {
-            Hero[i].sprite->setPosition(reverse_map_px(Hero[i].location_x, Hero[i].location_y, camp));
+    }
+    else if (station == FIGHTING) {
+        for (int i = 0; i < Player[player].Hero_fighting.size(); i++) {
+            //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
+
+            Player[player].Hero_fighting[i].sprite->retain();
+            Player[player].Hero_fighting[i].sprite->removeFromParentAndCleanup(false);
+            Player[player].Hero_fighting[i].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
+            this->addChild(Player[player].Hero_fighting[i].sprite, 0);
         }
-        this->addChild(Hero[i].sprite, 0);
     }
 }
 
