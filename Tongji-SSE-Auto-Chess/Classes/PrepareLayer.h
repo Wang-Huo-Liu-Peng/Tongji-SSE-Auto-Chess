@@ -4,7 +4,6 @@
 
 #include "cocos2d.h"
 #include "goldenshovel_hero_design.h"
-#include "Bullet.h"
 
 class PrepareLayer : public cocos2d::Layer
 {

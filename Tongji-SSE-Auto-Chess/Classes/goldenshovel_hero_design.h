@@ -258,6 +258,7 @@ public:
     inline void erase_a_player();//删除死了个玩家
     inline void set_a_hero(string hero_name);//将一个英雄从商店选出
     inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
+    inline void copy();//将court上的英雄复制到fighting上
 private:
     int star_level;     // 星级
     int max_hero = star_level + 2;//最多英雄人数
@@ -432,6 +433,14 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
         // 可视化，并给position赋值
 
         return set_a_new_hero;
+    }
+}
+
+inline void MySprite::copy()
+{
+    Hero_fighting.clear();
+    for (int i = 0; i < Hero_on_court.size(); i++) {
+        Hero_fighting.push_back(Hero_on_court[i]);
     }
 }
 

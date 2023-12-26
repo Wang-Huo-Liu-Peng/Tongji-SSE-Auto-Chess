@@ -1,6 +1,7 @@
 #include "PlayWithAI.h"
 #include "BackGroundLayer.h"
 #include "BattleLayer.h"
+#include "PrepareScene.h"
 
 USING_NS_CC;
 
@@ -16,12 +17,15 @@ bool PlayWithAI::init()
 
 
     ///////////////////////////////
-    BackGroundLayer* Map = BackGroundLayer::create();
-    this->addChild(Map);
+    //BackGroundLayer* Map = BackGroundLayer::create();
+    //this->addChild(Map);
 
     Player[1].refresh_shop_free();
 
     Player[2].refresh_shop_free();
+
+    Player[1].sprite = Sprite::create("Player_1.png");
+    
     //接口怎么改
     /*
     MyHero hero1 = set_a_hero(Player[1],"Annie", Player[1].Hero_in_shop, Player[1].Hero_on_court);
@@ -32,8 +36,8 @@ bool PlayWithAI::init()
     Player[2].Hero_on_bench.push_back(hero2);*/
     //this->addChild(Player[1].Hero_on_bench[0].sprite, 2);
 
-    BattleLayer* HeroBattle = BattleLayer::create(1, 2);
-    this->addChild(HeroBattle);
+    //BattleLayer* HeroBattle = BattleLayer::create(1, 2);
+    //this->addChild(HeroBattle);
 
     ///////////////////////////////
 
@@ -51,6 +55,7 @@ bool PlayWithAI::init()
     auto exitMenu = Menu::create(closeItem, NULL);
     exitMenu->setPosition(Vec2::ZERO);
     this->addChild(exitMenu, 1);
+
 
     return true;
 }

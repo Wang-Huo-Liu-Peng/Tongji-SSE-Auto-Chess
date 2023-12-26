@@ -2,6 +2,8 @@
 #include "SelectModeScene.h"
 #include "PlayWithAI.h"
 #include "PlayWithPlayer.h"
+#include "PrepareScene.h"
+#include "goldenshovel_hero_design.h"
 
 USING_NS_CC;
 
@@ -34,7 +36,12 @@ bool SelectModeScene::init()
     Vector<MenuItem*> MenuItems;
     auto ModeItem_1 = MenuItemLabel::create(ModeLabel_1,
         [&](Ref* sender) {
-            Director::getInstance()->pushScene(PlayWithAI::createScene());
+            Player[1].refresh_shop_free();
+            Player[2].refresh_shop_free();
+            Player[1].sprite = Sprite::create("Player_1.png");
+            Player[2].sprite = Sprite::create("Player_2.png");
+            PrepareScene* prepare = PrepareScene::create(1);
+            Director::getInstance()->pushScene(prepare);
         });
     auto ModeItem_2 = MenuItemLabel::create(ModeLabel_2,
         [&](Ref* sender) {

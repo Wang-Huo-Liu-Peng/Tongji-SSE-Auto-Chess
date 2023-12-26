@@ -13,7 +13,7 @@ public:
 
     int player;       //Íæ¼ÒÏÂ±ê
 
-    void addHero(vector<MyHero>&);
+    void goToBattle(float);
 };
 
 #endif // __PREPARE_SCENE_H__

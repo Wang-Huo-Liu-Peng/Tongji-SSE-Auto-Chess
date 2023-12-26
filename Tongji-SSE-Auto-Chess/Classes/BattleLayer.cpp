@@ -17,6 +17,27 @@ bool BattleLayer::init(int Player1,int Player2)
     player1 = Player1;
     player2 = Player2;
 
+    MyHero* newHero = set_a_hero(Player[player2], Player[player2].Hero_in_shop[0], Player[player2].Hero_in_shop, Player[player2].Hero_on_bench, this);
+    newHero->location_x = 1;
+    newHero->location_y = 1;
+    newHero->sprite->setPosition(reverse_map_px(newHero->location_x, newHero->location_y, ENEMY));
+    Player[player2].Hero_on_court.push_back(*newHero);
+
+    MyHero* newHero1 = set_a_hero(Player[player2], Player[player2].Hero_in_shop[1], Player[player2].Hero_in_shop, Player[player2].Hero_on_bench, this);
+    newHero1->location_x = 2;
+    newHero1->location_y = 1;
+    newHero1->sprite->setPosition(reverse_map_px(newHero1->location_x, newHero1->location_y, ENEMY));
+    Player[player2].Hero_on_court.push_back(*newHero1);
+
+    MyHero* newHero2 = set_a_hero(Player[player2], Player[player2].Hero_in_shop[2], Player[player2].Hero_in_shop, Player[player2].Hero_on_bench, this);
+    newHero2->location_x = 3;
+    newHero2->location_y = 0;
+    newHero2->sprite->setPosition(reverse_map_px(newHero2->location_x, newHero2->location_y, ENEMY));
+    Player[player2].Hero_on_court.push_back(*newHero2);
+
+    Player[player1].copy();//将court中的英雄复制到fighting上
+    Player[player2].copy();//
+
     /*===================监听器的创建=======================*/
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
@@ -64,10 +85,10 @@ bool BattleLayer::init(int Player1,int Player2)
     this->addChild(sprite3, 1);
 
     //将双方的英雄加入场景中
-    addHero(Player[player1].Hero_on_bench,ON_BENCH,ME);           
-    addHero(Player[player2].Hero_on_bench,ON_BENCH,ENEMY);
-    addHero(Player[player1].Hero_fighting,FIGHTING,ME);
-    addHero(Player[player2].Hero_fighting,FIGHTING,ENEMY);
+    addHero(player1,ON_BENCH,ME);           
+    addHero(player2,ON_BENCH,ENEMY);
+    addHero(player1,FIGHTING,ME);
+    addHero(player2,FIGHTING,ENEMY);
 
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
@@ -211,19 +232,28 @@ bool BattleLayer::gameOver(int index1,int index2)
     return false;
 }
 
-void BattleLayer::addHero(vector<MyHero>& Hero,int station,int camp)
+void BattleLayer::addHero(int player,int station,int camp)
 {
-    for (int i = 0; i < Hero.size(); i++) {
-        if (station == ON_BENCH) {
+    if (station == ON_BENCH) {
+        CCLOG("%d",Player[player].Hero_on_bench.size());
+        for (int i = 0; i < Player[player].Hero_on_bench.size(); i++) {
             if (camp == ME)
-                Hero[i].sprite->setPosition(my_bench_px(i));
+                Player[player].Hero_on_bench[i].sprite->setPosition(my_bench_px(i));
             else if (camp == ENEMY)
-                Hero[i].sprite->setPosition(enemy_bench_px(i));
+                Player[player].Hero_on_bench[i].sprite->setPosition(enemy_bench_px(i));
+            Player[player].Hero_on_bench[i].sprite->retain();
+            Player[player].Hero_on_bench[i].sprite->removeFromParentAndCleanup(false);
+            this->addChild(Player[player].Hero_on_bench[i].sprite, 0);
         }
-        else if (station == FIGHTING) {
-            Hero[i].sprite->setPosition(reverse_map_px(Hero[i].location_x, Hero[i].location_y, camp));
+    }
+    else if (station == FIGHTING) {
+        for (int i = 0; i < Player[player].Hero_fighting.size(); i++) {
+            //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
+
+            Player[player].Hero_fighting[i].sprite->retain();
+            Player[player].Hero_fighting[i].sprite->removeFromParentAndCleanup(false);
+            this->addChild(Player[player].Hero_fighting[i].sprite, 0);
         }
-        this->addChild(Hero[i].sprite, 0);
     }
 }
 

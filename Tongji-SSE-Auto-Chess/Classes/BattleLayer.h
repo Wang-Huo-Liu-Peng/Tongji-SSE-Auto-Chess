@@ -15,7 +15,7 @@ public:
     int player1;//玩家1
     int player2;//玩家2
 
-    void addHero(vector<MyHero>& Hero,int,int);//英雄加入场上
+    void addHero(int,int,int);//英雄加入场上
 
     vector<Bullet> bullet;        //管理子弹
 

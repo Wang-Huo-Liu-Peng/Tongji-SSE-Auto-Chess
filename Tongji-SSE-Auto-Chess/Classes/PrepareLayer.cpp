@@ -6,7 +6,7 @@
 #include <ui/UILayout.h>
 using namespace std;
 
-USING_NS_CC;
+USING_NS_CC;      
 
 bool PrepareLayer::init(int index)
 {
@@ -55,6 +55,7 @@ bool PrepareLayer::init(int index)
     addHero(Player[player].Hero_fighting, FIGHTING, ME);
 
     Player[player].sprite->setPosition(player1_px);
+    this->addChild(Player[player].sprite,1);
 
     ///////////////////////////////
 
@@ -135,6 +136,7 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
         Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
         Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
         Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
+        CCLOG("%d %d", Player[player].Hero_on_court[Player[player].Hero_on_court.size()-1].location_x, Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y);
     }
     else
     {
