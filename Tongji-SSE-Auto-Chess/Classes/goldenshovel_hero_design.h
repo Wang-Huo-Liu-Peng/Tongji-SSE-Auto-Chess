@@ -249,6 +249,9 @@ public:
         // 在这里判断两个 MySprite 对象是否相等
         return this->location_x == other.location_x && this->location_y == other.location_y;
     }
+    inline int  getlevel() { return this->star_level; }
+    inline int  getexp() { return this->current_exp; }
+    inline void increaseexp(int i) {  this->current_exp+=i; }
     inline void decreasemoney(int x) { this->money -= x; }
     inline int  getmoney() { return this->money; }
     inline void refresh_shop_free();
@@ -256,7 +259,7 @@ public:
     inline void make_a_random_hero();   //补充商店英雄
     inline void erase_a_player();//删除死了个玩家
     inline void set_a_hero(string hero_name);//将一个英雄从商店选出
-    inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
+    inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]||this->star_level<MAX_LEVEL) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
     inline void copy();//将court上的英雄复制到fighting上
 private:
     int star_level;     // 星级

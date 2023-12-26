@@ -38,12 +38,36 @@ bool PrepareLayer::init(int index)
             Player[player].refresh_shop(this);
             store_display();// 初始化商店
         });
+
     cocos2d::Size targetSize(100, 100);
     auto menu0 = Menu::create(my_refresh_button, NULL);
     menu0->setTag(0);
     menu0->setContentSize(targetSize);
     menu0->setPosition(refresh_button);
     this->addChild(menu0);
+
+    auto my_buy_exp_button = MenuItemImage::create(
+        "buy_exp.png", // 设置按钮的背景图
+        "buy_exp.png",
+        [&](Ref* sender) {
+            if (Player[player].getmoney() < 4) {
+                PopupManager::displayPopup(this, "No enough Money to buy exp");
+            }
+            else {
+                Player[player].increaseexp(4);
+                Player[player].decreasemoney(4);
+                Player[player].level_up();
+            }
+            CCLOG("buy_exp按钮被点击");
+        });
+
+    auto menu_buy_exp = Menu::create(my_buy_exp_button, nullptr);
+    menu_buy_exp->setTag(0); // 设置按钮的tag（这里假设buy_exp按钮的tag为1）
+    menu_buy_exp->setContentSize(targetSize);
+    menu_buy_exp->setPosition(buyexp_button); // 设置buy_exp按钮的位置
+    this->addChild(menu_buy_exp);
+
+   
 
 
     Player[player].refresh_shop_free();// 刷新商店
@@ -57,8 +81,26 @@ bool PrepareLayer::init(int index)
     Player[player].sprite->setPosition(player1_px);
     this->addChild(Player[player].sprite,1);
 
-    ///////////////////////////////
 
+
+    // 创建用于显示current_exp的标签
+    expLabel = Label::createWithTTF("Exp: 0", "fonts/arial.ttf", 30);
+    expLabel->setPosition(Vec2(100, 300));
+    this->addChild(expLabel);
+
+    // 创建用于显示current_money的标签
+    moneyLabel = Label::createWithTTF("Money: 0", "fonts/arial.ttf", 30);
+    moneyLabel->setPosition(Vec2(100, 250));
+    this->addChild(moneyLabel);
+
+    // 创建用于显示star_level的标签
+    levelLabel = Label::createWithTTF("Level: 0", "fonts/arial.ttf", 30);
+    levelLabel->setPosition(Vec2(100, 200));
+    this->addChild(levelLabel);
+
+    this->schedule(schedule_selector(PrepareLayer::update));
+
+    ///////////////////////////////
     return true;
 }
 
@@ -93,6 +135,8 @@ PrepareLayer* PrepareLayer::create(int index)
         return nullptr;
     }
 }
+
+
 
 
 /*========================================回调函数===========================================================*/
@@ -131,18 +175,25 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
 
     if (ifInMap(touchPoint))
     {
-        int X = Player[player].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
-        int Y = Player[player].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
-        Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
-        Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
-        Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
-        CCLOG("%d %d", Player[player].Hero_on_court[Player[player].Hero_on_court.size()-1].location_x, Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y);
+        if (Player[player].getlevel() + 2 <= Player[player].Hero_on_court.size()) {
+            PopupManager::displayPopup(this, "Too much Hero on court");
+            Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
+        }
+        else {
+            int X = Player[player].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
+            int Y = Player[player].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
+            Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
+            Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
+            Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
+            CCLOG("%d %d", Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_x, Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y);
+        }
     }
     else
     {
         Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
     }
 }
+
 
 
 /*----------------------显示部分-------------------------*/
@@ -269,4 +320,17 @@ void PrepareLayer::store_display()
     menu4->setContentSize(targetSize);
     menu4->setPosition(card_px(3));
     this->addChild(menu4);
+}
+
+void PrepareLayer::update(float dt)
+{
+    // 获取MySprite类中的信息
+    int currentExp = Player[player].getexp();
+    int currentMoney = Player[player].getmoney();
+    int starLevel = Player[player].getlevel();
+
+    // 更新标签内容
+    expLabel->setString(StringUtils::format("Exp: %d", currentExp));
+    moneyLabel->setString(StringUtils::format("Money: %d", currentMoney));
+    levelLabel->setString(StringUtils::format("Level: %d", starLevel));
 }

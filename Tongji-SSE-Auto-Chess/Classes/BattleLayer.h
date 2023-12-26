@@ -15,6 +15,11 @@ public:
     int player1;//玩家1
     int player2;//玩家2
 
+    cocos2d::Label* expLabel;
+    cocos2d::Label* moneyLabel;
+    cocos2d::Label* levelLabel;
+
+
     void addHero(int,int,int);//英雄加入场上
 
     vector<Bullet> bullet;        //管理子弹
