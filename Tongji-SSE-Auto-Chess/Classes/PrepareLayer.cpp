@@ -74,15 +74,12 @@ bool PrepareLayer::init(int index)
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
 
-    //将英雄加入场景中
-    Player[player].copy();
-    addHero(player, ON_BENCH, ME);
-    addHero(player, FIGHTING, ME);
+    //将双方的英雄加入场景中
+    addHero(Player[player].Hero_on_bench, ON_BENCH, ME);
+    addHero(Player[player].Hero_fighting, FIGHTING, ME);
 
     Player[player].sprite->setPosition(player1_px);
     this->addChild(Player[player].sprite,1);
-    Player[2].sprite->setPosition(player2_px);
-    this->addChild(Player[2].sprite, 1);
 
 
 
@@ -107,6 +104,23 @@ bool PrepareLayer::init(int index)
     return true;
 }
 
+
+void PrepareLayer::addHero(vector<MyHero>& Hero, int station, int camp)
+{
+    for (int i = 0; i < Hero.size(); i++) {
+        if (station == ON_BENCH) {
+            if (camp == ME)
+                Hero[i].sprite->setPosition(my_bench_px(i));
+            else if (camp == ENEMY)
+                Hero[i].sprite->setPosition(enemy_bench_px(i));
+        }
+        else if (station == FIGHTING) {
+            Hero[i].sprite->setPosition(reverse_map_px(Hero[i].location_x, Hero[i].location_y, camp));
+        }
+        this->addChild(Hero[i].sprite, 0);
+    }
+}
+
 PrepareLayer* PrepareLayer::create(int index)
 {
     PrepareLayer* ret = new (std::nothrow) PrepareLayer();
@@ -119,30 +133,6 @@ PrepareLayer* PrepareLayer::create(int index)
     {
         CC_SAFE_DELETE(ret);
         return nullptr;
-    }
-}
-
-void PrepareLayer::addHero(int player, int station, int camp)
-{
-    if (station == ON_BENCH) {
-        CCLOG("%d", Player[player].Hero_on_bench.size());
-        for (int i = 0; i < Player[player].Hero_on_bench.size(); i++) {
-            if (camp == ME)
-                Player[player].Hero_on_bench[i].sprite->setPosition(my_bench_px(i));
-            else if (camp == ENEMY)
-                Player[player].Hero_on_bench[i].sprite->setPosition(enemy_bench_px(i));
-            Player[player].Hero_on_bench[i].sprite->retain();
-            Player[player].Hero_on_bench[i].sprite->removeFromParentAndCleanup(false);
-            this->addChild(Player[player].Hero_on_bench[i].sprite, 0);
-        }
-    }
-    else if (station == FIGHTING) {
-        for (int i = 0; i < Player[player].Hero_fighting.size(); i++) {
-            Player[player].Hero_fighting[i].sprite->retain();
-            Player[player].Hero_fighting[i].sprite->removeFromParentAndCleanup(false);
-            Player[player].Hero_fighting[i].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
-            this->addChild(Player[player].Hero_fighting[i].sprite, 0);
-        }
     }
 }
 
@@ -332,8 +322,6 @@ void PrepareLayer::store_display()
     this->addChild(menu4);
 }
 
-<<<<<<< .merge_file_ROi2Rm
-=======
 void PrepareLayer::update(float dt)
 {
     // 获取MySprite类中的信息
@@ -346,4 +334,3 @@ void PrepareLayer::update(float dt)
     moneyLabel->setString(StringUtils::format("Money: %d", currentMoney));
     levelLabel->setString(StringUtils::format("Level: %d", starLevel));
 }
->>>>>>> .merge_file_qzgphL

@@ -32,9 +32,6 @@ using namespace std;
 #define ME       0
 #define ENEMY    1
 
-#define Fighting 0
-#define GameOver 1
-
 class MyHero;
 class Equipment;
 class MySprite;
@@ -66,7 +63,6 @@ protected:
 /*====================”¢–€¿‡====================*/
 class MyHero : public MyObject {
     friend class BattleLayer;
-    friend class SelectModeScene;
     friend class PrepareLayer;
     friend class PlayeWithAI;
 public:
@@ -241,7 +237,6 @@ extern int level_up_exp[6];
 /*====================æ´¡È¿‡====================*/
 class MySprite :public MyObject {
     friend class BattleLayer;
-    friend class SelectModeScene;
     friend class PrepareLayer;
     friend class PlayWithAI;
 public:
