@@ -15,10 +15,13 @@ bool PrepareLayer::init(int index)
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     player = index;
-
-    //AIPlayerBrain(2);
   
-    Player[index].copy();
+    Player[player].copy();//将hero_on_court的英雄复制到临时空间hero_fighting上
+
+    //将英雄加入场景中
+    addHero(player, ON_BENCH, ME);
+    addHero(player, FIGHTING, ME);
+
 
     /*===================监听器的创建=======================*/
     auto listener = EventListenerTouchOneByOne::create();
@@ -70,20 +73,11 @@ bool PrepareLayer::init(int index)
     menu_buy_exp->setContentSize(targetSize);
     menu_buy_exp->setPosition(buyexp_button); // 设置buy_exp按钮的位置
     this->addChild(menu_buy_exp);
-
    
     Player[player].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
 
     /*====================商店部分结束========================*/
-
-    //将英雄加入场景中
-    addHero(player, ON_BENCH, ME);
-    addHero(player, FIGHTING, ME);
-
-    CCLOG("number of hero fighting is:%d", Player[index].Hero_fighting.size());
-    CCLOG("number of hero onbench  is:%d", Player[index].Hero_on_bench.size());
-
 
     // 创建用于显示current_exp的标签
     expLabel = Label::createWithTTF("Exp: 0", "fonts/arial.ttf", 30);
@@ -100,6 +94,8 @@ bool PrepareLayer::init(int index)
     levelLabel->setPosition(Vec2(100, 200));
     this->addChild(levelLabel);
 
+
+    //定时器部分
     this->schedule(schedule_selector(PrepareLayer::update));
 
     ///////////////////////////////
@@ -206,9 +202,9 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
             if (Player[player].MAP[X][Y] == 0) {//该位置未被占用
                 Player[player].MAP[X][Y] = 1;
                 Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
+                Player[player].Hero_on_bench[select_index].sprite->getChildByTag(BLUE_TAG)->setScaleX(float(Player[player].Hero_on_bench[select_index].current_cooldown_round) / float(Player[player].Hero_on_bench[select_index].needed_cooldown_round));
                 Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
                 Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
-                //CCLOG("%d %d", Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_x, Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y);
             }
             else
                 Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
@@ -346,7 +342,6 @@ void PrepareLayer::store_display()
     menu4->setPosition(card_px(3));
     this->addChild(menu4);
 }
-
 void PrepareLayer::update(float dt)
 {
     // 获取MySprite类中的信息
@@ -358,41 +353,4 @@ void PrepareLayer::update(float dt)
     expLabel->setString(StringUtils::format("Exp: %d", currentExp));
     moneyLabel->setString(StringUtils::format("Money: %d", currentMoney));
     levelLabel->setString(StringUtils::format("Level: %d", starLevel));
-}
-
-
-void PrepareLayer::AIPlayerBrain(int ai) {
-    while (Player[ai].Hero_on_court.size() < Player[ai].max_hero) {
-        int max_pos = -1;
-        int max_cost = 0;
-
-        for (int i = 0; i < 4; i++) {
-            if (Hero_list[Player[ai].Hero_in_shop[i]].getcost() > max_cost && Hero_list[Player[ai].Hero_in_shop[i]].getcost() < Player[ai].money) {
-                max_cost = Hero_list[Player[ai].Hero_in_shop[i]].getcost();
-                max_pos = i;
-            }
-        }
-
-        if (max_pos > -1) {
-            MyHero* New;
-            //改接口
-            New = set_a_hero(Player[ai],Player[ai].Hero_in_shop[max_pos], Player[ai].Hero_in_shop, Player[ai].Hero_on_court,this);
-
-            while (1) {
-                //随机落子
-                int x = rand() % 8;
-                int y = rand() % 3;
-                if (Player[ai].MAP[x][y] == 0) {
-                    New->location_x = x;
-                    New->location_y = y;
-                    break;
-                }
-            }
-
-            // 将 New 放置到 Hero_on_court 中
-            Player[ai].Hero_on_court.push_back(*New);
-            Player[ai].make_a_random_hero();  // 重新生成商店英雄
-        }
-
-    }
 }

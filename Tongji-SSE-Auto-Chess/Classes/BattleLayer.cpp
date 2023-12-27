@@ -17,11 +17,21 @@ bool BattleLayer::init(int Player1,int Player2)
     player1 = Player1;
     player2 = Player2;
 
-    AIPlayerBrain(player2);
+    if(Player[player2].Operator==AI)
+        AIPlayerBrain(player2);//AI更新场上英雄
+
+    //如果对手不是AI，则在这里联网接收对方的数据
+    //...
 
     Player[player1].copy();//将court中的英雄复制到fighting上
-    Player[player2].copy();//
-    CCLOG("%d", Player[player2].Hero_fighting.size());
+    Player[player2].copy();//将court中的英雄复制到fighting上
+
+    //将双方的英雄加入场景中
+    addHero(player1, ON_BENCH, ME);
+    addHero(player2, ON_BENCH, ENEMY);
+    addHero(player1, FIGHTING, ME);
+    addHero(player2, FIGHTING, ENEMY);
+
 
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
@@ -44,7 +54,6 @@ bool BattleLayer::init(int Player1,int Player2)
     menu0->setContentSize(targetSize);
     menu0->setPosition(refresh_button);
     this->addChild(menu0);
-
 
     auto my_buy_exp_button = MenuItemImage::create(
         "buy_exp.png", // 设置按钮的背景图
@@ -69,13 +78,8 @@ bool BattleLayer::init(int Player1,int Player2)
 
     Player[player1].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
-    /*====================商店部分结束========================*/
 
-    //将双方的英雄加入场景中
-    addHero(player1,ON_BENCH,ME);           
-    addHero(player2,ON_BENCH,ENEMY);
-    addHero(player1,FIGHTING,ME);
-    addHero(player2,FIGHTING,ENEMY);
+    /*====================商店部分结束========================*/
 
     // 创建用于显示current_exp的标签
     expLabel = Label::createWithTTF("Exp: 0", "fonts/arial.ttf", 30);
@@ -92,6 +96,7 @@ bool BattleLayer::init(int Player1,int Player2)
     levelLabel->setPosition(Vec2(100, 200));
     this->addChild(levelLabel);
 
+    //定时器部分
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
 
@@ -100,12 +105,13 @@ bool BattleLayer::init(int Player1,int Player2)
     return true;
 }
 
-
 void BattleLayer::myupdate(float dt)
 {
     /*以下为游戏中需要不断更新的东西*/
 
     checkBullet();        //检查子弹，并扣血
+    check_enemy(Player[player1].Hero_fighting); //检查目标丢失
+    check_enemy(Player[player2].Hero_fighting); //检查目标丢失
     check_death(Player[player1].Hero_fighting); //检查英雄死亡并退场
     check_death(Player[player2].Hero_fighting); //检查英雄死亡并退场
     seekAndMove(Player[player1].Hero_fighting, Player[player2].Hero_fighting);
@@ -124,7 +130,6 @@ void BattleLayer::myupdate(float dt)
     moneyLabel->setString(StringUtils::format("Money: %d", currentMoney));
     levelLabel->setString(StringUtils::format("Level: %d", starLevel));
 
-    //attribute_display();// 血条与蓝条的显示，先加上，接口后面处理
     //蓝条满放大招，后续加入
 
     if (gameOver(player1, player2)) {
@@ -178,9 +183,8 @@ void BattleLayer::check_death(vector<MyHero>& Hero_fighting)
 {
     auto it = Hero_fighting.begin();
     while (it != Hero_fighting.end()) {
-        if (it->current_enemy!=nullptr&&it->current_enemy->current_hp <= 0)
-            it->current_enemy = nullptr;//目标丢失
-
+        //if (it->current_enemy!=nullptr&&it->current_enemy->current_hp <= 0)
+        //    it->current_enemy = nullptr;//目标丢失
         if (it->current_hp <= 0) {
             this->removeChild(it->sprite, true);//退场
             it = Hero_fighting.erase(it);//删除
@@ -188,6 +192,16 @@ void BattleLayer::check_death(vector<MyHero>& Hero_fighting)
         else {
             ++it;
         }
+    }
+}
+
+void BattleLayer::check_enemy(vector<MyHero>& Hero_fighting)
+{
+    auto it = Hero_fighting.begin();
+    while (it != Hero_fighting.end()) {
+        if (it->current_enemy != nullptr && it->current_enemy->current_hp <= 0)
+            it->current_enemy = nullptr;//目标丢失
+        ++it;
     }
 }
 
@@ -230,7 +244,6 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
     while (it != blue.end()) {
         if (it->current_enemy == nullptr&&!red.empty()) {
             it->seek_enemy(red);
-            //CCLOG("seek_enemy successful");
             if (it->current_enemy != nullptr) {
                 auto moveTo = MoveTo::create(2, it->current_enemy->sprite->getPosition());
                 it->sprite->runAction(moveTo);
@@ -242,7 +255,6 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
         }
         it++;
     }
-    //it->enemyInDistance()
 }
 
 bool BattleLayer::gameOver(int index1,int index2)
@@ -280,7 +292,6 @@ void BattleLayer::addHero(int player,int station,int camp)
                 it->sprite->getChildByTag(BLUE_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
             }
         }
-        CCLOG("hero_on_bench_size:%d", Player[player].Hero_on_bench.size());
     }
     else if (station == FIGHTING) {
         if (!Player[player].Hero_fighting.empty()) {
@@ -295,7 +306,6 @@ void BattleLayer::addHero(int player,int station,int camp)
                 it->sprite->getChildByTag(BLUE_TAG)->setScaleX(float(it->needed_cooldown_round) / float(it->current_cooldown_round));
             }
         }
-        CCLOG("hero_fighting_size:%d", Player[player].Hero_fighting.size());
     }
 }
 
@@ -438,41 +448,6 @@ void BattleLayer::store_display()
     menu4->setContentSize(targetSize);
     menu4->setPosition(card_px(3));
     this->addChild(menu4);
-}
-void BattleLayer::attribute_display(Sprite* mySprite) // 血量与蓝条的展示
-{
-    //auto mySprite = Sprite::create("kunkun.png");//创建精灵
-    //this->addChild(mySprite, 0);
-    auto grey1 = Sprite::create("grey_bar.png");
-    auto grey2 = Sprite::create("grey_bar.png");
-    auto red = Sprite::create("red_bar.png");
-    auto blue = Sprite::create("blue_bar.png");
-    grey1->setAnchorPoint(Vec2(0, 0));
-    grey2->setAnchorPoint(Vec2(0, 0));
-    red->setAnchorPoint(Vec2(0, 0));
-    blue->setAnchorPoint(Vec2(0, 0));
-    cocos2d::Size targetSize(370, 37); // 调整血条的大小
-    grey1->setContentSize(targetSize);
-    grey2->setContentSize(targetSize);
-    red->setContentSize(targetSize);
-    blue->setContentSize(targetSize);
-    grey1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
-    red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 100));
-    grey2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
-    blue->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height / 2 + 200));
-    cocos2d::Size red_targetSize(150, 37);
-    cocos2d::Size blue_targetSize(270, 37);
-    red->setContentSize(red_targetSize);
-    blue->setContentSize(blue_targetSize);
-    /*this->addChild(grey1);
-    this->addChild(grey2);
-    this->addChild(red);
-    this->addChild(blue);*/
-
-    mySprite->addChild(grey1);
-    mySprite->addChild(grey2);
-    mySprite->addChild(red);
-    mySprite->addChild(blue);
 }
 void BattleLayer::attribute(vector<MyHero>& Hero_fighting)
 {

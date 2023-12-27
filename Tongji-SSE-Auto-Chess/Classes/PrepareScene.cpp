@@ -41,7 +41,6 @@ bool PrepareScene::init(int Player)
 void PrepareScene::goToBattle(float dt)
 {
     BattleScene* battle = BattleScene::create(1, 2);
-    CCLOG("BattleScene has been create correctly!");
     Director::getInstance()->replaceScene(battle);
 }
 
