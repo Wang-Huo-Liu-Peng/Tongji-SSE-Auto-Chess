@@ -28,6 +28,7 @@ using namespace std;
 
 #define ON_BENCH 0
 #define FIGHTING 1
+#define ON_COURT 2
 
 #define ME       0
 #define ENEMY    1
@@ -35,7 +36,7 @@ using namespace std;
 #define Fighting 0
 #define GameOver 1
 
-#define BAR_LENGTH 150
+#define BAR_LENGTH 145
 #define BAR_HEIGHT 20
 #define RED_TAG  0
 #define BLUE_TAG 1
@@ -354,34 +355,6 @@ inline void MySprite::refresh_shop(cocos2d::Layer* parentLayer) {
         make_a_random_hero();
     }
 }
-
-/*
-//将一个新英雄从商店中选出,pjl已经写出可视化实现，需要和这里合并一下
-inline void MySprite::set_a_hero(string hero_name) {
-    for (int i = 0; i < 5; i++) {
-        if (this->Hero_in_shop[i] == hero_name) {
-            this->Hero_in_shop[i] = "";
-        }
-    }
-
-    //扣钱
-    if (this->money < Hero_list[hero_name].getcost()) {
-        //错误提示待写
-    }
-    else {
-        this->money -= Hero_list[hero_name].getcost();
-        string filename = hero_name + ".png";
-        MyHero set_a_new_hero = Hero_list.at(hero_name);
-
-        set_a_new_hero.sprite = Sprite::create(filename);
-        //set_a_new_hero.sprite = new_hero_Sprite;
-        this->Hero_on_bench.push_back(set_a_new_hero);
-
-
-        //这里后续要加入三星合一，后续再加
-        //可视化，并给position赋值
-    }
-}*/
 
 inline int getHeroCost(const string& heroName) {
     for (const auto& hero : one_fee) {

@@ -17,6 +17,7 @@ bool BattleScene::init(int Player1,int Player2)
     HeroBattle = BattleLayer::create(1, 2);
     this->addChild(HeroBattle);//战斗层
 
+    //schedule判断本次战斗是否结束
     this->schedule(schedule_selector(BattleScene::ifGameOver));
 
     //退出当前场景的按钮
@@ -55,10 +56,7 @@ BattleScene* BattleScene::create(int Player1,int Player2)
 void BattleScene::ifGameOver(float dt)
 {
     if (HeroBattle->situation == GameOver) {
-        //this->removeAllChildrenWithCleanup(false);
-        //Director::getInstance()->popScene(); // 释放当前场景
-        PrepareScene* prepare = PrepareScene::create(1);
-        //PrepareScene* prepare2 = PrepareScene::create(2);
+        PrepareScene* prepare = PrepareScene::create(1);//进入到我的备战场景
         Director::getInstance()->replaceScene(prepare);
     }
 }

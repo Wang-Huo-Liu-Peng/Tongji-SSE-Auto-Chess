@@ -14,16 +14,12 @@ public:
     int player;//玩家1
 
     void addHero(int, int, int);//英雄加入场上
+    void addSprite();           //小小英雄加入场上
     cocos2d::Label* expLabel;
     cocos2d::Label* moneyLabel;
     cocos2d::Label* levelLabel;
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除
-
-    void AIPlayerBrain(int);
-
-    void error_display(const std::string& displayText);
-    void error_window_close();
 
     /*==============监听器回调函数=================*/
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);

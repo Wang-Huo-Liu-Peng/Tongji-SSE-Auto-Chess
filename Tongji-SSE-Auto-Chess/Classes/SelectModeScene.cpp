@@ -41,14 +41,8 @@ bool SelectModeScene::init()
             Player[2].Operator = AI;
             Player[1].refresh_shop_free();
             Player[2].refresh_shop_free();
-            Player[1].sprite = Sprite::create("Player_1.png");
-            Player[2].sprite = Sprite::create("Player_2.png");
             PrepareScene* prepare1 = PrepareScene::create(1);
             Director::getInstance()->replaceScene(prepare1);
-            //PrepareScene* prepare2 = PrepareScene::create(2);
-            //Director::getInstance()->pushScene(prepare2);
-            //BattleScene* battle = BattleScene::create(1,2);
-            //Director::getInstance()->pushScene(battle);
         });
     auto ModeItem_2 = MenuItemLabel::create(ModeLabel_2,
         [&](Ref* sender) {
