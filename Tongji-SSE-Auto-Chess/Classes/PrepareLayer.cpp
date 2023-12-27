@@ -22,8 +22,7 @@ bool PrepareLayer::init(int index)
     addHero(player, ON_BENCH, ME);
     addHero(player, ON_COURT, ME);
 
-    addSprite();
-
+    //addSprite();
 
 
     /*===================¼àÌýÆ÷µÄ´´½¨=======================*/
@@ -126,8 +125,7 @@ void PrepareLayer::addHero(int player, int station, int camp)
     else if (station == FIGHTING) {
         if (!Player[player].Hero_fighting.empty()) {
             auto it = Player[player].Hero_fighting.begin();
-            for (; it != Player[player].Hero_fighting.end(); it++) {
-                //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
+            for (; it != Player[player].Hero_fighting.end(); it++) {            
                 it->sprite->retain();
                 it->sprite->removeFromParentAndCleanup(false);
                 it->sprite->setPosition(reverse_map_px(it->location_x, it->location_y, camp));
@@ -140,9 +138,7 @@ void PrepareLayer::addHero(int player, int station, int camp)
     else if (station == ON_COURT) {
         if (!Player[player].Hero_on_court.empty()) {
             auto it = Player[player].Hero_on_court.begin();
-            for (; it != Player[player].Hero_on_court.end(); it++) {
-                //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
-                it->sprite->retain();
+            for (; it != Player[player].Hero_on_court.end(); it++) {               
                 it->sprite->removeFromParentAndCleanup(false);
                 it->sprite->setPosition(reverse_map_px(it->location_x, it->location_y, camp));
                 this->addChild(it->sprite, 0);
