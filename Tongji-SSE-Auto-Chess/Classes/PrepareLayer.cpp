@@ -25,6 +25,7 @@ bool PrepareLayer::init(int index)
     addSprite();
 
 
+
     /*===================¼àÌýÆ÷µÄ´´½¨=======================*/
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(PrepareLayer::onTouchBegan, this);
