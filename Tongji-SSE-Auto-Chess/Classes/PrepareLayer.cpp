@@ -188,6 +188,20 @@ bool PrepareLayer::onTouchBegan(Touch* touch, Event* event)
             {
                 initial_position = Player[player].Hero_on_bench[i].sprite->getPosition();
                 select_index = i;
+                type_index = 0;
+                return true;
+            }
+        }
+    }
+    if (!Player[player].Hero_on_court.empty()) {
+        for (int i = 0; i < Player[player].Hero_on_court.size(); i++)
+        {
+            Player[player].Hero_on_court[i].sprite->stopAllActions();
+            if (Player[player].Hero_on_court[i].sprite->getBoundingBox().containsPoint(touchPoint))
+            {
+                initial_position = Player[player].Hero_on_court[i].sprite->getPosition();
+                select_index = i;
+                type_index = 1;
                 return true;
             }
         }
@@ -197,42 +211,55 @@ bool PrepareLayer::onTouchBegan(Touch* touch, Event* event)
 void PrepareLayer::onTouchMoved(Touch* touch, Event* event)
 {
     auto touchPoint = touch->getLocation();
-    Player[player].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+    if (type_index == 0)
+        Player[player].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
+    else if (type_index == 1)
+        Player[player].Hero_on_court[select_index].sprite->setPosition(touchPoint);
 
-    /* auto selected_background = Sprite::create("selected_background.png");
-     selected_background->setTag(10);
-     this->addChild(selected_background);*/
+    auto selected_background = Sprite::create("selected_background.png");
+    selected_background->setTag(17);
+    selected_background->setPosition(Vec2(1000, 500));
+    this->addChild(selected_background);
 }
 void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
 {
-    /*this->removeChildByTag(10);*/
+    this->removeChildByTag(17);
 
     auto touchPoint = touch->getLocation();
 
-    if (ifInMap(touchPoint))
+    if (type_index == 0)
     {
-        if (Player[player].getlevel() + 2 <= Player[player].Hero_on_court.size()) {
-            PopupManager::displayPopup(this, "Too much Hero on court");
+        if (ifInMap(touchPoint))
+        {
+            if (Player[player].getlevel() + 2 <= Player[player].Hero_on_court.size()) {
+                PopupManager::displayPopup(this, "Too much Hero on court");
+                Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
+            }
+            else {
+                int X = Player[player].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
+                int Y = Player[player].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
+                if (Player[player].MAP[X][Y] == 0) {//该位置未被占用
+                    Player[player].MAP[X][Y] = 1;
+                    Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
+                    Player[player].Hero_on_bench[select_index].sprite->getChildByTag(BLUE_TAG)->setScaleX(float(Player[player].Hero_on_bench[select_index].current_cooldown_round) / float(Player[player].Hero_on_bench[select_index].needed_cooldown_round));
+                    Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
+                    Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
+                }
+                else
+                    Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
+            }
+        }
+        else
+        {
             Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
         }
-        else {
-            int X = Player[player].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
-            int Y = Player[player].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
-            if (Player[player].MAP[X][Y] == 0) {//该位置未被占用
-                Player[player].MAP[X][Y] = 1;
-                Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
-                Player[player].Hero_on_bench[select_index].sprite->getChildByTag(BLUE_TAG)->setScaleX(float(Player[player].Hero_on_bench[select_index].current_cooldown_round) / float(Player[player].Hero_on_bench[select_index].needed_cooldown_round));
-                Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
-                Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
-            }
-            else
-                Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
-        }
     }
-    else
+    else if (type_index == 1)
     {
-        Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
+        Player[player].Hero_on_court[select_index].sprite->setPosition(touchPoint);
     }
+
+
 }
 
 

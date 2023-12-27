@@ -28,6 +28,7 @@ public:
 
 private:
     int select_index; // 用于存储当前选中的备战席上的英雄的索引
+    int type_index;
     Vec2 initial_position;// 用于存储英雄的起始坐标
 };
 
