@@ -17,47 +17,11 @@ bool BattleLayer::init(int Player1,int Player2)
     player1 = Player1;
     player2 = Player2;
 
-    MyHero* newHero = set_a_hero(Player[player2], Player[player2].Hero_in_shop[0], Player[player2].Hero_in_shop, Player[player2].Hero_on_bench, this);
-    newHero->location_x = 1;
-    newHero->location_y = 1;
-    newHero->sprite->setPosition(reverse_map_px(newHero->location_x, newHero->location_y, ENEMY));
-    Player[player2].Hero_on_court.push_back(*newHero);
-
-    MyHero* newHero1 = set_a_hero(Player[player2], Player[player2].Hero_in_shop[1], Player[player2].Hero_in_shop, Player[player2].Hero_on_bench, this);
-    newHero1->location_x = 2;
-    newHero1->location_y = 1;
-    newHero1->sprite->setPosition(reverse_map_px(newHero1->location_x, newHero1->location_y, ENEMY));
-    Player[player2].Hero_on_court.push_back(*newHero1);
-
-    MyHero* newHero2 = set_a_hero(Player[player2], Player[player2].Hero_in_shop[2], Player[player2].Hero_in_shop, Player[player2].Hero_on_bench, this);
-    newHero2->location_x = 3;
-    newHero2->location_y = 0;
-    newHero2->sprite->setPosition(reverse_map_px(newHero2->location_x, newHero2->location_y, ENEMY));
-    Player[player2].Hero_on_court.push_back(*newHero2);
+    AIPlayerBrain(player2);
 
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//
-
-    //有bug待删除
-    Player[1].sprite->setPosition(player1_px);
-    Player[2].sprite = Sprite::create("Player_2.png");
-    Player[2].sprite->setPosition(player2_px);
-
-    Player[player1].sprite->retain();
-    Player[player1].sprite->removeFromParentAndCleanup(false);
-    this->addChild(Player[player1].sprite, 1);
-    Player[player2].sprite->retain();
-    Player[player2].sprite->removeFromParentAndCleanup(false);
-    this->addChild(Player[player2].sprite, 1);
-
-
-    /*===================监听器的创建=======================*/
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = CC_CALLBACK_2(BattleLayer::onTouchBegan, this);
-    listener->onTouchMoved = CC_CALLBACK_2(BattleLayer::onTouchMoved, this);  // Added onTouchMoved
-    listener->onTouchEnded = CC_CALLBACK_2(BattleLayer::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-
+    CCLOG("%d", Player[player2].Hero_fighting.size());
 
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
@@ -106,18 +70,6 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player1].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
     /*====================商店部分结束========================*/
-
-    auto sprite1 = Sprite::create("Annie.png");
-    sprite1->setPosition(enemy_bench_px(1));
-    this->addChild(sprite1, 1);
-
-    auto sprite2 = Sprite::create("Evelynn.png");
-    sprite2->setPosition(enemy_bench_px(2));
-    this->addChild(sprite2, 1);
-
-    auto sprite3 = Sprite::create("Evelynn.png");
-    sprite3->setPosition(enemy_bench_px(3));
-    this->addChild(sprite3, 1);
 
     //将双方的英雄加入场景中
     addHero(player1,ON_BENCH,ME);           
@@ -199,7 +151,7 @@ void BattleLayer::update_attack(float dt)
     while (it != Player[player1].Hero_fighting.end()) {
         if (it->current_enemy != nullptr&&it->enemyInDistance()) {
             it->current_cooldown_round++;//蓝条增加
-            Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "bullet_1");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
             auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
@@ -212,7 +164,7 @@ void BattleLayer::update_attack(float dt)
     while (it2 != Player[player2].Hero_fighting.end()) {
         if (it2->current_enemy != nullptr && it2->enemyInDistance()) {
             it2->current_cooldown_round++;//蓝条增加
-            Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "basketball");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "bullet_1");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
             auto moveTo = MoveTo::create(it2->attack_cd, b.target);//子弹飞行动作
@@ -314,52 +266,36 @@ bool BattleLayer::gameOver(int index1,int index2)
 void BattleLayer::addHero(int player,int station,int camp)
 {
     if (station == ON_BENCH) {
-        CCLOG("%d",Player[player].Hero_on_bench.size());
-        for (int i = 0; i < Player[player].Hero_on_bench.size(); i++) {
-            if (camp == ME)
-                Player[player].Hero_on_bench[i].sprite->setPosition(my_bench_px(i));
-            else if (camp == ENEMY)
-                Player[player].Hero_on_bench[i].sprite->setPosition(enemy_bench_px(i));
-            Player[player].Hero_on_bench[i].sprite->retain();
-            Player[player].Hero_on_bench[i].sprite->removeFromParentAndCleanup(false);
-            this->addChild(Player[player].Hero_on_bench[i].sprite, 0);
+        if (!Player[player].Hero_on_bench.empty()) {
+            auto it = Player[player].Hero_on_bench.begin();
+            for (; it != Player[player].Hero_on_bench.end(); it++) {
+                if (camp == ME)
+                    it->sprite->setPosition(my_bench_px(it - Player[player].Hero_on_bench.begin()));
+                else if (camp == ENEMY)
+                    it->sprite->setPosition(enemy_bench_px(it - Player[player].Hero_on_bench.begin()));
+                it->sprite->retain();
+                it->sprite->removeFromParentAndCleanup(false);
+                this->addChild(it->sprite, 0);
+                it->sprite->getChildByTag(RED_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
+                it->sprite->getChildByTag(BLUE_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
+            }
         }
+        CCLOG("hero_on_bench_size:%d", Player[player].Hero_on_bench.size());
     }
     else if (station == FIGHTING) {
-        for (int i = 0; i < Player[player].Hero_fighting.size(); i++) {
-            //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
-
-            Player[player].Hero_fighting[i].sprite->retain();
-            Player[player].Hero_fighting[i].sprite->removeFromParentAndCleanup(false);
-            this->addChild(Player[player].Hero_fighting[i].sprite, 0);
-            //attribute_display(Player[player].Hero_fighting[i].sprite);
-            /*auto grey1 = Sprite::create("grey_bar.png");
-            auto grey2 = Sprite::create("grey_bar.png");
-            auto red = Sprite::create("red_bar.png");
-            auto blue = Sprite::create("blue_bar.png");
-            grey1->setAnchorPoint(Vec2(0, 0));
-            grey2->setAnchorPoint(Vec2(0, 0));
-            red->setAnchorPoint(Vec2(0, 0));
-            blue->setAnchorPoint(Vec2(0, 0));
-            cocos2d::Size targetSize(BAR_LENGTH, BAR_HEIGHT); // 调整血条的大小
-            grey1->setContentSize(targetSize);
-            grey2->setContentSize(targetSize);
-            red->setContentSize(targetSize);
-            blue->setContentSize(targetSize);
-            grey1->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height + BAR_HEIGHT));
-            red->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height+ BAR_HEIGHT));
-            grey2->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height));
-            blue->setPosition(Vec2(0, Player[player].Hero_fighting[i].sprite->getContentSize().height));
-            cocos2d::Size red_targetSize(BAR_LENGTH, BAR_HEIGHT);
-            cocos2d::Size blue_targetSize(BAR_LENGTH, BAR_HEIGHT);
-            red->setContentSize(red_targetSize);
-            blue->setContentSize(blue_targetSize);
-
-            Player[player].Hero_fighting[i].sprite->addChild(grey1);
-            Player[player].Hero_fighting[i].sprite->addChild(grey2);
-            Player[player].Hero_fighting[i].sprite->addChild(red,RED_TAG);
-            Player[player].Hero_fighting[i].sprite->addChild(blue,BLUE_TAG);*/
+        if (!Player[player].Hero_fighting.empty()) {
+            auto it = Player[player].Hero_fighting.begin();
+            for (; it != Player[player].Hero_fighting.end(); it++) {
+                //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
+                it->sprite->retain();
+                it->sprite->removeFromParentAndCleanup(false);
+                it->sprite->setPosition(reverse_map_px(it->location_x, it->location_y, camp));
+                this->addChild(it->sprite, 0);
+                it->sprite->getChildByTag(RED_TAG)->setScaleX(float(it->full_hp) / float(it->current_hp));
+                it->sprite->getChildByTag(BLUE_TAG)->setScaleX(float(it->needed_cooldown_round) / float(it->current_cooldown_round));
+            }
         }
+        CCLOG("hero_fighting_size:%d", Player[player].Hero_fighting.size());
     }
 }
 
@@ -377,56 +313,6 @@ BattleLayer* BattleLayer::create(int Player1,int Player2)
         return nullptr;
     }
 }
-
-
-/*========================================回调函数===========================================================*/
-bool BattleLayer::onTouchBegan(Touch* touch, Event* event)
-{
-    // 获取触摸点坐标
-    Vec2 touchPoint = touch->getLocation();
-
-    // 检查是否点击到英雄，这里假设英雄的sprite是可点击的
-    for (int i = 0; i < Player[player1].Hero_on_bench.size(); i++)
-    {
-        Player[player1].Hero_on_bench[i].sprite->stopAllActions();
-        if (Player[player1].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
-        {
-            initial_position = Player[player1].Hero_on_bench[i].sprite->getPosition();
-            select_index = i;
-            return true;
-        }
-    }
-    return false;
-}
-void BattleLayer::onTouchMoved(Touch* touch, Event* event)
-{
-    auto touchPoint = touch->getLocation();
-    Player[player1].Hero_on_bench[select_index].sprite->setPosition(touchPoint);
-
-   /* auto selected_background = Sprite::create("selected_background.png");
-    selected_background->setTag(10);
-    this->addChild(selected_background);*/
-}
-void BattleLayer::onTouchEnded(Touch* touch, Event* event)
-{
-    /*this->removeChildByTag(10);*/
-
-    auto touchPoint = touch->getLocation();
-
-    if(ifInMap(touchPoint))
-    {
-        int X = Player[player1].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
-        int Y = Player[player1].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
-        Player[player1].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X,Y,ME));
-        Player[player1].Hero_on_court.push_back(Player[player1].Hero_on_bench[select_index]);// 加到court里
-        Player[player1].Hero_on_bench.erase(Player[player1].Hero_on_bench.begin() + select_index);// 从bench里删除
-    }
-    else
-    {
-        Player[player1].Hero_on_bench[select_index].sprite->setPosition(initial_position);
-    }
-}
-
 
 /*----------------------显示部分-------------------------*/
 void BattleLayer::card_remove(int index)
@@ -601,4 +487,39 @@ void BattleLayer::attribute(vector<MyHero>& Hero_fighting)
 }
 
 
+void BattleLayer::AIPlayerBrain(int ai) {
+    while (Player[ai].Hero_on_court.size() < Player[ai].max_hero) {
+        int max_pos = -1;
+        int max_cost = 0;
+
+        for (int i = 0; i < 4; i++) {
+            if (Hero_list[Player[ai].Hero_in_shop[i]].getcost() > max_cost && Hero_list[Player[ai].Hero_in_shop[i]].getcost() < Player[ai].money) {
+                max_cost = Hero_list[Player[ai].Hero_in_shop[i]].getcost();
+                max_pos = i;
+            }
+        }
+
+        if (max_pos > -1) {
+            MyHero* New;
+            //改接口
+            New = set_a_hero(Player[ai], Player[ai].Hero_in_shop[max_pos], Player[ai].Hero_in_shop, Player[ai].Hero_on_court, this);
+
+            while (1) {
+                //随机落子
+                int x = rand() % 8;
+                int y = rand() % 3;
+                if (Player[ai].MAP[x][y] == 0) {
+                    New->location_x = x;
+                    New->location_y = y;
+                    break;
+                }
+            }
+
+            // 将 New 放置到 Hero_on_court 中
+            Player[ai].Hero_on_court.push_back(*New);
+            Player[ai].make_a_random_hero();  // 重新生成商店英雄
+        }
+
+    }
+}
 

@@ -11,9 +11,6 @@ bool BattleScene::init(int Player1,int Player2)
     player1 = Player1;    //当前玩家下标
     player2 = Player2;    //当前玩家下标
 
-    //Player[player1].copy();
-    //Player[player2].copy();
-
     BackGroundLayer* Map = BackGroundLayer::create();
     this->addChild(Map);//背景图片层
 
@@ -58,9 +55,10 @@ BattleScene* BattleScene::create(int Player1,int Player2)
 void BattleScene::ifGameOver(float dt)
 {
     if (HeroBattle->situation == GameOver) {
-        this->removeAllChildrenWithCleanup(true);
-        Director::getInstance()->popScene(); // 释放当前场景
-        PrepareScene* battle = PrepareScene::create(1);
-        Director::getInstance()->replaceScene(battle);
+        //this->removeAllChildrenWithCleanup(false);
+        //Director::getInstance()->popScene(); // 释放当前场景
+        PrepareScene* prepare = PrepareScene::create(1);
+        //PrepareScene* prepare2 = PrepareScene::create(2);
+        Director::getInstance()->replaceScene(prepare);
     }
 }

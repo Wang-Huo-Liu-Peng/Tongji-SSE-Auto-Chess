@@ -40,6 +40,9 @@ using namespace std;
 #define RED_TAG  0
 #define BLUE_TAG 1
 
+#define    AI 0
+#define HUMAN 1
+
 class MyHero;
 class Equipment;
 class MySprite;
@@ -249,7 +252,9 @@ extern int level_up_exp[6];
 class MySprite :public MyObject {
     friend class BattleLayer;
     friend class PrepareLayer;
+    friend class PrepareScene;
     friend class PlayWithAI;
+    friend class SelectModeScene;
 public:
     MySprite() {};
     MySprite(int level, int hp,int money, int x = -1, int y = -1) :        // 构造函数
@@ -279,9 +284,12 @@ private:
     vector<MyHero> Hero_on_court;//当前所拥有的英雄（在场上的）
     vector<MyHero> Hero_on_bench;//当前备战席上的英雄
     vector<MyHero> Hero_fighting;//战斗时用于存放英雄的临时空间
+    vector<MyHero> Hero_benching;//用于存放备战席英雄的临时空间
     string Hero_in_shop[4];      //商店中的英雄
     MySprite* current_enemy;
     int current_exp;    //当前有的经验值
+    int Operator;       //操作者为AI或人类
+    int MAP[8][3] = {0};//判断位置是否被占用
 };
 
 
@@ -375,15 +383,6 @@ inline void MySprite::set_a_hero(string hero_name) {
     }
 }*/
 
-
-//待删除
-extern vector <MyHero> Hero_on_court_1;
-extern vector <MyHero> Hero_on_court_2;
-extern vector <MyHero> Hero_select_1;
-extern vector <MyHero> Hero_select_2;
-extern vector <MyHero> Hero_fighting_1;
-extern vector <MyHero> Hero_fighting_2;
-
 inline int getHeroCost(const string& heroName) {
     for (const auto& hero : one_fee) {
         if (hero == heroName) {
@@ -415,8 +414,6 @@ inline int getHeroCost(const string& heroName) {
 
 inline void attribute(Sprite* mySprite) // 血量与蓝条的展示
 {
-    //auto mySprite = Sprite::create("kunkun.png");//创建精灵
-    //this->addChild(mySprite, 0);
     auto grey1 = Sprite::create("grey_bar.png");
     auto grey2 = Sprite::create("grey_bar.png");
     auto red = Sprite::create("red_bar.png");
@@ -438,10 +435,6 @@ inline void attribute(Sprite* mySprite) // 血量与蓝条的展示
     cocos2d::Size blue_targetSize(BAR_LENGTH, BAR_HEIGHT);
     red->setContentSize(red_targetSize);
     blue->setContentSize(blue_targetSize);
-    /*this->addChild(grey1);
-    this->addChild(grey2);
-    this->addChild(red);
-    this->addChild(blue);*/
 
     mySprite->addChild(grey1);
     mySprite->addChild(grey2);
@@ -482,8 +475,6 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         set_a_new_hero->sprite = new_hero_Sprite;
 
-
-
         // 可视化，并给position赋值
 
         return set_a_new_hero;
@@ -495,6 +486,10 @@ inline void MySprite::copy()
     Hero_fighting.clear();
     for (int i = 0; i < Hero_on_court.size(); i++) {
         Hero_fighting.push_back(Hero_on_court[i]);
+    }
+    Hero_benching.clear();
+    for (int i = 0; i < Hero_on_bench.size(); i++) {
+        Hero_benching.push_back(Hero_on_bench[i]);
     }
 }
 

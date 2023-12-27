@@ -20,6 +20,8 @@ public:
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除
 
+    void AIPlayerBrain(int);
+
     void error_display(const std::string& displayText);
     void error_window_close();
 

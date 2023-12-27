@@ -46,10 +46,7 @@ public:
     void error_display(const std::string& displayText);
     void error_window_close();
 
-    /*==============监听器回调函数=================*/
-    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
-    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
-    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+    void AIPlayerBrain(int ai);
 
 private:
     int select_index; // 用于存储当前选中的备战席上的英雄的索引

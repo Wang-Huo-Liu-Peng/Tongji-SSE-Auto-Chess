@@ -16,6 +16,8 @@ bool PrepareLayer::init(int index)
 
     player = index;
 
+    //AIPlayerBrain(2);
+  
     Player[index].copy();
 
     /*===================监听器的创建=======================*/
@@ -70,20 +72,17 @@ bool PrepareLayer::init(int index)
     this->addChild(menu_buy_exp);
 
    
-
-
     Player[player].refresh_shop_free();// 刷新商店
     store_display();// 初始化商店
+
     /*====================商店部分结束========================*/
 
-    //将双方的英雄加入场景中
+    //将英雄加入场景中
     addHero(player, ON_BENCH, ME);
     addHero(player, FIGHTING, ME);
 
-
-    Player[1].sprite->setPosition(player1_px);
-    Player[2].sprite->setPosition(player2_px);
-    this->addChild(Player[player].sprite,1);
+    CCLOG("number of hero fighting is:%d", Player[index].Hero_fighting.size());
+    CCLOG("number of hero onbench  is:%d", Player[index].Hero_on_bench.size());
 
 
     // 创建用于显示current_exp的标签
@@ -107,30 +106,39 @@ bool PrepareLayer::init(int index)
     return true;
 }
 
-
 void PrepareLayer::addHero(int player, int station, int camp)
 {
     if (station == ON_BENCH) {
-        CCLOG("%d", Player[player].Hero_on_bench.size());
-        for (int i = 0; i < Player[player].Hero_on_bench.size(); i++) {
-            if (camp == ME)
-                Player[player].Hero_on_bench[i].sprite->setPosition(my_bench_px(i));
-            else if (camp == ENEMY)
-                Player[player].Hero_on_bench[i].sprite->setPosition(enemy_bench_px(i));
-            Player[player].Hero_on_bench[i].sprite->retain();
-            Player[player].Hero_on_bench[i].sprite->removeFromParentAndCleanup(false);
-            this->addChild(Player[player].Hero_on_bench[i].sprite, 0);
+        if (!Player[player].Hero_on_bench.empty()) {
+            auto it = Player[player].Hero_on_bench.begin();
+            for (; it != Player[player].Hero_on_bench.end(); it++) {
+                if (camp == ME)
+                    it->sprite->setPosition(my_bench_px(it - Player[player].Hero_on_bench.begin()));
+                else if (camp == ENEMY)
+                    it->sprite->setPosition(enemy_bench_px(it - Player[player].Hero_on_bench.begin()));
+                it->sprite->retain();
+                it->sprite->removeFromParentAndCleanup(false);
+                this->addChild(it->sprite, 0);
+                it->sprite->getChildByTag(RED_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
+                it->sprite->getChildByTag(BLUE_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
+            }
         }
+        CCLOG("hero_on_bench_size:%d", Player[player].Hero_on_bench.size());
     }
     else if (station == FIGHTING) {
-        for (int i = 0; i < Player[player].Hero_fighting.size(); i++) {
-            //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
-
-            Player[player].Hero_fighting[i].sprite->retain();
-            Player[player].Hero_fighting[i].sprite->removeFromParentAndCleanup(false);
-            Player[player].Hero_fighting[i].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
-            this->addChild(Player[player].Hero_fighting[i].sprite, 0);
+        if (!Player[player].Hero_fighting.empty()) {
+            auto it = Player[player].Hero_fighting.begin();
+            for (; it != Player[player].Hero_fighting.end(); it++) {
+                //Player[player].sprite->setPosition(reverse_map_px(Player[player].Hero_fighting[i].location_x, Player[player].Hero_fighting[i].location_y, camp));
+                it->sprite->retain();
+                it->sprite->removeFromParentAndCleanup(false);
+                it->sprite->setPosition(reverse_map_px(it->location_x, it->location_y, camp));
+                this->addChild(it->sprite, 0);
+                it->sprite->getChildByTag(RED_TAG)->setScaleX(float(it->full_hp) / float(it->current_hp));
+                it->sprite->getChildByTag(BLUE_TAG)->setScaleX(float(it->needed_cooldown_round) / float(it->current_cooldown_round));
+            }
         }
+        CCLOG("hero_fighting_size:%d", Player[player].Hero_fighting.size());
     }
 }
 
@@ -150,8 +158,6 @@ PrepareLayer* PrepareLayer::create(int index)
 }
 
 
-
-
 /*========================================回调函数===========================================================*/
 bool PrepareLayer::onTouchBegan(Touch* touch, Event* event)
 {
@@ -159,14 +165,16 @@ bool PrepareLayer::onTouchBegan(Touch* touch, Event* event)
     Vec2 touchPoint = touch->getLocation();
 
     // 检查是否点击到英雄，这里假设英雄的sprite是可点击的
-    for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
-    {
-        Player[player].Hero_on_bench[i].sprite->stopAllActions();
-        if (Player[player].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
+    if (!Player[player].Hero_on_bench.empty()) {
+        for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
         {
-            initial_position = Player[player].Hero_on_bench[i].sprite->getPosition();
-            select_index = i;
-            return true;
+            Player[player].Hero_on_bench[i].sprite->stopAllActions();
+            if (Player[player].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(touchPoint))
+            {
+                initial_position = Player[player].Hero_on_bench[i].sprite->getPosition();
+                select_index = i;
+                return true;
+            }
         }
     }
     return false;
@@ -195,10 +203,15 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
         else {
             int X = Player[player].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
             int Y = Player[player].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
-            Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
-            Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
-            Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
-            CCLOG("%d %d", Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_x, Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y);
+            if (Player[player].MAP[X][Y] == 0) {//该位置未被占用
+                Player[player].MAP[X][Y] = 1;
+                Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
+                Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
+                Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
+                //CCLOG("%d %d", Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_x, Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y);
+            }
+            else
+                Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
         }
     }
     else
@@ -206,7 +219,6 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
         Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
     }
 }
-
 
 
 /*----------------------显示部分-------------------------*/
@@ -346,4 +358,41 @@ void PrepareLayer::update(float dt)
     expLabel->setString(StringUtils::format("Exp: %d", currentExp));
     moneyLabel->setString(StringUtils::format("Money: %d", currentMoney));
     levelLabel->setString(StringUtils::format("Level: %d", starLevel));
+}
+
+
+void PrepareLayer::AIPlayerBrain(int ai) {
+    while (Player[ai].Hero_on_court.size() < Player[ai].max_hero) {
+        int max_pos = -1;
+        int max_cost = 0;
+
+        for (int i = 0; i < 4; i++) {
+            if (Hero_list[Player[ai].Hero_in_shop[i]].getcost() > max_cost && Hero_list[Player[ai].Hero_in_shop[i]].getcost() < Player[ai].money) {
+                max_cost = Hero_list[Player[ai].Hero_in_shop[i]].getcost();
+                max_pos = i;
+            }
+        }
+
+        if (max_pos > -1) {
+            MyHero* New;
+            //改接口
+            New = set_a_hero(Player[ai],Player[ai].Hero_in_shop[max_pos], Player[ai].Hero_in_shop, Player[ai].Hero_on_court,this);
+
+            while (1) {
+                //随机落子
+                int x = rand() % 8;
+                int y = rand() % 3;
+                if (Player[ai].MAP[x][y] == 0) {
+                    New->location_x = x;
+                    New->location_y = y;
+                    break;
+                }
+            }
+
+            // 将 New 放置到 Hero_on_court 中
+            Player[ai].Hero_on_court.push_back(*New);
+            Player[ai].make_a_random_hero();  // 重新生成商店英雄
+        }
+
+    }
 }
