@@ -40,9 +40,6 @@
     <Filter Include="src\BackGroundLayer">
       <UniqueIdentifier>{2688793b-99c6-494d-8091-748f44a5f37e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\HeroLayer">
-      <UniqueIdentifier>{3389a369-b121-417d-876c-0498f84d366b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\BattleLayer">
       <UniqueIdentifier>{a4d29402-2b1c-43aa-a67f-a2740e703821}</UniqueIdentifier>
     </Filter>
@@ -101,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\BackGroundLayer.cpp">
       <Filter>src\BackGroundLayer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HeroLayer.cpp">
-      <Filter>src\HeroLayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\BattleLayer.cpp">
       <Filter>src\BattleLayer</Filter>
@@ -172,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\BackGroundLayer.h">
       <Filter>src\BackGroundLayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HeroLayer.h">
-      <Filter>src\HeroLayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BattleLayer.h">
       <Filter>src\BattleLayer</Filter>

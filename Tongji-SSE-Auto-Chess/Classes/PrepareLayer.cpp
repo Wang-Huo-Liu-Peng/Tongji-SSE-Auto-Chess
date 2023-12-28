@@ -22,7 +22,7 @@ bool PrepareLayer::init(int index)
     addHero(player, ON_BENCH, ME);
     addHero(player, ON_COURT, ME);
 
-    addSprite();
+    addSprite(player);
 
 
     /*===================监听器的创建=======================*/
@@ -31,6 +31,10 @@ bool PrepareLayer::init(int index)
     listener->onTouchMoved = CC_CALLBACK_2(PrepareLayer::onTouchMoved, this);  // Added onTouchMoved
     listener->onTouchEnded = CC_CALLBACK_2(PrepareLayer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+    auto mouseListener = EventListenerMouse::create();
+    mouseListener->onMouseDown = CC_CALLBACK_1(PrepareLayer::onMouseDown, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
@@ -148,13 +152,17 @@ void PrepareLayer::addHero(int player, int station, int camp)
         }
     }
 }
-void PrepareLayer::addSprite()
+void PrepareLayer::addSprite(int index)
 {
-    Player[player].sprite = Sprite::create("Player_1.png");
-    attribute(Player[player].sprite,SPRITE_BAR_LENGTH,SPRITE);
-    Player[player].sprite->setPosition(player1_px);
-    Player[player].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player].current_hp) / float(Player[player].full_hp));
-    this->addChild(Player[player].sprite,1,SPRITE);
+    char num = index + '0';
+    string picture = "Player_";
+    picture += num;
+    picture += ".png";
+    Player[index].sprite = Sprite::create(picture);
+    attribute(Player[index].sprite,SPRITE_BAR_LENGTH,MY_SPRITE);
+    Player[index].sprite->setPosition(player1_px);
+    Player[index].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[index].current_hp) / float(Player[index].full_hp));
+    this->addChild(Player[index].sprite,1,MY_SPRITE);
 }
 
 PrepareLayer* PrepareLayer::create(int index)
@@ -262,6 +270,20 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
     }
 
 
+}
+
+void PrepareLayer::onMouseDown(EventMouse* event)
+{
+    if (event->getMouseButton() == EventMouse::MouseButton::BUTTON_RIGHT) {
+        Vec2 mousePos = event->getLocation();
+        mousePos = Director::getInstance()->convertToGL(mousePos);
+        mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
+        // 处理鼠标右键按下事件和鼠标位置
+        auto sprite = this->getChildByTag(MY_SPRITE);
+        auto moveTo = MoveTo::create(2, mousePos);
+        sprite->stopAllActions();
+        sprite->runAction(moveTo);
+    }
 }
 
 

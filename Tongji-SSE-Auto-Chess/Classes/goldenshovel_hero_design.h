@@ -37,12 +37,13 @@ using namespace std;
 #define GameOver 1
 
 #define HERO_BAR_LENGTH 145
-#define SPRITE_BAR_LENGTH 120
+#define SPRITE_BAR_LENGTH 130
 #define BAR_HEIGHT 20
 #define RED_TAG  0
 #define BLUE_TAG 1
-#define HERO 0
-#define SPRITE 1
+#define HERO 10
+#define MY_SPRITE    11
+#define ENEMY_SPRITE 12
 
 #define    AI 0
 #define HUMAN 1

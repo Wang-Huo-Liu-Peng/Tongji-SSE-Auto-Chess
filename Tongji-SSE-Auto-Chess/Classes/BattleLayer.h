@@ -23,6 +23,7 @@ public:
 
 
     void addHero(int,int,int);//英雄加入场上
+    void addSprite(int,int);  //小小英雄加入场上
 
     vector<Bullet> bullet;        //管理子弹
 
@@ -38,9 +39,11 @@ public:
 
     void store_display();//商店显示
     void card_remove(int index);//选中的卡片移除
-    void attribute(vector<MyHero>& Hero_fighting);
+    void attribute_display(vector<MyHero>& Hero_fighting);
 
     void AIPlayerBrain(int ai);
+
+    void onMouseDown(EventMouse* event);
 
 private:
     int select_index; // 用于存储当前选中的备战席上的英雄的索引

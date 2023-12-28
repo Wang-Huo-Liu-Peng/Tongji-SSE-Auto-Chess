@@ -33,6 +33,8 @@ bool BattleLayer::init(int Player1,int Player2)
     addHero(player1, FIGHTING, ME);
     addHero(player2, FIGHTING, ENEMY);
 
+    addSprite(player1, MY_SPRITE);
+    addSprite(player2, ENEMY_SPRITE);
 
     /*====================商店部分========================*/
     auto my_refresh_button = MenuItemImage::create(
@@ -97,6 +99,10 @@ bool BattleLayer::init(int Player1,int Player2)
     levelLabel->setPosition(Vec2(100, 200));
     this->addChild(levelLabel);
 
+    auto mouseListener = EventListenerMouse::create();
+    mouseListener->onMouseDown = CC_CALLBACK_1(BattleLayer::onMouseDown, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
     //定时器部分
     this->schedule(schedule_selector(BattleLayer::myupdate));
     this->schedule(schedule_selector(BattleLayer::update_attack), 1.0f);
@@ -117,8 +123,8 @@ void BattleLayer::myupdate(float dt)
     check_death(Player[player2].Hero_fighting); //检查英雄死亡并退场
     seekAndMove(Player[player1].Hero_fighting, Player[player2].Hero_fighting);
     seekAndMove(Player[player2].Hero_fighting, Player[player1].Hero_fighting);
-    attribute(Player[player1].Hero_fighting);   //红蓝条
-    attribute(Player[player2].Hero_fighting);
+    attribute_display(Player[player1].Hero_fighting);   //红蓝条
+    attribute_display(Player[player2].Hero_fighting);
 
 
     // 获取MySprite类中的信息
@@ -318,6 +324,22 @@ void BattleLayer::addHero(int player,int station,int camp)
     }
 }
 
+void BattleLayer::addSprite(int index,int camp)
+{
+    char num = index + '0';
+    string picture = "Player_";
+    picture += num;
+    picture += ".png";
+    Player[index].sprite = Sprite::create(picture);
+    attribute(Player[index].sprite, SPRITE_BAR_LENGTH, camp);
+    if(camp==MY_SPRITE)
+        Player[index].sprite->setPosition(player1_px);
+    else if(camp==ENEMY_SPRITE)
+        Player[index].sprite->setPosition(player2_px);
+    Player[index].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[index].current_hp) / float(Player[index].full_hp));
+    this->addChild(Player[index].sprite, 1, camp);
+}
+
 BattleLayer* BattleLayer::create(int Player1,int Player2)
 {
     BattleLayer* ret = new (std::nothrow) BattleLayer();
@@ -458,7 +480,7 @@ void BattleLayer::store_display()
     menu4->setPosition(card_px(3));
     this->addChild(menu4);
 }
-void BattleLayer::attribute(vector<MyHero>& Hero_fighting)
+void BattleLayer::attribute_display(vector<MyHero>& Hero_fighting)
 {
     auto it = Hero_fighting.begin();
     while (it != Hero_fighting.end()) {
@@ -470,6 +492,7 @@ void BattleLayer::attribute(vector<MyHero>& Hero_fighting)
     }
 }
 
+/*----------------AI操作部分-----------------*/
 void BattleLayer::AIPlayerBrain(int ai) {
     while (Player[ai].Hero_on_court.size() < Player[ai].max_hero) {
         int max_pos = -1;
@@ -506,3 +529,17 @@ void BattleLayer::AIPlayerBrain(int ai) {
     }
 }
 
+/*----------------监听器-----------------*/
+void BattleLayer::onMouseDown(EventMouse* event)
+{
+    if (event->getMouseButton() == EventMouse::MouseButton::BUTTON_RIGHT) {
+        Vec2 mousePos = event->getLocation();
+        mousePos = Director::getInstance()->convertToGL(mousePos);
+        mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
+        // 处理鼠标右键按下事件和鼠标位置
+        auto sprite = this->getChildByTag(MY_SPRITE);
+        auto moveTo = MoveTo::create(2, mousePos);
+        sprite->stopAllActions();
+        sprite->runAction(moveTo);
+    }
+}
