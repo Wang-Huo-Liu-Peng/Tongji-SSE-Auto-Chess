@@ -16,7 +16,7 @@ public:
     int player2;       //Íæ¼ÒÏÂ±ê
 
     void ifGameOver(float);
-
+    void CountDown(float dt);
 };
 
 #endif // __BATTLE_SCENE_H__

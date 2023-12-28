@@ -3,7 +3,6 @@
 #define __TEST_SCENE_1_H__
 
 #include "cocos2d.h"
-#include "HeroLayer.h"
 #include "BackGroundLayer.h"
 
 class Test_Scene_1 : public cocos2d::Scene
@@ -12,8 +11,6 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
-
-    HeroLayer* Kun;
     BackGroundLayer* bg;
 
     //void addShop();

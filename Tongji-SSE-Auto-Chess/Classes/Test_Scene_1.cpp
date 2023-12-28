@@ -1,6 +1,5 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_1.h"
-#include "HeroLayer.h"
 #include "BackGroundLayer.h"
 //#include <goldenshovel_hero_design.h>
 
@@ -17,11 +16,6 @@ bool Test_Scene_1::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     ///////////////////////////////
-    Kun = HeroLayer::create();
-    bg = BackGroundLayer::create();
-
-    this->addChild(Kun,1);
-    this->addChild(bg);
 
     ///////////////////////////////
 
