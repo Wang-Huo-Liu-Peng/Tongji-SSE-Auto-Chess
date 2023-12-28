@@ -278,11 +278,30 @@ void PrepareLayer::onMouseDown(EventMouse* event)
         Vec2 mousePos = event->getLocation();
         mousePos = Director::getInstance()->convertToGL(mousePos);
         mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
-        // 处理鼠标右键按下事件和鼠标位置
-        auto sprite = this->getChildByTag(MY_SPRITE);
-        auto moveTo = MoveTo::create(2, mousePos);
-        sprite->stopAllActions();
-        sprite->runAction(moveTo);
+
+        if (false)//pjl把这里做一下标定，改成当坐标为战斗场景时
+        {
+            // 处理鼠标右键按下事件和鼠标位置
+            auto sprite = this->getChildByTag(MY_SPRITE);
+            auto moveTo = MoveTo::create(2, mousePos);
+            sprite->stopAllActions();
+            sprite->runAction(moveTo);
+        }
+        else//下面进行的是备战席英雄的点击判定
+        {
+            if (!Player[player].Hero_on_bench.empty()) {
+                for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
+                {
+                    Player[player].Hero_on_bench[i].sprite->stopAllActions();
+                    if (Player[player].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(mousePos))
+                    {
+                        this->removeChild(Player[player].Hero_on_bench[i].sprite);
+                        Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + i);
+                        Player[player].money += Player[player].Hero_on_bench[i].gold_cost;
+                    }
+                }
+            }
+        }
     }
 }
 
