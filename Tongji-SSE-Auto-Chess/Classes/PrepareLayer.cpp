@@ -219,7 +219,7 @@ void PrepareLayer::onTouchMoved(Touch* touch, Event* event)
     if (!this->getChildByTag(17)) {
         auto selected_background = Sprite::create("selected_background.png");
         selected_background->setTag(17);
-        selected_background->setPosition(Vec2(1000, 500));
+        selected_background->setPosition(Vec2(1210, 730));
         this->addChild(selected_background);
     }
 }
