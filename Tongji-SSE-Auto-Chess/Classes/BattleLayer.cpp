@@ -140,16 +140,16 @@ void BattleLayer::myupdate(float dt)
     //蓝条满放大招，后续加入
 
     if (gameOver(player1, player2)) {
-        situation = GameOver;
-        //OverShoot(player1,player2);
+        //OverShoot(player1, player2);
+        //situation = GameOver;
         if (bullet.empty()) {
             this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
     else if (gameOver(player2, player1)) {
-        situation = GameOver;
-        //OverShoot(player1, player2);
+        //OverShoot(player2, player1);
+        //situation = GameOver;
         if (bullet.empty()) {
             this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
@@ -267,27 +267,36 @@ void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
 bool BattleLayer::gameOver(int index1,int index2)
 {
     if (Player[index1].Hero_fighting.empty()) {//玩家1的英雄死完了
-        /*auto it = Player[index2].Hero_fighting.begin();
-        while(it!= Player[index2].Hero_fighting.end()){
-            Bullet b(&Player[index1], Player[index1].sprite->getPosition(), 1, "basketball");
+        if (situation == Fighting) {
+            //Player[index1].current_hp -= Player[index2].Hero_fighting.size();
+            OverShoot(index1, index2);
+            //加金币和经验
+            Player[index1].money += 10;
+            Player[index2].money += 10;
+            Player[index1].current_exp += 2;
+            Player[index1].level_up();
+            Player[index2].current_exp += 2;
+            Player[index2].level_up();
+            situation = GameOver;
+        }
+        return true;//返回true，表明本次战斗结束
+    }
+    return false;
+}
+
+void BattleLayer::OverShoot(int index1, int index2)
+{
+    if (situation == Fighting) {
+        auto it = Player[index2].Hero_fighting.begin();
+        while (it != Player[index2].Hero_fighting.end()) {
+            Bullet b(&Player[index1], it->sprite->getPosition(), 1, "bullet_1");
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
             auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
             b.sprite->runAction(moveTo);
             it++;
-        }*/
-        Player[index1].current_hp -= Player[index2].Hero_fighting.size();
-
-        //加金币和经验
-        Player[index1].money += 10;
-        Player[index2].money += 10;
-        Player[index1].current_exp += 2;
-        Player[index1].level_up();
-        Player[index2].current_exp += 2;
-        Player[index2].level_up();
-        return true;//返回true，表明本次战斗结束
+        }
     }
-    return false;
 }
 
 void BattleLayer::addHero(int player,int station,int camp)
@@ -490,6 +499,8 @@ void BattleLayer::attribute_display(vector<MyHero>& Hero_fighting)
             it->current_cooldown_round=0;
         it++;
     }
+    Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
+    Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player2].current_hp) / float(Player[player2].full_hp));
 }
 
 /*----------------AI操作部分-----------------*/

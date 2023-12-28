@@ -21,7 +21,7 @@ bool PrepareLayer::init(int index)
     //将英雄加入场景中
     addHero(player, ON_BENCH, ME);
     addHero(player, ON_COURT, ME);
-
+    //将小小英雄加入场景中
     addSprite(player);
 
 
