@@ -22,7 +22,7 @@ bool PrepareLayer::init(int index)
     addHero(player, ON_BENCH, ME);
     addHero(player, ON_COURT, ME);
 
-    //addSprite();
+    addSprite();
 
 
     /*===================¼àÌýÆ÷µÄ´´½¨=======================*/
@@ -117,8 +117,8 @@ void PrepareLayer::addHero(int player, int station, int camp)
                 it->sprite->retain();
                 it->sprite->removeFromParentAndCleanup(false);
                 this->addChild(it->sprite, 0);
-                it->sprite->getChildByTag(RED_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
-                it->sprite->getChildByTag(BLUE_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
+                it->sprite->getChildByTag(RED_TAG)->setContentSize(Size(HERO_BAR_LENGTH, BAR_HEIGHT));
+                it->sprite->getChildByTag(BLUE_TAG)->setContentSize(Size(HERO_BAR_LENGTH, BAR_HEIGHT));
             }
         }
     }
@@ -151,10 +151,10 @@ void PrepareLayer::addHero(int player, int station, int camp)
 void PrepareLayer::addSprite()
 {
     Player[player].sprite = Sprite::create("Player_1.png");
+    attribute(Player[player].sprite,SPRITE_BAR_LENGTH,SPRITE);
     Player[player].sprite->setPosition(player1_px);
-    attribute(Player[player].sprite);
     Player[player].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player].current_hp) / float(Player[player].full_hp));
-    this->addChild(Player[player].sprite,1,1);
+    this->addChild(Player[player].sprite,1,SPRITE);
 }
 
 PrepareLayer* PrepareLayer::create(int index)
@@ -216,10 +216,12 @@ void PrepareLayer::onTouchMoved(Touch* touch, Event* event)
     else if (type_index == 1)
         Player[player].Hero_on_court[select_index].sprite->setPosition(touchPoint);
 
-    auto selected_background = Sprite::create("selected_background.png");
-    selected_background->setTag(17);
-    selected_background->setPosition(Vec2(1000, 500));
-    this->addChild(selected_background);
+    if (!this->getChildByTag(17)) {
+        auto selected_background = Sprite::create("selected_background.png");
+        selected_background->setTag(17);
+        selected_background->setPosition(Vec2(1000, 500));
+        this->addChild(selected_background);
+    }
 }
 void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
 {

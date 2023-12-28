@@ -20,8 +20,9 @@ bool BattleLayer::init(int Player1,int Player2)
     if(Player[player2].Operator==AI)
         AIPlayerBrain(player2);//AI更新场上英雄
 
-    //如果对手不是AI，则在这里联网接收对方的数据
-    //...
+    //如果对手不是AI if (Player[player2].Operator== HUMAN)
+    //将我方的英雄信息上传，作为对方的Player2
+    //接受对方的英雄信息，  作为这边的player2
 
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//将court中的英雄复制到fighting上
@@ -270,6 +271,14 @@ bool BattleLayer::gameOver(int index1,int index2)
             it++;
         }*/
         Player[index1].current_hp -= Player[index2].Hero_fighting.size();
+
+        //加金币和经验
+        Player[index1].money += 10;
+        Player[index2].money += 10;
+        Player[index1].current_exp += 2;
+        Player[index1].level_up();
+        Player[index2].current_exp += 2;
+        Player[index2].level_up();
         return true;//返回true，表明本次战斗结束
     }
     return false;
@@ -288,8 +297,8 @@ void BattleLayer::addHero(int player,int station,int camp)
                 it->sprite->retain();
                 it->sprite->removeFromParentAndCleanup(false);
                 this->addChild(it->sprite, 0);
-                it->sprite->getChildByTag(RED_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
-                it->sprite->getChildByTag(BLUE_TAG)->setContentSize(Size(BAR_LENGTH, BAR_HEIGHT));
+                it->sprite->getChildByTag(RED_TAG)->setContentSize(Size(HERO_BAR_LENGTH, BAR_HEIGHT));
+                it->sprite->getChildByTag(BLUE_TAG)->setContentSize(Size(HERO_BAR_LENGTH, BAR_HEIGHT));
             }
         }
     }

@@ -5,7 +5,6 @@
 #include<string>
 
 
-
 #define max_command_length 32
 #define max_ac_num  12
 #define max_ac_pw 12
@@ -24,7 +23,6 @@
 
 struct passinfo {
 	char event[max_command_length] = { '0' };
-
 
 	char account_number[max_ac_num] = { '0' };
 	char password[max_ac_pw] = { '0' };

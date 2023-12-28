@@ -36,10 +36,13 @@ using namespace std;
 #define Fighting 0
 #define GameOver 1
 
-#define BAR_LENGTH 145
+#define HERO_BAR_LENGTH 145
+#define SPRITE_BAR_LENGTH 120
 #define BAR_HEIGHT 20
 #define RED_TAG  0
 #define BLUE_TAG 1
+#define HERO 0
+#define SPRITE 1
 
 #define    AI 0
 #define HUMAN 1
@@ -276,7 +279,7 @@ public:
     inline void make_a_random_hero();   //补充商店英雄
     inline void erase_a_player();//删除死了个玩家
     inline void set_a_hero(string hero_name);//将一个英雄从商店选出
-    inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level]||this->star_level<MAX_LEVEL) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
+    inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level-1]&&this->star_level<MAX_LEVEL) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
     inline void copy();//将court上的英雄复制到fighting上
 private:
     int star_level;     // 星级
@@ -323,8 +326,8 @@ inline void MySprite::make_a_random_hero() {
 \
     for (i = 0; i < 4; i++) {
         if(this->Hero_in_shop[i]==""){
-            this->Hero_in_shop[i] = hero_compose[int(rand() % 100)];/*
-            CCLOG("Player[].Hero_in_shop[%d]: %s", i, this->Hero_in_shop[i].c_str());*/
+            this->Hero_in_shop[i] = hero_compose[int(rand() % 100)];
+            CCLOG("Player[].Hero_in_shop[%d]: %s", i, this->Hero_in_shop[i].c_str());
         }
     }
 }
@@ -385,7 +388,7 @@ inline int getHeroCost(const string& heroName) {
     return 0;
 }
 
-inline void attribute(Sprite* mySprite) // 血量与蓝条的展示
+inline void attribute(Sprite* mySprite,int length,int object) // 血量与蓝条的展示
 {
     auto grey1 = Sprite::create("grey_bar.png");
     auto grey2 = Sprite::create("grey_bar.png");
@@ -395,24 +398,33 @@ inline void attribute(Sprite* mySprite) // 血量与蓝条的展示
     grey2->setAnchorPoint(Vec2(0, 0));
     red->setAnchorPoint(Vec2(0, 0));
     blue->setAnchorPoint(Vec2(0, 0));
-    cocos2d::Size targetSize(BAR_LENGTH, BAR_HEIGHT); // 调整血条的大小
+    cocos2d::Size targetSize(length, BAR_HEIGHT); // 调整血条的大小
     grey1->setContentSize(targetSize);
     grey2->setContentSize(targetSize);
     red->setContentSize(targetSize);
     blue->setContentSize(targetSize);
     grey1->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height + BAR_HEIGHT));
-    red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height + BAR_HEIGHT));
+    if(object==HERO)
+        red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height + BAR_HEIGHT));
+    else
+        red->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height));
     grey2->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height));
     blue->setPosition(mySprite->getPosition() + Vec2(0, mySprite->getContentSize().height));
-    cocos2d::Size red_targetSize(BAR_LENGTH, BAR_HEIGHT);
-    cocos2d::Size blue_targetSize(BAR_LENGTH, BAR_HEIGHT);
+    cocos2d::Size red_targetSize(length, BAR_HEIGHT);
+    cocos2d::Size blue_targetSize(length, BAR_HEIGHT);
     red->setContentSize(red_targetSize);
     blue->setContentSize(blue_targetSize);
 
-    mySprite->addChild(grey1);
-    mySprite->addChild(grey2);
-    mySprite->addChild(red,1,RED_TAG);
-    mySprite->addChild(blue,1,BLUE_TAG);
+    if (object == HERO) {
+        mySprite->addChild(grey1);
+        mySprite->addChild(grey2);
+        mySprite->addChild(red, 1, RED_TAG);
+        mySprite->addChild(blue, 1, BLUE_TAG);
+    }
+    else {
+        mySprite->addChild(red, 1, RED_TAG);
+        mySprite->addChild(grey2);
+    }
 }
 
 inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_shop[], vector<MyHero>& Hero, cocos2d::Layer* parentLayer) {
@@ -444,7 +456,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         auto new_hero_Sprite = Sprite::create(filename);
 
-        attribute(new_hero_Sprite);//红蓝条加入子节点
+        attribute(new_hero_Sprite,HERO_BAR_LENGTH,HERO);//红蓝条加入子节点
 
         set_a_new_hero->sprite = new_hero_Sprite;
 
