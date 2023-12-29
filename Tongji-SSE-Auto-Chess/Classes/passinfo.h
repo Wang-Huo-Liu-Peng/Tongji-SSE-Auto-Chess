@@ -3,17 +3,8 @@
 
 #ifndef __PASSINFO__H__
 #define __PASSINFO__H__
-
-//#include "goldenshovel_hero_design.h"
 #include<vector>
 
-//USING_NS_CC;
-
-//char Register[max_command_length] = { "REGISTER" };
-//char Login[max_command_length] = { "LOGIN" };
-//
-//
-//char Exit[max_command_length] = { "Exit" };
 
 #define Register "REGISTER"
 #define Login "LOGIN"
@@ -26,11 +17,6 @@
 
 
 struct passinfo {
-	/*char Register[max_command_length] = { "REGISTER" };
-	char Login[max_command_length] = { "LOGIN" };
-
-
-	char Exit[max_command_length] = { "Exit" };*/
 
 	passinfo() :hero_on_court(), hero_fighting() {};
 
