@@ -287,7 +287,7 @@ void PrepareLayer::onMouseDown(EventMouse* event)
             sprite->stopAllActions();
             sprite->runAction(moveTo);
         }
-        else//下面进行的是备战席英雄的点击判定
+        else if(false)//下面进行的是备战席英雄的点击判定
         {
             if (!Player[player].Hero_on_bench.empty()) {
                 for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
@@ -299,6 +299,22 @@ void PrepareLayer::onMouseDown(EventMouse* event)
                         Player[player].money += Player[player].Hero_on_bench[i].gold_cost;
                         Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + i);
                         i--;  
+                    }
+                }
+            }
+        }
+        else if (true)//下面进行的是场上英雄的点击判定
+        {
+            if (!Player[player].Hero_on_court.empty()) {
+                for (int i = 0; i < Player[player].Hero_on_court.size(); i++)
+                {
+                    Player[player].Hero_on_court[i].sprite->stopAllActions();
+                    if (Player[player].Hero_on_court[i].sprite->getBoundingBox().containsPoint(mousePos))
+                    {
+                        this->removeChild(Player[player].Hero_on_court[i].sprite);
+                        Player[player].money += Player[player].Hero_on_court[i].gold_cost;
+                        Player[player].Hero_on_court.erase(Player[player].Hero_on_court.begin() + i);
+                        i--;
                     }
                 }
             }
