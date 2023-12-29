@@ -1,8 +1,11 @@
+#include "goldenshovel_hero_design.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Test.h"
 #include <Show_Chinese.h>
-#include "NetworkConnection.h"
+
+//#include<vector>
+//#include "NetworkConnection.h"
 #include"Client.h"
 
 USING_NS_CC;
@@ -22,7 +25,7 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //Client::getInstance()->connect_to_server();
+    Client::getInstance()->connect_to_server();
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -36,7 +39,7 @@ bool HelloWorld::init()
 
     /********************网络连接函数*********************/
     // 使用 NetworkManager 检查网络连接
-    NetworkManager::getInstance()->checkNetworkConnection();
+   // NetworkManager::getInstance()->checkNetworkConnection();
     /*****************************************************/
 
 

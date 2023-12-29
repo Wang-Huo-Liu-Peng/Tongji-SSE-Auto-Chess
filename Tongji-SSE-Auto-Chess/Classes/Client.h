@@ -1,14 +1,17 @@
 #include <windows.h>
 #include <process.h>
 #include <iostream>
-using namespace std;
-#include <string>
-#pragma comment(lib,"ws2_32.lib") 
 #include "CSocket.h"
 #include"ThreadPool.h"
+#include <string>
+#include<passinfo.h>
+using namespace std;
+
+
+#pragma comment(lib,"ws2_32.lib") 
 
 #define  BUF_LEN 1024
-#define serverIp  "192.168.14.164"
+#define serverIp  "100.66.149.169"
 //192.168.14.164
 #define serverPort 1986
 
@@ -20,10 +23,14 @@ public:
 		return &_client;
 	}
 
-
+	//passinfo* passInfo;
+	inline void write_account(char* str);
+	inline void write_password(char* ac_pw);
+	inline void write_event(char* _event);
 	inline int connect_to_server();
 	inline void recv_msg();
 	inline void send_msg(passinfo* passInfo);
+	inline void send_msg();
 	inline void begin_send_and_listen();
 	ThreadPool pool;
 	CSocket csocket;
@@ -32,6 +39,19 @@ private:
 		pool.init();
 	}
 };
+
+void Client::write_account(char* ac_num) {
+	
+	strcpy(this->csocket._passInfo->account_number,ac_num);
+}
+
+void Client::write_password(char* ac_pw) {
+
+	strcpy(this->csocket._passInfo->password, ac_pw);
+}
+void Client::write_event(char* _event) {
+	strcpy(this->csocket._passInfo->event, _event);
+}
 
 void Client::recv_msg()
 {
@@ -50,6 +70,11 @@ int Client::connect_to_server() {
 
 void Client::send_msg(passinfo* passInfo) {
 	csocket.Send(passInfo, sizeof(passinfo));
+	return;
+}
+
+void Client::send_msg() {
+	csocket.Send();
 	return;
 }
 

@@ -95,6 +95,24 @@ int CSocket::Send(passinfo* passInfo, int len)
 	return sendCount;
 }
 
+int CSocket::Send() {
+	if (!IsSocketValid() || !isConnected)
+	{
+		return 0;
+	}
+	if (_passInfo == NULL)
+	{
+		return 0;
+	}
+	sendCount = send(csocket, (char*)_passInfo, sizeof(passinfo), 0);
+	//cout << "sc: " << sendCount << endl;
+	if (sendCount <= 0)
+	{
+		SetSocketError();
+	}
+	return sendCount;
+}
+
 int CSocket::Receive(int strLen)
 {
 	recvCount = 0;

@@ -13,6 +13,7 @@ public:
 	~CSocket();
 	bool Connect(const char* ip, int port);		//链接 
 	int Send(passinfo* passInfo, int len);	//发送
+	int Send();	//发送
 	int Receive(int strLen);	//接收
 	bool SetBlocking(bool isBlocking);//设置阻塞模式
 	bool ShutDown(SocketEnum::ShutdownMode mode);
