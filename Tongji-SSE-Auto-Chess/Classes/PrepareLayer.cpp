@@ -296,8 +296,9 @@ void PrepareLayer::onMouseDown(EventMouse* event)
                     if (Player[player].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(mousePos))
                     {
                         this->removeChild(Player[player].Hero_on_bench[i].sprite);
-                        Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + i);
                         Player[player].money += Player[player].Hero_on_bench[i].gold_cost;
+                        Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + i);
+                        i--;  
                     }
                 }
             }
