@@ -6,6 +6,7 @@
 #include "GameMap.h"
 #include <ui/UILayout.h>
 #include"Client.h"
+#include"hero_simple.h"
 using namespace std; 
 
 USING_NS_CC;
@@ -22,12 +23,22 @@ bool BattleLayer::init(int Player1,int Player2)
     if(Player[player2].Operator==AI)
         AIPlayerBrain(player2);//AI更新场上英雄
 
+
+    vector<hero_simple>_hero_on_court;
+    vector<hero_simple>_hero_on_bench;
+    //将我方英雄提取到vector<hero_simple>
+    for (auto hero : Player[player1].Hero_on_bench) {
+        struct hero_simple temp;
+        strcpy(temp.hero_name, hero.name);
+    }
+
     //如果对手不是AI if (Player[player2].Operator== HUMAN)
     if (Player[player2].Operator == HUMAN) {
         //将我方的英雄信息上传，作为对方的Player2
         Client::getInstance()->write_event(SendHero);//写入事件
-        Client::getInstance()->write_hero_on_court((void*)(&Player[Player1].Hero_on_court));//写入信息
-        Client::getInstance()->write_hero_fighting((void*)(&Player[Player1].Hero_fighting));
+        
+        Client::getInstance()->write_hero_on_court((void*)(&_hero_on_court));//写入信息
+        Client::getInstance()->write_hero_on_bench((void*)(&_hero_on_bench));
         Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
         Client::getInstance()->send_msg();//发送
         //接受对方的英雄信息，  作为这边的player2
@@ -38,14 +49,18 @@ bool BattleLayer::init(int Player1,int Player2)
             }
         }
 
-        vector<MyHero>* _hero_on_court = (vector<MyHero>*)Client::getInstance()->get_hero_on_court();//读取信息并转换为MyHero的vector
-        //vector<MyHero>* _hero_fighting = (vector<MyHero>*)Client::getInstance()->get_hero_fighting();
-
+        vector<hero_simple>* _hero_on_court = (vector<hero_simple>*)(Client::getInstance()->get_hero_on_court());//读取信息并转换为MyHero的vector
+        vector<hero_simple>* _hero_fighting = (vector<hero_simple>*)Client::getInstance()->get_hero_on_bench();
+        if(_hero_on_court==NULL)
+            CCLOG("bbb");
+        CCLOG("aaa");
+        CCLOG("%d", (*_hero_on_court).size());
+        CCLOG("aaa");
         //std::copy(_hero_on_court->begin(), _hero_on_court->end(), Player[player2].Hero_on_court.begin());//拷贝到当前使用的vector
         //std::copy(_hero_fighting->begin(), _hero_fighting->end(), Player[player2].Hero_fighting.begin());
         Player[player2].Hero_on_court.clear();
         for (int i = 0; i < (*_hero_on_court).size(); i++)
-            Player[player2].Hero_on_court.push_back((*_hero_on_court)[i]);
+            Player[player2].Hero_on_court.emplace_back((*_hero_on_court)[i]);
        // for (int i = 0; i < (*_hero_fighting).size(); i++)
             //Player[player2].Hero_on_court.push_back((*_hero_on_court)[i]);
 

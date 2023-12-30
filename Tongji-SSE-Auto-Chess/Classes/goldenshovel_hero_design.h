@@ -6,6 +6,7 @@
 #include "cocos2d.h"
 #include"Test_Scene_2.h"
 #include "PopupManager.h"
+#include"hero_simple.h"
 
 using namespace cocos2d;
 
@@ -85,6 +86,7 @@ class MyHero : public MyObject {
     friend class PrepareLayer;
     friend class PlayeWithAI;
 public:
+    char name[max_heroname_len] = { 0 };
     MyHero() {};
     MyHero(int on_court, int gold_cost, int star_level, int attack_power, int ace_attack_power,
         int needed_cooldown_round, int current_cooldown_round, int attack_distance, double attack_cd,
@@ -454,6 +456,8 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         // ·ÖÅäÔÚ¶ÑÉÏ
         MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
+
+        set_a_new_hero->name = hero_name;
 
         auto new_hero_Sprite = Sprite::create(filename);
 
