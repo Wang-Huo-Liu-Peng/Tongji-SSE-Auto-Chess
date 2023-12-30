@@ -282,6 +282,7 @@ public:
     inline void set_a_hero(string hero_name);//将一个英雄从商店选出
     inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level-1]&&this->star_level<MAX_LEVEL) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
     inline void copy();//将court上的英雄复制到fighting上
+    int MAP[8][3] = { 0 };//判断位置是否被占用
 private:
     int star_level;     // 星级
     int max_hero = star_level + 2;//最多英雄人数
@@ -294,7 +295,6 @@ private:
     MySprite* current_enemy;
     int current_exp;    //当前有的经验值
     int Operator;       //操作者为AI或人类
-    int MAP[8][3] = {0};//判断位置是否被占用
 };
 
 
@@ -555,4 +555,8 @@ inline bool ifInMap(Vec2 pos)
 {
     return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 7 * plaid) &&
         (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 3 * plaid);
+}
+inline bool ifHasHero(Vec2 pos,MySprite& my)
+{
+    return my.MAP[reverse_x(pos.x)][reverse_y(pos.y)] == 1;
 }
