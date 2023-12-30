@@ -84,7 +84,7 @@ void Test_Scene_4::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
     Client::getInstance()->write_account(str_ac);
     Client::getInstance()->write_password(str_pw);
     Client::getInstance()->send_msg();
-    Sleep(0.5);
+    Sleep(1);
     if(Client::getInstance() ->csocket._passInfo->_result==2)
         PopupManager::displayPopup(this, "success to log in");
     else if(Client::getInstance()->csocket._passInfo->_result == 1)
@@ -115,7 +115,7 @@ void Test_Scene_4::registerButtonCallback(cocos2d::Ref* sender, cocos2d::ui::Tex
     Client::getInstance()->write_account(str_ac);
     Client::getInstance()->write_password(str_pw);
     Client::getInstance()->send_msg();
-    Sleep(0.5);
+    Sleep(1);
     if (Client::getInstance()->csocket._passInfo->_result == 1)
         PopupManager::displayPopup(this, "succed to register");
     else if (Client::getInstance()->csocket._passInfo->_result == 0)

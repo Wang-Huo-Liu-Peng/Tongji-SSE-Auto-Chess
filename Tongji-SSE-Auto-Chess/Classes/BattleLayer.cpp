@@ -28,22 +28,22 @@ bool BattleLayer::init(int Player1,int Player2)
     //将我方英雄提取到vector<hero_simple>
     for (auto hero : Player[player1].Hero_on_bench) {
         struct hero_simple temp;
-        char temp_ch[max_heroname_len] = {0};
-       // std::copy(hero.name.begin(),hero.name.end(),temp);
-        strcpy(temp.hero_name, temp_ch);
+        for (int i = 0; i < hero.name.length(); i++)
+            temp.hero_name[i] = hero.name[i];
         temp.location_x = hero.location_x;
         temp.location_y = hero.location_y;
         _hero_on_bench.push_back(temp);
     }
     for (auto hero : Player[player1].Hero_on_court) {
         struct hero_simple temp;
-        char temp_ch[max_heroname_len] = { 0 };
-        //std::copy((hero.name).begin(), (hero.name).end(), temp);
-        strcpy(temp.hero_name, temp_ch);
+        for (int i = 0; i < hero.name.length(); i++)
+            temp.hero_name[i] = hero.name[i];
         temp.location_x = hero.location_x;
         temp.location_y = hero.location_y;
         _hero_on_court.push_back(temp);
     }
+
+
 
     //如果对手不是AI if (Player[player2].Operator== HUMAN)
     if (Player[player2].Operator == HUMAN) {
