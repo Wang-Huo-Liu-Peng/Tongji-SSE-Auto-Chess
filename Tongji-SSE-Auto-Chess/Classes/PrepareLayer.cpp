@@ -247,14 +247,18 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
                 Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
             }
             else {
-                int X = Player[player].Hero_on_bench[select_index].location_x = reverse_x(touchPoint.x);
-                int Y = Player[player].Hero_on_bench[select_index].location_y = reverse_y(touchPoint.y);
+                int X =  reverse_x(touchPoint.x);
+                int Y =  reverse_y(touchPoint.y);
                 if (Player[player].MAP[X][Y] == 0) {//该位置未被占用
                     Player[player].MAP[X][Y] = 1;
                     Player[player].Hero_on_bench[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
                     Player[player].Hero_on_bench[select_index].sprite->getChildByTag(BLUE_TAG)->setScaleX(float(Player[player].Hero_on_bench[select_index].current_cooldown_round) / float(Player[player].Hero_on_bench[select_index].needed_cooldown_round));
                     Player[player].Hero_on_court.push_back(Player[player].Hero_on_bench[select_index]);// 加到court里
+                    CCLOG("Unchange%d %d", Player[player].Hero_on_bench[select_index].location_x, Player[player].Hero_on_bench[select_index].location_y);
                     Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + select_index);// 从bench里删除
+                    Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_x = X;
+                    Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y = Y;
+                    CCLOG("change%d %d", Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_x, Player[player].Hero_on_court[Player[player].Hero_on_court.size() - 1].location_y);
                 }
                 else
                     Player[player].Hero_on_bench[select_index].sprite->setPosition(initial_position);
@@ -269,10 +273,19 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
     {
         int initial_X = Player[player].Hero_on_court[select_index].location_x;
         int initial_Y = Player[player].Hero_on_court[select_index].location_y;
-        int X = Player[player].Hero_on_court[select_index].location_x = reverse_x(touchPoint.x);
-        int Y = Player[player].Hero_on_court[select_index].location_y = reverse_y(touchPoint.y);
-        //if(ifInMap(touchPoint))
-        Player[player].Hero_on_court[select_index].sprite->setPosition(touchPoint);
+        if (ifInMap(touchPoint)) {
+            int X =  reverse_x(touchPoint.x);
+            int Y =  reverse_y(touchPoint.y);
+            if (Player[player].MAP[X][Y] == 0) {//该位置未被占用
+                Player[player].MAP[X][Y] = 1;
+                Player[player].MAP[initial_X][initial_Y] = 0;
+                Player[player].Hero_on_court[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
+            }
+            else
+                Player[player].Hero_on_court[select_index].sprite->setPosition(reverse_map_px(initial_X, initial_Y, ME));
+        }
+        else
+            Player[player].Hero_on_court[select_index].sprite->setPosition(reverse_map_px(initial_X, initial_Y,ME));
     }
 
 
