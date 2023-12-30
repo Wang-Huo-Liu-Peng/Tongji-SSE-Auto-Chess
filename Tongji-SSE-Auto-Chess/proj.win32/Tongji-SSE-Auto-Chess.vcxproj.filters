@@ -215,6 +215,9 @@
     <ClInclude Include="..\Classes\MatchOverScene.h">
       <Filter>src\MatchOverScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\hero_simple.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

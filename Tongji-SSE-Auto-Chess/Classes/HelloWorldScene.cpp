@@ -2,6 +2,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Test.h"
+#include"hero_simple.h"
 #include <Show_Chinese.h>
 
 //#include<vector>

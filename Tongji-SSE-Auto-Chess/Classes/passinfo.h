@@ -20,7 +20,7 @@
 
 struct passinfo {
 
-	passinfo() :hero_on_court(), hero_fighting() {};
+	passinfo() :hero_on_court(), hero_on_bench() {};
 
 	char event[max_command_length] = { '0' };
 
@@ -29,7 +29,7 @@ struct passinfo {
 
 	std::vector<int> a;
 	void* hero_on_court;
-	void* hero_fighting;
+	void* hero_on_bench;
 
 	int _result;
 	int _already_get_hero;
