@@ -20,26 +20,26 @@ bool Test_Scene_4::init()
     layout->setBackGroundColor(cocos2d::Color3B(100, 149, 237));
 
     auto accountInput = cocos2d::ui::TextField::create("请输入账号", "Arial", 30);
-    accountInput->setPosition(Vec2(240, 400));
+    accountInput->setPosition(Vec2(1280, 800));
     accountInput->setPlaceHolderColor(cocos2d::Color4B::GRAY);
     accountInput->setPlaceHolder("Enter your account");
     accountInput->setCursorEnabled(true);  // 启用光标
     layout->addChild(accountInput);
 
     auto passwordInput = cocos2d::ui::TextField::create("请输入密码", "Arial", 30);
-    passwordInput->setPosition(Vec2(240, 320));
+    passwordInput->setPosition(Vec2(1280, 600));
     passwordInput->setPasswordEnabled(true);
     passwordInput->setPasswordStyleText("*");
     passwordInput->setCursorEnabled(true);  // 启用光标
     layout->addChild(passwordInput);
 
     auto registerButton = cocos2d::ui::Button::create("join.png");
-    registerButton->setPosition(Vec2(240, 100));
+    registerButton->setPosition(Vec2(1100, 400));
     registerButton->addClickEventListener(CC_CALLBACK_1(Test_Scene_4::registerButtonCallback, this, accountInput, passwordInput));
     layout->addChild(registerButton);
 
     auto loginButton = cocos2d::ui::Button::create("login.png");
-    loginButton->setPosition(Vec2(240, 160));
+    loginButton->setPosition(Vec2(1500, 400));
     loginButton->addClickEventListener(CC_CALLBACK_1(Test_Scene_4::loginButtonCallback, this, accountInput, passwordInput));
     layout->addChild(loginButton);
 
