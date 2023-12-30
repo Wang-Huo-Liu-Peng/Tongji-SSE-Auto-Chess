@@ -36,6 +36,7 @@ public:
     void checkUltimate(vector<MyHero>& Hero_fighting);//蓝条满放大招
     void seekAndMove(vector<MyHero>&,vector<MyHero>&);//英雄索敌并移动
     bool gameOver(int,int);              //本次对战结束
+    void MatchOver(int, int);            //游戏结束
     void OverShoot(int index1, int index2);
 
     void store_display();//商店显示

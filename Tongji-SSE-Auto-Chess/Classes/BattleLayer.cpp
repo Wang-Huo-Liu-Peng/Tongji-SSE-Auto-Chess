@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_4.h"
+#include "MatchOverScene.h"
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
 #include "GameMap.h"
@@ -156,7 +157,7 @@ void BattleLayer::myupdate(float dt)
         //OverShoot(player1, player2);
         //situation = GameOver;
         if (bullet.empty()) {
-            this->unschedule(schedule_selector(BattleLayer::myupdate));
+            //this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
@@ -164,10 +165,11 @@ void BattleLayer::myupdate(float dt)
         //OverShoot(player2, player1);
         //situation = GameOver;
         if (bullet.empty()) {
-            this->unschedule(schedule_selector(BattleLayer::myupdate));
+            //this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
+    MatchOver(player1, player2);
 }
 
 void BattleLayer::update_attack(float dt)
@@ -295,6 +297,24 @@ bool BattleLayer::gameOver(int index1,int index2)
         return true;//返回true，表明本次战斗结束
     }
     return false;
+}
+
+void BattleLayer:: MatchOver(int index1, int index2)
+{
+    //int winner=-1;
+
+    if (Player[index1].current_hp <= 0) {
+        CCLOG("player1 is death");
+        MatchOverScene* over = MatchOverScene::create(index2);
+        Director::getInstance()->replaceScene(over);
+    }
+    if (Player[index2].current_hp <= 0) {
+        MatchOverScene* over = MatchOverScene::create(index1);
+        Director::getInstance()->replaceScene(over);
+    }
+
+    //this->unschedule(schedule_selector(BattleLayer::myupdate));
+    //this->unschedule(schedule_selector(BattleLayer::update_attack));
 }
 
 void BattleLayer::OverShoot(int index1, int index2)
@@ -512,8 +532,16 @@ void BattleLayer::attribute_display(vector<MyHero>& Hero_fighting)
             it->current_cooldown_round=0;
         it++;
     }
-    Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
-    Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player2].current_hp) / float(Player[player2].full_hp));
+
+    if (Player[player1].current_hp <= 0)
+        Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(0 / float(Player[player1].full_hp));
+    else
+        Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
+
+    if (Player[player2].current_hp <= 0)
+        Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(0 / float(Player[player2].full_hp));
+    else
+        Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player2].current_hp) / float(Player[player2].full_hp));
 }
 
 /*----------------AI操作部分-----------------*/

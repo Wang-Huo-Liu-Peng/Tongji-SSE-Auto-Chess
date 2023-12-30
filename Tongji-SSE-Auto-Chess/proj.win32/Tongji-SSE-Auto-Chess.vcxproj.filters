@@ -25,9 +25,6 @@
     <Filter Include="src\Test_Scene_2">
       <UniqueIdentifier>{cba44d36-7770-4f33-bf65-3563dafcac71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Test_Scene_1">
-      <UniqueIdentifier>{0d3f3324-286c-481d-b0df-5dbd61780006}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\PlayerWithAI">
       <UniqueIdentifier>{926b9f0c-e937-4d5c-a155-86ed10fb3386}</UniqueIdentifier>
     </Filter>
@@ -64,13 +61,13 @@
     <Filter Include="src\PrepareLayer">
       <UniqueIdentifier>{ac7dd7e0-2ef3-42e3-bbd4-497f128adaae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\MatchOverScene">
+      <UniqueIdentifier>{0d3f3324-286c-481d-b0df-5dbd61780006}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Test_Scene_1.cpp">
-      <Filter>src\Test_Scene_1</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Test_Scene_2.cpp">
       <Filter>src\Test_Scene_2</Filter>
@@ -126,6 +123,9 @@
     <ClCompile Include="..\Classes\PrepareLayer.cpp">
       <Filter>src\PrepareLayer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MatchOverScene.cpp">
+      <Filter>src\MatchOverScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -136,9 +136,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Show_Chinese.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Test_Scene_1.h">
-      <Filter>src\Test_Scene_1</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Test_Scene_2.h">
       <Filter>src\Test_Scene_2</Filter>
@@ -214,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\unpack.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MatchOverScene.h">
+      <Filter>src\MatchOverScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

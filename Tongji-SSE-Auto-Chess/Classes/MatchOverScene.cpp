@@ -1,21 +1,33 @@
 #include "HelloWorldScene.h"
-#include "Test_Scene_1.h"
+#include "MatchOverScene.h"
 #include "BackGroundLayer.h"
 //#include <goldenshovel_hero_design.h>
+#include "goldenshovel_hero_design.h"
 
 USING_NS_CC;
 
-Scene* Test_Scene_1::createScene()
-{
-    return Test_Scene_1::create();
-}
-
-bool Test_Scene_1::init()
+bool MatchOverScene::init(int index)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     ///////////////////////////////
+    //Ê¤Àû³¡¾°²¼ÖÃ
+    char num = index + '0';
+    string picture = "Player_";
+    picture += num;
+    picture += ".png";
+
+    Player[index].sprite = Sprite::create(picture);
+    float x1 = visibleSize.width / 2;
+    float y1 = visibleSize.height / 2;
+    Player[index].sprite->setPosition(Vec2(origin.x + x1, origin.y + y1));
+
+    auto Ruobao = Sprite::create("ruobao.png");
+    Ruobao->setPosition(Vec2(50, Player[index].sprite->getContentSize().height + 300));
+
+    Player[index].sprite->addChild(Ruobao);
+    this->addChild(Player[index].sprite);
 
     ///////////////////////////////
 
@@ -37,7 +49,7 @@ bool Test_Scene_1::init()
     return true;
 }
 
-void Test_Scene_1::menuCloseCallback(Ref* pSender)
+void MatchOverScene::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
@@ -46,4 +58,19 @@ void Test_Scene_1::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
+
+MatchOverScene* MatchOverScene::create(int index)
+{
+    MatchOverScene* ret = new (std::nothrow) MatchOverScene();
+    if (ret && ret->init(index))
+    {
+        ret->autorelease();
+        return ret;
+    }
+    else
+    {
+        CC_SAFE_DELETE(ret);
+        return nullptr;
+    }
 }
