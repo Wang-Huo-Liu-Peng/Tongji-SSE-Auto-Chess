@@ -35,5 +35,13 @@ bool Bullet::Hitted()
 bool Bullet::HitHero()
 {
 	//目标位置与英雄位置是否一致
-	return target.x == target_hero->sprite->getPositionX() && target.y == target_hero->sprite->getPositionY();
+	float distance_x = target_hero->sprite->getPositionX() - target.x;
+	float distance_y = target_hero->sprite->getPositionY() - target.y;
+	float distance = distance_x * distance_x + distance_y * distance_y;
+	return distance <= plaid * plaid / 4;
+}
+
+bool Boom(vector<MyHero>& enemy)
+{
+	return true;
 }

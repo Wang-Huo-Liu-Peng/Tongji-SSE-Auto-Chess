@@ -452,7 +452,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
         player.decreasemoney(i);
         CCLOG("money %d", player.getmoney());
 
-        string filename = hero_name + "1.png";
+        string filename = hero_name + ".png";
 
         // 分配在堆上
         MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
@@ -461,7 +461,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         auto new_hero_Sprite = Sprite::create(filename);
 
-        Size newSize(115, 115);  // 设置新的宽度为 200 像素，高度为 150 像素
+        Size newSize(127, 127);  // 设置新的宽度为 200 像素，高度为 150 像素
         //new_hero_Sprite->setContentSize(newSize);
 
         attribute(new_hero_Sprite,HERO_BAR_LENGTH,HERO);//红蓝条加入子节点
@@ -476,7 +476,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
 inline MyHero* set_a_hero(string hero_name, int X,int Y) {
 
-    string filename = hero_name + "1.png";
+    string filename = hero_name + ".png";
 
     // 分配在堆上
     MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
@@ -485,7 +485,7 @@ inline MyHero* set_a_hero(string hero_name, int X,int Y) {
 
     auto new_hero_Sprite = Sprite::create(filename);
 
-    Size newSize(115, 115);  // 设置新的宽度为 200 像素，高度为 150 像素
+    Size newSize(127, 127);  // 设置新的宽度为 200 像素，高度为 150 像素
     //new_hero_Sprite->setContentSize(newSize);
 
     attribute(new_hero_Sprite, HERO_BAR_LENGTH, HERO);//红蓝条加入子节点
@@ -586,8 +586,13 @@ inline int reverse_y(float y)
 }
 inline bool ifInMap(Vec2 pos)
 {
-    return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 7 * plaid) &&
+    return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 8 * plaid) &&
         (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 3 * plaid);
+}
+inline bool ifInWholeMap(Vec2 pos)
+{
+    return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 8 * plaid) &&
+        (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 6 * plaid);
 }
 inline bool ifHasHero(Vec2 pos,MySprite& my)
 {

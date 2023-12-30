@@ -603,9 +603,11 @@ void BattleLayer::onMouseDown(EventMouse* event)
         mousePos = Director::getInstance()->convertToGL(mousePos);
         mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
         // 处理鼠标右键按下事件和鼠标位置
-        auto sprite = this->getChildByTag(MY_SPRITE);
-        auto moveTo = MoveTo::create(2, mousePos);
-        sprite->stopAllActions();
-        sprite->runAction(moveTo);
+        if (ifInWholeMap(mousePos)) {
+            auto sprite = this->getChildByTag(MY_SPRITE);
+            auto moveTo = MoveTo::create(2, mousePos);
+            sprite->stopAllActions();
+            sprite->runAction(moveTo);
+        }
     }
 }

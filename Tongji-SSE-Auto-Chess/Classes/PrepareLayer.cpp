@@ -298,7 +298,7 @@ void PrepareLayer::onMouseDown(EventMouse* event)
         mousePos = Director::getInstance()->convertToGL(mousePos);
         mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
 
-        if (ifInMap(mousePos)&&!ifHasHero(mousePos,Player[player]))//pjl把这里做一下标定，改成当坐标为战斗场景时
+        if (ifInWholeMap(mousePos)&&!ifHasHero(mousePos,Player[player]))//pjl把这里做一下标定，改成当坐标为战斗场景时
         {
             // 处理鼠标右键按下事件和鼠标位置
             auto sprite = this->getChildByTag(MY_SPRITE);
@@ -306,7 +306,7 @@ void PrepareLayer::onMouseDown(EventMouse* event)
             sprite->stopAllActions();
             sprite->runAction(moveTo);
         }
-        else if (!ifInMap(mousePos))//下面进行的是备战席英雄的点击判定
+        if (!ifInMap(mousePos))//下面进行的是备战席英雄的点击判定
         {
             if (!Player[player].Hero_on_bench.empty()) {
                 for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
@@ -322,7 +322,7 @@ void PrepareLayer::onMouseDown(EventMouse* event)
                 }
             }
         }
-        else if (ifInMap(mousePos) && ifHasHero(mousePos, Player[player]))//下面进行的是场上英雄的点击判定
+        if (ifInMap(mousePos) && ifHasHero(mousePos, Player[player]))//下面进行的是场上英雄的点击判定
         {
             if (!Player[player].Hero_on_court.empty()) {
                 for (int i = 0; i < Player[player].Hero_on_court.size(); i++)

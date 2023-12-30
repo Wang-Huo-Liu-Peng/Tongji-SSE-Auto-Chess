@@ -22,4 +22,5 @@ public:
 	Bullet(MySprite*, Vec2, int, string); //构造函数2
 	bool Hitted();      //判断是否到达目标位置
 	bool HitHero();     //是否打中英雄（目标位置与英雄位置是否一致）
+	bool Boom(vector<MyHero>&);
 };
