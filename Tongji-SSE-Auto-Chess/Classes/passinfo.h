@@ -20,14 +20,12 @@
 
 struct passinfo {
 
-	passinfo() :hero_on_court(), hero_on_bench() {};
 
 	char event[max_command_length] = { '0' };
 
 	char account_number[max_ac_num] = { '0' };
 	char password[max_ac_pw] = { '0' };
 
-	std::vector<int> a;
 	void* hero_on_court;
 	void* hero_on_bench;
 

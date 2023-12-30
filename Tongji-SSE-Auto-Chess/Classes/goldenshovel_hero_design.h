@@ -502,7 +502,7 @@ inline void MySprite::copy()
     }
     Hero_benching.clear();
     for (int i = 0; i < Hero_on_bench.size(); i++) {
-        Hero_benching.push_back(Hero_on_bench[i]);
+        //Hero_benching.push_back(Hero_on_bench[i]);
     }
 }
 
