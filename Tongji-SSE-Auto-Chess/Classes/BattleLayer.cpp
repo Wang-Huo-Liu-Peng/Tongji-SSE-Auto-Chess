@@ -38,9 +38,16 @@ bool BattleLayer::init(int Player1,int Player2)
         }
 
         vector<MyHero>* _hero_on_court = (vector<MyHero>*)Client::getInstance()->get_hero_on_court();//读取信息并转换为MyHero的vector
-        vector<MyHero>* _hero_fighting = (vector<MyHero>*)Client::getInstance()->get_hero_fighting();
-        std::copy(_hero_on_court->begin(), _hero_on_court->end(), Player[player2].Hero_on_court.begin());//拷贝到当前使用的vector
-        std::copy(_hero_fighting->begin(), _hero_fighting->end(), Player[player2].Hero_fighting.begin());
+        //vector<MyHero>* _hero_fighting = (vector<MyHero>*)Client::getInstance()->get_hero_fighting();
+
+        //std::copy(_hero_on_court->begin(), _hero_on_court->end(), Player[player2].Hero_on_court.begin());//拷贝到当前使用的vector
+        //std::copy(_hero_fighting->begin(), _hero_fighting->end(), Player[player2].Hero_fighting.begin());
+        Player[player2].Hero_on_court.clear();
+        for (int i = 0; i < (*_hero_on_court).size(); i++)
+            Player[player2].Hero_on_court.push_back((*_hero_on_court)[i]);
+       // for (int i = 0; i < (*_hero_fighting).size(); i++)
+            //Player[player2].Hero_on_court.push_back((*_hero_on_court)[i]);
+
     }
 
     Player[player1].copy();//将court中的英雄复制到fighting上
