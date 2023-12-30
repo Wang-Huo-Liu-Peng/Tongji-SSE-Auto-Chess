@@ -22,23 +22,24 @@ bool BattleLayer::init(int Player1,int Player2)
         AIPlayerBrain(player2);//AI更新场上英雄
 
     //如果对手不是AI if (Player[player2].Operator== HUMAN)
-    
-    //将我方的英雄信息上传，作为对方的Player2
-    Client::getInstance()->write_event(SendHero);//写入事件
-    Client::getInstance()->write_hero_on_court((void*)(&Player[Player1].Hero_on_court));//写入信息
-    Client::getInstance()->write_hero_fighting((void*)(&Player[Player1].Hero_fighting));
-    Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
-    Client::getInstance()->send_msg();//发送
-    //接受对方的英雄信息，  作为这边的player2
-    while (1) {//阻塞等待接受对面英雄信息
-        if (Client::getInstance()->get_get_state() == 1)
-            break;
+    if (Player[player2].Operator == HUMAN) {
+        //将我方的英雄信息上传，作为对方的Player2
+        Client::getInstance()->write_event(SendHero);//写入事件
+        Client::getInstance()->write_hero_on_court((void*)(&Player[Player1].Hero_on_court));//写入信息
+        Client::getInstance()->write_hero_fighting((void*)(&Player[Player1].Hero_fighting));
+        Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
+        Client::getInstance()->send_msg();//发送
+        //接受对方的英雄信息，  作为这边的player2
+        while (1) {//阻塞等待接受对面英雄信息
+            if (Client::getInstance()->get_get_state() == 1)
+                break;
+        }
+
+        vector<MyHero>* _hero_on_court = (vector<MyHero>*)Client::getInstance()->get_hero_on_court();//读取信息并转换为MyHero的vector
+        vector<MyHero>* _hero_fighting = (vector<MyHero>*)Client::getInstance()->get_hero_fighting();
+        std::copy(_hero_on_court->begin(), _hero_on_court->end(), Player[player2].Hero_on_court.begin());//拷贝到当前使用的vector
+        std::copy(_hero_fighting->begin(), _hero_fighting->end(), Player[player2].Hero_fighting.begin());
     }
-    
-    vector<MyHero>* _hero_on_court = (vector<MyHero>*)Client::getInstance()->get_hero_on_court();//读取信息并转换为MyHero的vector
-    vector<MyHero>* _hero_fighting = (vector<MyHero>*)Client::getInstance()->get_hero_fighting();
-    std::copy(_hero_on_court->begin(), _hero_on_court->end(), Player[player2].Hero_on_court.begin());//拷贝到当前使用的vector
-    std::copy(_hero_fighting->begin(), _hero_fighting->end(), Player[player2].Hero_fighting.begin());
 
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//将court中的英雄复制到fighting上
