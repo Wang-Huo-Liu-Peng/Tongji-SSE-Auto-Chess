@@ -23,8 +23,8 @@ bool BattleLayer::init(int Player1,int Player2)
         AIPlayerBrain(player2);//AI更新场上英雄
 
 
-    vector<hero_simple>_hero_on_court;
-    vector<hero_simple>_hero_on_bench;
+    vector<hero_simple>hero_on_court;
+    vector<hero_simple>hero_on_bench;
     //将我方英雄提取到vector<hero_simple>
     for (auto hero : Player[player1].Hero_on_bench) {
         struct hero_simple temp;
@@ -32,7 +32,7 @@ bool BattleLayer::init(int Player1,int Player2)
             temp.hero_name[i] = hero.name[i];
         temp.location_x = hero.location_x;
         temp.location_y = hero.location_y;
-        _hero_on_bench.push_back(temp);
+        hero_on_bench.push_back(temp);
     }
     for (auto hero : Player[player1].Hero_on_court) {
         struct hero_simple temp;
@@ -40,7 +40,7 @@ bool BattleLayer::init(int Player1,int Player2)
             temp.hero_name[i] = hero.name[i];
         temp.location_x = hero.location_x;
         temp.location_y = hero.location_y;
-        _hero_on_court.push_back(temp);
+        hero_on_court.push_back(temp);
     }
 
 
@@ -50,8 +50,8 @@ bool BattleLayer::init(int Player1,int Player2)
         //将我方的英雄信息上传，作为对方的Player2
         Client::getInstance()->write_event(SendHero);//写入事件
         
-        Client::getInstance()->write_hero_on_court((void*)(&_hero_on_court));//写入信息
-        Client::getInstance()->write_hero_on_bench((void*)(&_hero_on_bench));
+        Client::getInstance()->write_hero_on_court((void*)(&hero_on_court));//写入信息
+        Client::getInstance()->write_hero_on_bench((void*)(&hero_on_bench));
         Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
         Client::getInstance()->send_msg();//发送
         //接受对方的英雄信息，  作为这边的player2

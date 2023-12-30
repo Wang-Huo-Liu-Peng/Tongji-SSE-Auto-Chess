@@ -452,7 +452,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
         player.decreasemoney(i);
         CCLOG("money %d", player.getmoney());
 
-        string filename = hero_name + ".png";
+        string filename = hero_name + "1.png";
 
         // 分配在堆上
         MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
@@ -460,6 +460,9 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
         set_a_new_hero->name = hero_name;
 
         auto new_hero_Sprite = Sprite::create(filename);
+
+        Size newSize(115, 115);  // 设置新的宽度为 200 像素，高度为 150 像素
+        //new_hero_Sprite->setContentSize(newSize);
 
         attribute(new_hero_Sprite,HERO_BAR_LENGTH,HERO);//红蓝条加入子节点
 
@@ -473,7 +476,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
 inline MyHero* set_a_hero(string hero_name, int X,int Y) {
 
-    string filename = hero_name + ".png";
+    string filename = hero_name + "1.png";
 
     // 分配在堆上
     MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
@@ -481,6 +484,9 @@ inline MyHero* set_a_hero(string hero_name, int X,int Y) {
     set_a_new_hero->name = hero_name;
 
     auto new_hero_Sprite = Sprite::create(filename);
+
+    Size newSize(115, 115);  // 设置新的宽度为 200 像素，高度为 150 像素
+    //new_hero_Sprite->setContentSize(newSize);
 
     attribute(new_hero_Sprite, HERO_BAR_LENGTH, HERO);//红蓝条加入子节点
 
