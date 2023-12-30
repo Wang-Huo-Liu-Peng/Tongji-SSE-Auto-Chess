@@ -63,10 +63,19 @@ bool BattleLayer::init(int Player1,int Player2)
         }
 
         vector<hero_simple>* _hero_on_court = (vector<hero_simple>*)(Client::getInstance()->get_hero_on_court());//读取信息并转换为MyHero的vector
-        vector<hero_simple>* _hero_fighting = (vector<hero_simple>*)Client::getInstance()->get_hero_on_bench();
+        vector<hero_simple>* _hero_on_bench = (vector<hero_simple>*)Client::getInstance()->get_hero_on_bench();
         
         Player[player2].Hero_on_court.clear();
         Player[player2].Hero_on_bench.clear();
+
+        for (auto hero_s : (*_hero_on_court)) {
+            MyHero* myHero = set_a_hero(hero_s.hero_name, hero_s.location_x, hero_s.location_y);
+            Player[player2].Hero_on_court.push_back(*myHero);
+        }
+        /*for (auto hero_s : (*_hero_on_bench)) {
+            MyHero* myHero = set_a_hero(hero_s.hero_name, hero_s.location_x, hero_s.location_y);
+            Player[player2].Hero_on_bench.push_back(*myHero);
+        }*/
 
     }
 
