@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_4.h"
+#include "MatchOverScene.h"
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
 #include "GameMap.h"
@@ -284,6 +285,21 @@ bool BattleLayer::gameOver(int index1,int index2)
     return false;
 }
 
+void BattleLayer:: MatchOver(int index1, int index2)
+{
+    int winner=-1;
+
+    if (Player[index1].current_hp <= 0)
+        winner = index2;
+    if (Player[index2].current_hp <= 0)
+        winner = index1;
+
+    //this->unschedule(schedule_selector(BattleLayer::myupdate));
+    //this->unschedule(schedule_selector(BattleLayer::update_attack));
+    MatchOverScene* over = MatchOverScene::create(winner);
+    Director::getInstance()->replaceScene(over);
+}
+
 void BattleLayer::OverShoot(int index1, int index2)
 {
     if (situation == Fighting) {
@@ -499,8 +515,16 @@ void BattleLayer::attribute_display(vector<MyHero>& Hero_fighting)
             it->current_cooldown_round=0;
         it++;
     }
-    Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
-    Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player2].current_hp) / float(Player[player2].full_hp));
+
+    if (Player[player1].current_hp <= 0)
+        Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(0 / float(Player[player1].full_hp));
+    else
+        Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
+
+    if (Player[player2].current_hp <= 0)
+        Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(0 / float(Player[player2].full_hp));
+    else
+        Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player2].current_hp) / float(Player[player2].full_hp));
 }
 
 /*----------------AI²Ù×÷²¿·Ö-----------------*/

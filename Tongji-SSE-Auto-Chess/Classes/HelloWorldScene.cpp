@@ -147,7 +147,7 @@ bool HelloWorld::init()
         });
     auto TestItem_1 = MenuItemLabel::create(TestLabel_1,
         [&](Ref* sender) {
-            Director::getInstance()->pushScene(Test_Scene_1::createScene());
+            //Director::getInstance()->pushScene(Test_Scene_1::createScene());
         });
     auto TestItem_2 = MenuItemLabel::create(TestLabel_2,
         [&](Ref* sender) {

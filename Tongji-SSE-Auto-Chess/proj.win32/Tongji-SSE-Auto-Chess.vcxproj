@@ -160,13 +160,13 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\CSocket.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\goldenshovel_hero_design.cpp" />
+    <ClCompile Include="..\Classes\MatchOverScene.cpp" />
     <ClCompile Include="..\Classes\PlayWithAI.cpp" />
     <ClCompile Include="..\Classes\PlayWithPlayer.cpp" />
     <ClCompile Include="..\Classes\PopupManager.cpp" />
     <ClCompile Include="..\Classes\PrepareLayer.cpp" />
     <ClCompile Include="..\Classes\PrepareScene.cpp" />
     <ClCompile Include="..\Classes\SelectModeScene.cpp" />
-    <ClCompile Include="..\Classes\Test_Scene_1.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_2.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_3.cpp" />
     <ClCompile Include="..\Classes\Test_Scene_4.cpp" />
@@ -183,6 +183,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\load_server.h" />
+    <ClInclude Include="..\Classes\MatchOverScene.h" />
     <ClInclude Include="..\Classes\NetworkConnection.h" />
     <ClInclude Include="..\Classes\passinfo.h" />
     <ClInclude Include="..\Classes\PlayWithAI.h" />
@@ -195,7 +196,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Show_Chinese.h" />
     <ClInclude Include="..\Classes\SocketEnum.h" />
     <ClInclude Include="..\Classes\Test.h" />
-    <ClInclude Include="..\Classes\Test_Scene_1.h" />
     <ClInclude Include="..\Classes\Test_Scene_2.h" />
     <ClInclude Include="..\Classes\Test_Scene_3.h" />
     <ClInclude Include="..\Classes\Test_Scene_4.h" />
