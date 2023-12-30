@@ -70,12 +70,13 @@ public:
 	Sprite* sprite;
     int gethp() { return this->current_hp; };                                                // 指针
 
+    int location_x;			                      // 横坐标
+    int location_y;                               // 纵坐标
+
 protected:
 	int full_hp;                                  // 满血
 	int current_hp;                               // 当前血量
 
-    int location_x;			                      // 横坐标
-    int location_y;                               // 纵坐标
 };
 
 
@@ -468,6 +469,29 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         return set_a_new_hero;
     }
+}
+
+inline MyHero* set_a_hero(string hero_name, int X,int Y) {
+
+    string filename = hero_name + ".png";
+
+    // 分配在堆上
+    MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
+
+    set_a_new_hero->name = hero_name;
+
+    auto new_hero_Sprite = Sprite::create(filename);
+
+    attribute(new_hero_Sprite, HERO_BAR_LENGTH, HERO);//红蓝条加入子节点
+
+    set_a_new_hero->sprite = new_hero_Sprite;
+
+    // 可视化，并给position赋值
+    set_a_new_hero->location_x = X;
+    set_a_new_hero->location_y = Y;
+
+    return set_a_new_hero;
+   
 }
 
 inline void MySprite::copy()
