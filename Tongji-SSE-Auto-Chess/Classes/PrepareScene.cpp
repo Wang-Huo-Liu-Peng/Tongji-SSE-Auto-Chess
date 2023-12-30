@@ -18,7 +18,7 @@ bool PrepareScene::init(int Player)
     PrepareLayer* Prepare = PrepareLayer::create(player);
     this->addChild(Prepare);//备战层
 
-    this->scheduleOnce(schedule_selector(PrepareScene::goToBattle), 10.0f);
+    this->scheduleOnce(schedule_selector(PrepareScene::goToBattle), 3.0f);
 
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(

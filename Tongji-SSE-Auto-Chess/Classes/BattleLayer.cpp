@@ -144,7 +144,7 @@ void BattleLayer::myupdate(float dt)
         //OverShoot(player1, player2);
         //situation = GameOver;
         if (bullet.empty()) {
-            this->unschedule(schedule_selector(BattleLayer::myupdate));
+            //this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
@@ -152,10 +152,11 @@ void BattleLayer::myupdate(float dt)
         //OverShoot(player2, player1);
         //situation = GameOver;
         if (bullet.empty()) {
-            this->unschedule(schedule_selector(BattleLayer::myupdate));
+            //this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
+    MatchOver(player1, player2);
 }
 
 void BattleLayer::update_attack(float dt)
@@ -287,17 +288,20 @@ bool BattleLayer::gameOver(int index1,int index2)
 
 void BattleLayer:: MatchOver(int index1, int index2)
 {
-    int winner=-1;
+    //int winner=-1;
 
-    if (Player[index1].current_hp <= 0)
-        winner = index2;
-    if (Player[index2].current_hp <= 0)
-        winner = index1;
+    if (Player[index1].current_hp <= 0) {
+        CCLOG("player1 is death");
+        MatchOverScene* over = MatchOverScene::create(index2);
+        Director::getInstance()->replaceScene(over);
+    }
+    if (Player[index2].current_hp <= 0) {
+        MatchOverScene* over = MatchOverScene::create(index1);
+        Director::getInstance()->replaceScene(over);
+    }
 
     //this->unschedule(schedule_selector(BattleLayer::myupdate));
     //this->unschedule(schedule_selector(BattleLayer::update_attack));
-    MatchOverScene* over = MatchOverScene::create(winner);
-    Director::getInstance()->replaceScene(over);
 }
 
 void BattleLayer::OverShoot(int index1, int index2)

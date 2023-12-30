@@ -19,8 +19,13 @@ bool MatchOverScene::init(int index)
     picture += ".png";
 
     Player[index].sprite = Sprite::create(picture);
+    float x1 = visibleSize.width / 2;
+    float y1 = visibleSize.height / 2;
+    Player[index].sprite->setPosition(Vec2(origin.x + x1, origin.y + y1));
+
     auto Ruobao = Sprite::create("ruobao.png");
-    Ruobao->setPosition(Player[index].sprite->getPosition() + Vec2(0, Player[index].sprite->getContentSize().height + 300));
+    Ruobao->setPosition(Vec2(50, Player[index].sprite->getContentSize().height + 300));
+
     Player[index].sprite->addChild(Ruobao);
     this->addChild(Player[index].sprite);
 
