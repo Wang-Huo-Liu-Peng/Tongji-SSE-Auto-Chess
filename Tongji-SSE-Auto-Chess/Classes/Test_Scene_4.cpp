@@ -1,5 +1,6 @@
 #include "Test_Scene_4.h"
 #include"Client.h"
+#include <PopupManager.h>
 
 USING_NS_CC;
 
@@ -85,11 +86,11 @@ void Test_Scene_4::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
     Client::getInstance()->send_msg();
     Sleep(0.5);
     if(Client::getInstance() ->csocket._passInfo->_result==2)
-        CCLOG("succed to login");
+        PopupManager::displayPopup(this, "success to log in");
     else if(Client::getInstance()->csocket._passInfo->_result == 1)
-        CCLOG("fail to login: Password fault");
+        PopupManager::displayPopup(this, "fail to login: Password fault");
     else if (Client::getInstance()->csocket._passInfo->_result == 0)
-        CCLOG("fail to login: account not exist");
+        PopupManager::displayPopup(this, "fail to login: account not exist");
     // 示例：简单打印输入的账号和密码
     //CCLOG("Account: %s, Password: %s", account.c_str(), password.c_str());
 }
@@ -116,9 +117,9 @@ void Test_Scene_4::registerButtonCallback(cocos2d::Ref* sender, cocos2d::ui::Tex
     Client::getInstance()->send_msg();
     Sleep(0.5);
     if (Client::getInstance()->csocket._passInfo->_result == 1)
-        CCLOG("succed to register");
+        PopupManager::displayPopup(this, "succed to register");
     else if (Client::getInstance()->csocket._passInfo->_result == 0)
-        CCLOG("fail to register: account have existed");
+        PopupManager::displayPopup(this, "fail to register: account have existed");
 
     // 在这里处理注册逻辑，可以与后端通信保存新账号密码
 

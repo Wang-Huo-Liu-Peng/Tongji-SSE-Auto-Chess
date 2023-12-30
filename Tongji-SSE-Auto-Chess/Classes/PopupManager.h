@@ -6,6 +6,7 @@
 class PopupManager {
 public:
     static void displayPopup(cocos2d::Layer* parentLayer, const std::string& displayText);
+    static void displayPopup(cocos2d::Scene* parentScene, const std::string& displayText);
 
 private:
     static void errorWindowClose(cocos2d::Ref* sender);
