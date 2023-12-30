@@ -29,7 +29,8 @@ public:
 	inline void write_event(char* _event);
 	inline void write_hero_on_court(void* hero_on_court);
 	inline void write_hero_fighting(void* hero_fighting);
-	inline void*
+	inline void* get_hero_fighting();
+	inline void* get_hero_on_court();
 	inline void set_get_state(int _get_state);
 	inline int get_get_state();
 	inline int connect_to_server();
@@ -57,6 +58,10 @@ void Client::write_password(char* ac_pw) {
 
 void Client::write_hero_on_court(void* hero_on_court) {
 	this->csocket._passInfo->hero_on_court = hero_on_court;
+}
+
+void* Client::get_hero_on_court() {
+	return this->csocket._passInfo->hero_on_court;
 }
 
 void Client::write_hero_fighting(void* hero_fighting) {

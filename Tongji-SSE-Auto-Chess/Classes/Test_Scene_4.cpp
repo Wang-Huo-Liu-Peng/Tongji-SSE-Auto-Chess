@@ -88,7 +88,7 @@ void Test_Scene_4::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
         CCLOG("succed to login");
     else if(Client::getInstance()->csocket._passInfo->_result == 1)
         CCLOG("fail to login: Password fault");
-    else if (Client::getInstance()->csocket._passInfo->_result == 1)
+    else if (Client::getInstance()->csocket._passInfo->_result == 0)
         CCLOG("fail to login: account not exist");
     // 示例：简单打印输入的账号和密码
     //CCLOG("Account: %s, Password: %s", account.c_str(), password.c_str());

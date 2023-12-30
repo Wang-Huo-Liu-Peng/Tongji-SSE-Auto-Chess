@@ -1,6 +1,5 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_4.h"
-#include "MatchOverScene.h"
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
 #include "GameMap.h"
@@ -25,18 +24,21 @@ bool BattleLayer::init(int Player1,int Player2)
     //如果对手不是AI if (Player[player2].Operator== HUMAN)
     
     //将我方的英雄信息上传，作为对方的Player2
-    Client::getInstance()->write_event(SendHero);
-    Client::getInstance()->write_hero_on_court((void*)(&Player[Player1].Hero_on_court));
+    Client::getInstance()->write_event(SendHero);//写入事件
+    Client::getInstance()->write_hero_on_court((void*)(&Player[Player1].Hero_on_court));//写入信息
     Client::getInstance()->write_hero_fighting((void*)(&Player[Player1].Hero_fighting));
-    Client::getInstance()->set_get_state(0);
-    Client::getInstance()->send_msg();
+    Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
+    Client::getInstance()->send_msg();//发送
     //接受对方的英雄信息，  作为这边的player2
-    while (1) {
+    while (1) {//阻塞等待接受对面英雄信息
         if (Client::getInstance()->get_get_state() == 1)
             break;
     }
-    vector<MyHero>* _hero_on_court=
-    std::copy();
+    
+    vector<MyHero>* _hero_on_court = (vector<MyHero>*)Client::getInstance()->get_hero_on_court();//读取信息并转换为MyHero的vector
+    vector<MyHero>* _hero_fighting = (vector<MyHero>*)Client::getInstance()->get_hero_fighting();
+    std::copy(_hero_on_court->begin(), _hero_on_court->end(), Player[player2].Hero_on_court.begin());//拷贝到当前使用的vector
+    std::copy(_hero_fighting->begin(), _hero_fighting->end(), Player[player2].Hero_fighting.begin());
 
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//将court中的英雄复制到fighting上
@@ -157,7 +159,7 @@ void BattleLayer::myupdate(float dt)
         //OverShoot(player1, player2);
         //situation = GameOver;
         if (bullet.empty()) {
-            //this->unschedule(schedule_selector(BattleLayer::myupdate));
+            this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
@@ -165,11 +167,10 @@ void BattleLayer::myupdate(float dt)
         //OverShoot(player2, player1);
         //situation = GameOver;
         if (bullet.empty()) {
-            //this->unschedule(schedule_selector(BattleLayer::myupdate));
+            this->unschedule(schedule_selector(BattleLayer::myupdate));
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
-    MatchOver(player1, player2);
 }
 
 void BattleLayer::update_attack(float dt)
@@ -297,24 +298,6 @@ bool BattleLayer::gameOver(int index1,int index2)
         return true;//返回true，表明本次战斗结束
     }
     return false;
-}
-
-void BattleLayer:: MatchOver(int index1, int index2)
-{
-    //int winner=-1;
-
-    if (Player[index1].current_hp <= 0) {
-        CCLOG("player1 is death");
-        MatchOverScene* over = MatchOverScene::create(index2);
-        Director::getInstance()->replaceScene(over);
-    }
-    if (Player[index2].current_hp <= 0) {
-        MatchOverScene* over = MatchOverScene::create(index1);
-        Director::getInstance()->replaceScene(over);
-    }
-
-    //this->unschedule(schedule_selector(BattleLayer::myupdate));
-    //this->unschedule(schedule_selector(BattleLayer::update_attack));
 }
 
 void BattleLayer::OverShoot(int index1, int index2)
@@ -532,16 +515,8 @@ void BattleLayer::attribute_display(vector<MyHero>& Hero_fighting)
             it->current_cooldown_round=0;
         it++;
     }
-
-    if (Player[player1].current_hp <= 0)
-        Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(0 / float(Player[player1].full_hp));
-    else
-        Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
-
-    if (Player[player2].current_hp <= 0)
-        Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(0 / float(Player[player2].full_hp));
-    else
-        Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player2].current_hp) / float(Player[player2].full_hp));
+    Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
+    Player[player2].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player2].current_hp) / float(Player[player2].full_hp));
 }
 
 /*----------------AI操作部分-----------------*/
