@@ -246,3 +246,27 @@ manaBar->setPercentage(currentMana);
 
 
 */
+
+// 羁绊定义
+struct Synergy {
+    string str1, str2, str3;
+    Synergy(string s1, string s2, string s3) : str1(s1),str2(s2),str3(s3){}
+};
+vector<Synergy> synergies = {
+       {"Annie", "Corki", "Taric"},
+       {"Kayle", "Garen", "Twitch"},
+       {"Senna", "Amumu", "Lux"},
+       {"Samira", "Neeko", "Karthus"},
+       {"Viego", "Ezreal", "Poppy"},
+       {"Lucian", "Kayn", "Qiyana"},
+       {"Ziggs", "Evelynn", "Twitch"}
+};
+bool checkSynergy(const vector<MyHero>& heroes, const Synergy& synergy) 
+{
+    int count1, count2, count3;
+    for (int i = 0; i < synergies.size(); i++)
+    {
+
+    }
+    return 1; // 如果找到的英雄数量大于等于3，羁绊满足
+}
