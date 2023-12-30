@@ -34,6 +34,7 @@ bool PrepareLayer::init(int index)
 
     auto mouseListener = EventListenerMouse::create();
     mouseListener->onMouseDown = CC_CALLBACK_1(PrepareLayer::onMouseDown, this);
+    mouseListener->onMouseUp = CC_CALLBACK_1(PrepareLayer::onMouseUp, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 
     /*====================商店部分========================*/
@@ -292,7 +293,7 @@ void PrepareLayer::onMouseDown(EventMouse* event)
             sprite->stopAllActions();
             sprite->runAction(moveTo);
         }
-        else if(false)//下面进行的是备战席英雄的点击判定
+        else if (false)//下面进行的是备战席英雄的点击判定
         {
             if (!Player[player].Hero_on_bench.empty()) {
                 for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
@@ -303,7 +304,7 @@ void PrepareLayer::onMouseDown(EventMouse* event)
                         this->removeChild(Player[player].Hero_on_bench[i].sprite);
                         Player[player].money += Player[player].Hero_on_bench[i].gold_cost;
                         Player[player].Hero_on_bench.erase(Player[player].Hero_on_bench.begin() + i);
-                        i--;  
+                        i--;
                     }
                 }
             }
@@ -325,7 +326,46 @@ void PrepareLayer::onMouseDown(EventMouse* event)
             }
         }
     }
+    else if (event->getMouseButton() == EventMouse::MouseButton::BUTTON_LEFT)
+    {
+        Vec2 mousePos = event->getLocation();
+        mousePos = Director::getInstance()->convertToGL(mousePos);
+        mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
+        if (false)//下面进行的是备战席英雄的点击判定
+        {
+            if (!Player[player].Hero_on_bench.empty()) {
+                for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
+                {
+                    Player[player].Hero_on_bench[i].sprite->stopAllActions();
+                    if (Player[player].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(mousePos))
+                    {
+                        //wjy在这里改
+                    }
+                }
+            }
+        }
+        else if (true)//下面进行的是场上英雄的点击判定
+        {
+            if (!Player[player].Hero_on_court.empty()) {
+                for (int i = 0; i < Player[player].Hero_on_court.size(); i++)
+                {
+                    Player[player].Hero_on_court[i].sprite->stopAllActions();
+                    if (Player[player].Hero_on_court[i].sprite->getBoundingBox().containsPoint(mousePos))
+                    {
+                        //wjy在这里改
+                    }
+                }
+            }
+        }
+    }
 }
+
+void PrepareLayer::onMouseUp(EventMouse* event)
+{
+    //wjy改完我在这里删除
+}
+
+
 
 
 /*----------------------显示部分-------------------------*/

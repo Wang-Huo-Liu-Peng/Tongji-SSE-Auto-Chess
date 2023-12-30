@@ -27,6 +27,7 @@ public:
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 
     void onMouseDown(EventMouse* event);
+    void onMouseUp(EventMouse* event);
 
 private:
     int select_index; // 用于存储当前选中的备战席上的英雄的索引
