@@ -266,6 +266,11 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
     }
     else if (type_index == 1)
     {
+        int initial_X = Player[player].Hero_on_court[select_index].location_x;
+        int initial_Y = Player[player].Hero_on_court[select_index].location_y;
+        int X = Player[player].Hero_on_court[select_index].location_x = reverse_x(touchPoint.x);
+        int Y = Player[player].Hero_on_court[select_index].location_y = reverse_y(touchPoint.y);
+        //if(ifInMap(touchPoint))
         Player[player].Hero_on_court[select_index].sprite->setPosition(touchPoint);
     }
 

@@ -48,7 +48,9 @@ bool SelectModeScene::init()
         [&](Ref* sender) {
             Player[1].Operator = HUMAN;
             Player[2].Operator = HUMAN;
-            Director::getInstance()->pushScene(PlayWithPlayer::createScene());
+            Player[1].refresh_shop_free();
+            PrepareScene* prepare1 = PrepareScene::create(1);
+            Director::getInstance()->replaceScene(prepare1);
         });
 
 
