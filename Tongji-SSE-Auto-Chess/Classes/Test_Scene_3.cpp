@@ -18,7 +18,7 @@ bool Test_Scene_3::init()
 
 
     ///////////////////////////////
-    auto mySprite = Sprite::create("kunkun.png");//创建精灵
+    auto mySprite = Sprite::create("abc.png");//创建精灵
     mySprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 2));
     mySprite->setScale(0.5f);
