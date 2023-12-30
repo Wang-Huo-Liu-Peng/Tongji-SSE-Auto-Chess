@@ -65,7 +65,7 @@ void* Client::get_hero_on_court() {
 }
 
 void Client::write_hero_on_bench(void* hero_on_bench) {
-	this->csocket._passInfo->hero_fighting = hero_on_bench;
+	this->csocket._passInfo->hero_on_bench = hero_on_bench;
 }
 
 void* Client::get_hero_on_bench() {

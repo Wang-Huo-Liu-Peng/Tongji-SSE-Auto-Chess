@@ -1,6 +1,5 @@
 #include "HelloWorldScene.h"
 #include "Test_Scene_4.h"
-#include "MatchOverScene.h"
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
 #include "GameMap.h"
@@ -29,7 +28,21 @@ bool BattleLayer::init(int Player1,int Player2)
     //将我方英雄提取到vector<hero_simple>
     for (auto hero : Player[player1].Hero_on_bench) {
         struct hero_simple temp;
-        strcpy(temp.hero_name, hero.name);
+        char temp_ch[max_heroname_len] = {0};
+       // std::copy(hero.name.begin(),hero.name.end(),temp);
+        strcpy(temp.hero_name, temp_ch);
+        temp.location_x = hero.location_x;
+        temp.location_y = hero.location_y;
+        _hero_on_bench.push_back(temp);
+    }
+    for (auto hero : Player[player1].Hero_on_court) {
+        struct hero_simple temp;
+        char temp_ch[max_heroname_len] = { 0 };
+        //std::copy((hero.name).begin(), (hero.name).end(), temp);
+        strcpy(temp.hero_name, temp_ch);
+        temp.location_x = hero.location_x;
+        temp.location_y = hero.location_y;
+        _hero_on_court.push_back(temp);
     }
 
     //如果对手不是AI if (Player[player2].Operator== HUMAN)
@@ -51,18 +64,9 @@ bool BattleLayer::init(int Player1,int Player2)
 
         vector<hero_simple>* _hero_on_court = (vector<hero_simple>*)(Client::getInstance()->get_hero_on_court());//读取信息并转换为MyHero的vector
         vector<hero_simple>* _hero_fighting = (vector<hero_simple>*)Client::getInstance()->get_hero_on_bench();
-        if(_hero_on_court==NULL)
-            CCLOG("bbb");
-        CCLOG("aaa");
-        CCLOG("%d", (*_hero_on_court).size());
-        CCLOG("aaa");
-        //std::copy(_hero_on_court->begin(), _hero_on_court->end(), Player[player2].Hero_on_court.begin());//拷贝到当前使用的vector
-        //std::copy(_hero_fighting->begin(), _hero_fighting->end(), Player[player2].Hero_fighting.begin());
+        
         Player[player2].Hero_on_court.clear();
-        for (int i = 0; i < (*_hero_on_court).size(); i++)
-            Player[player2].Hero_on_court.emplace_back((*_hero_on_court)[i]);
-       // for (int i = 0; i < (*_hero_fighting).size(); i++)
-            //Player[player2].Hero_on_court.push_back((*_hero_on_court)[i]);
+        Player[player2].Hero_on_bench.clear();
 
     }
 
@@ -197,8 +201,6 @@ void BattleLayer::myupdate(float dt)
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
-
-    MatchOver(player1, player2);
 }
 
 void BattleLayer::update_attack(float dt)
@@ -326,18 +328,6 @@ bool BattleLayer::gameOver(int index1,int index2)
         return true;//返回true，表明本次战斗结束
     }
     return false;
-}
-
-void BattleLayer::MatchOver(int index1, int index2)
-{
-    if (Player[index1].current_hp <= 0) {
-        MatchOverScene* over = MatchOverScene::create(index2);
-        Director::getInstance()->replaceScene(over);
-    }
-    if (Player[index2].current_hp <= 0) {
-        MatchOverScene* over = MatchOverScene::create(index1);
-        Director::getInstance()->replaceScene(over);
-    }
 }
 
 void BattleLayer::OverShoot(int index1, int index2)

@@ -6,7 +6,6 @@
 #include "cocos2d.h"
 #include"Test_Scene_2.h"
 #include "PopupManager.h"
-#include"hero_simple.h"
 
 using namespace cocos2d;
 
@@ -86,7 +85,7 @@ class MyHero : public MyObject {
     friend class PrepareLayer;
     friend class PlayeWithAI;
 public:
-    char name[max_heroname_len] = { 0 };
+   string name;
     MyHero() {};
     MyHero(int on_court, int gold_cost, int star_level, int attack_power, int ace_attack_power,
         int needed_cooldown_round, int current_cooldown_round, int attack_distance, double attack_cd,

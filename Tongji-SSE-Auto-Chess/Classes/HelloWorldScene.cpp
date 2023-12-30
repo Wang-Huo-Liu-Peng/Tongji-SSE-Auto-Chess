@@ -2,7 +2,6 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Test.h"
-#include"hero_simple.h"
 #include <Show_Chinese.h>
 
 //#include<vector>
@@ -26,7 +25,7 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //Client::getInstance()->connect_to_server();
+    Client::getInstance()->connect_to_server();
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
