@@ -331,7 +331,7 @@ void PrepareLayer::onMouseDown(EventMouse* event)
         Vec2 mousePos = event->getLocation();
         mousePos = Director::getInstance()->convertToGL(mousePos);
         mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
-        if (false)//下面进行的是备战席英雄的点击判定
+        if (true)//下面进行的是备战席英雄的点击判定
         {
             if (!Player[player].Hero_on_bench.empty()) {
                 for (int i = 0; i < Player[player].Hero_on_bench.size(); i++)
@@ -339,7 +339,16 @@ void PrepareLayer::onMouseDown(EventMouse* event)
                     Player[player].Hero_on_bench[i].sprite->stopAllActions();
                     if (Player[player].Hero_on_bench[i].sprite->getBoundingBox().containsPoint(mousePos))
                     {
-                        //wjy在这里改
+                        auto heroInfoLabel = cocos2d::Label::createWithTTF(
+                            "血量: " + std::to_string(Player[player].Hero_on_bench[i].getcurrent_hp()) + "\n" +
+                            "星级: " + std::to_string(Player[player].Hero_on_bench[i].star_level) + "\n" +
+                            "攻击力: " + std::to_string(Player[player].Hero_on_bench[i].attack_power) + "\n" +
+                            "攻击CD: " + std::to_string(Player[player].Hero_on_bench[i].attack_cd),
+                            "fonts/arial.ttf", 24);
+                         CCLOG("123");
+                        // 设置标签位置（根据需要调整）
+                        heroInfoLabel->setPosition(Vec2(1280, 800));
+                        this->addChild(heroInfoLabel);
                     }
                 }
             }
@@ -352,7 +361,16 @@ void PrepareLayer::onMouseDown(EventMouse* event)
                     Player[player].Hero_on_court[i].sprite->stopAllActions();
                     if (Player[player].Hero_on_court[i].sprite->getBoundingBox().containsPoint(mousePos))
                     {
-                        //wjy在这里改
+                        auto heroInfoLabel = cocos2d::Label::createWithTTF(
+                            "血量: " + std::to_string(Player[player].Hero_on_court[i].getcurrent_hp()) + "\n" +
+                            "星级: " + std::to_string(Player[player].Hero_on_court[i].star_level) + "\n" +
+                            "攻击力: " + std::to_string(Player[player].Hero_on_court[i].attack_power) + "\n" +
+                            "攻击CD: " + std::to_string(Player[player].Hero_on_court[i].attack_cd),
+                            "fonts/arial.ttf", 24);
+                        
+                        // 设置标签位置（根据需要调整）
+                        heroInfoLabel->setPosition(Vec2(1280,800));
+                        this->addChild(heroInfoLabel);
                     }
                 }
             }
