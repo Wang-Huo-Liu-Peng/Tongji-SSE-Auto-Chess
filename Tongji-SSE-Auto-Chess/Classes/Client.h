@@ -27,6 +27,11 @@ public:
 	inline void write_account(char* str);
 	inline void write_password(char* ac_pw);
 	inline void write_event(char* _event);
+	inline void write_hero_on_court(void* hero_on_court);
+	inline void write_hero_fighting(void* hero_fighting);
+	inline void*
+	inline void set_get_state(int _get_state);
+	inline int get_get_state();
 	inline int connect_to_server();
 	inline void recv_msg();
 	inline void send_msg(passinfo* passInfo);
@@ -49,8 +54,29 @@ void Client::write_password(char* ac_pw) {
 
 	strcpy(this->csocket._passInfo->password, ac_pw);
 }
+
+void Client::write_hero_on_court(void* hero_on_court) {
+	this->csocket._passInfo->hero_on_court = hero_on_court;
+}
+
+void Client::write_hero_fighting(void* hero_fighting) {
+	this->csocket._passInfo->hero_fighting = hero_fighting;
+}
+
+void* Client::get_hero_fighting() {
+	return this->csocket._passInfo->hero_fighting ;
+}
+
 void Client::write_event(char* _event) {
 	strcpy(this->csocket._passInfo->event, _event);
+}
+
+void Client::set_get_state(int _get_state) {
+	this->csocket._passInfo->_already_get_hero = _get_state;
+}
+
+int Client::get_get_state() {
+	return this->csocket._passInfo->_already_get_hero;
 }
 
 void Client::recv_msg()

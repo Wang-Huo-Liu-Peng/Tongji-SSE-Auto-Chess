@@ -7,6 +7,8 @@
 
 
 #define Register "REGISTER"
+#define SendHero "SENDHERO"
+
 #define Login "LOGIN"
 #define Exit  "Exit"
 
@@ -30,6 +32,7 @@ struct passinfo {
 	void* hero_fighting;
 
 	int _result;
+	int _already_get_hero;
 };
 
 

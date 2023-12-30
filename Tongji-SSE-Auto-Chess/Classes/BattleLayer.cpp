@@ -4,6 +4,7 @@
 #include "BattleLayer.h"
 #include "GameMap.h"
 #include <ui/UILayout.h>
+#include"Client.h"
 using namespace std; 
 
 USING_NS_CC;
@@ -21,8 +22,20 @@ bool BattleLayer::init(int Player1,int Player2)
         AIPlayerBrain(player2);//AI更新场上英雄
 
     //如果对手不是AI if (Player[player2].Operator== HUMAN)
+    
     //将我方的英雄信息上传，作为对方的Player2
+    Client::getInstance()->write_event(SendHero);
+    Client::getInstance()->write_hero_on_court((void*)(&Player[Player1].Hero_on_court));
+    Client::getInstance()->write_hero_fighting((void*)(&Player[Player1].Hero_fighting));
+    Client::getInstance()->set_get_state(0);
+    Client::getInstance()->send_msg();
     //接受对方的英雄信息，  作为这边的player2
+    while (1) {
+        if (Client::getInstance()->get_get_state() == 1)
+            break;
+    }
+    vector<MyHero>* _hero_on_court=
+    std::copy();
 
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//将court中的英雄复制到fighting上
