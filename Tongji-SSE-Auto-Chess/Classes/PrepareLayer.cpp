@@ -22,7 +22,7 @@ bool PrepareLayer::init(int index)
     addHero(player, ON_BENCH, ME);
     addHero(player, ON_COURT, ME);
     //将小小英雄加入场景中
-    addSprite(player);
+    //addSprite(player);
 
 
     /*===================监听器的创建=======================*/

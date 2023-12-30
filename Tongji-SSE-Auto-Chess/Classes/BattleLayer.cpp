@@ -180,7 +180,8 @@ void BattleLayer::myupdate(float dt)
     seekAndMove(Player[player2].Hero_fighting, Player[player1].Hero_fighting);
     attribute_display(Player[player1].Hero_fighting);   //红蓝条
     attribute_display(Player[player2].Hero_fighting);
-
+    checkUltimate(Player[player1].Hero_fighting, player2);
+    checkUltimate(Player[player2].Hero_fighting, player1);
 
     // 获取MySprite类中的信息
     int currentExp = Player[player1].getexp();
@@ -275,16 +276,16 @@ void BattleLayer::checkBullet()
         if (it->target_hero != nullptr && it->target_hero->current_hp <= 0)
             it->target_hero = nullptr;
 
-        //if (it->target_hero != nullptr) 
-        //    it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
-        
-
         if (it->Hitted()) {//子弹射中目标位置
 
-            if (it->target_hero != nullptr&&it->HitHero()) {//打中英雄
-                it->target_hero->current_hp -= it->hurt;//扣血
-                //扣血动画
+            if (it->isAOE == 0) {
+                if (it->target_hero != nullptr && it->HitHero()) {//打中英雄
+                    it->target_hero->current_hp -= it->hurt;//扣血
+                }
             }
+            else
+                it->Boom(it->target_sprite->Hero_fighting);
+
             if (it->target_sprite != nullptr) {//打中小小英雄
                 it->target_sprite->current_hp -= it->hurt;//扣血
                 //扣血动画
@@ -298,6 +299,24 @@ void BattleLayer::checkBullet()
         }
     }
 
+}
+
+void BattleLayer::checkUltimate(vector<MyHero>& Hero_fighting,int index)
+{
+    auto it = Hero_fighting.begin();
+    while (it != Hero_fighting.end()) {
+        if (it->current_enemy != nullptr && it->enemyInDistance()) {
+            if (it->current_cooldown_round == it->needed_cooldown_round) {
+                it->current_cooldown_round = 0;
+                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "bullet-2",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+                bullet.push_back(b);
+                this->addChild(b.sprite, 2);//子弹加入场景
+                auto moveTo = MoveTo::create(1, b.target);//子弹飞行动作
+                b.sprite->runAction(moveTo);
+            }
+        }
+        it++;
+    }
 }
 
 void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
@@ -550,8 +569,8 @@ void BattleLayer::attribute_display(vector<MyHero>& Hero_fighting)
     while (it != Hero_fighting.end()) {
         it->sprite->getChildByTag(RED_TAG)->setScaleX(float(it->current_hp) / float(it->full_hp) );
         it->sprite->getChildByTag(BLUE_TAG)->setScaleX(float(it->current_cooldown_round) / float(it->needed_cooldown_round) );
-        if(float(it->current_cooldown_round) / float(it->needed_cooldown_round)==1)
-            it->current_cooldown_round=0;
+        //if(float(it->current_cooldown_round) / float(it->needed_cooldown_round)==1)
+        //    it->current_cooldown_round=0;
         it++;
     }
     Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));

@@ -73,9 +73,10 @@ public:
     int location_x;			                      // 横坐标
     int location_y;                               // 纵坐标
 
+    int full_hp;                                  // 满血
+    int current_hp;                               // 当前血量
+
 protected:
-	int full_hp;                                  // 满血
-	int current_hp;                               // 当前血量
 
 };
 
