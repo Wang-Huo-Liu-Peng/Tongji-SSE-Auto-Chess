@@ -32,7 +32,9 @@ bool BattleLayer::init(int Player1,int Player2)
         //接受对方的英雄信息，  作为这边的player2
         while (1) {//阻塞等待接受对面英雄信息
             if (Client::getInstance()->get_get_state() == 1)
+            {
                 break;
+            }
         }
 
         vector<MyHero>* _hero_on_court = (vector<MyHero>*)Client::getInstance()->get_hero_on_court();//读取信息并转换为MyHero的vector
