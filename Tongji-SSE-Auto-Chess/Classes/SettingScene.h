@@ -1,6 +1,6 @@
     #pragma once
-#ifndef __TEST_SCENE_2_H__
-#define __TEST_SCENE_2_H__
+#ifndef __SETTING_SCENE_H__
+#define __SETTING_SCENE_H__
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -8,7 +8,7 @@
 
 USING_NS_CC;
 
-class Test_Scene_2 : public cocos2d::Scene
+class SettingScene : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
@@ -25,7 +25,7 @@ public:
 
 
     // implement the "static create()" method manually
-    CREATE_FUNC(Test_Scene_2);
+    CREATE_FUNC(SettingScene);
 };
 
-#endif // __TEST_SCENE_2_H__   
+#endif // __SETTING_SCENE_H__   

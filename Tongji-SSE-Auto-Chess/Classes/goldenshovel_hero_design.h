@@ -4,7 +4,6 @@
 #include"HelloWorldScene.h"
 #include<vector>
 #include "cocos2d.h"
-#include"Test_Scene_2.h"
 #include "PopupManager.h"
 
 using namespace cocos2d;
