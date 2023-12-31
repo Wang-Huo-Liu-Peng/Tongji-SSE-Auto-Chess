@@ -23,7 +23,7 @@ bool BattleLayer::init(int Player1,int Player2)
         AIPlayerBrain(player2);//AI更新场上英雄
 
 
-    
+   
 
 
 
@@ -31,35 +31,8 @@ bool BattleLayer::init(int Player1,int Player2)
     if (Player[player2].Operator == HUMAN) {
         //将我方的英雄信息上传，作为对方的Player2
         Client::getInstance()->write_event(SendHero);//写入事件
-
-        //将我方英雄提取到vector<hero_simple>
-        Client::getInstance()->csocket._passInfo->court=0;
-        for (auto hero : Player[player1].Hero_on_court) {
-
-            for (int i = 0; i < hero.name.length(); i++) {
-                Client::getInstance()->csocket._passInfo->hero_court->hero_name[i] = hero.name[i];
-            }
-
-            Client::getInstance()->csocket._passInfo->hero_court->location_x = hero.location_x;
-            Client::getInstance()->csocket._passInfo->hero_court->location_y = hero.location_y;
-            Client::getInstance()->csocket._passInfo->court++;
-        }
-
-
-        Client::getInstance()->csocket._passInfo->bench = 0;
-        for (auto hero : Player[player1].Hero_on_bench) {
-
-            for (int i = 0; i < hero.name.length(); i++) {
-                Client::getInstance()->csocket._passInfo->hero_bench->hero_name[i] = hero.name[i];
-            }
-
-            Client::getInstance()->csocket._passInfo->hero_bench->location_x = hero.location_x;
-            Client::getInstance()->csocket._passInfo->hero_bench->location_y = hero.location_y;
-            Client::getInstance()->csocket._passInfo->bench++;
-
-        }
-
         
+    
         Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
         Client::getInstance()->send_msg();//发送
 
@@ -189,7 +162,8 @@ void BattleLayer::myupdate(float dt)
     seekAndMove(Player[player2].Hero_fighting, Player[player1].Hero_fighting);
     attribute_display(Player[player1].Hero_fighting);   //红蓝条
     attribute_display(Player[player2].Hero_fighting);
-
+    checkUltimate(Player[player1].Hero_fighting, player2);
+    checkUltimate(Player[player2].Hero_fighting, player1);
 
     // 获取MySprite类中的信息
     int currentExp = Player[player1].getexp();
@@ -284,17 +258,17 @@ void BattleLayer::checkBullet()
         if (it->target_hero != nullptr && it->target_hero->current_hp <= 0)
             it->target_hero = nullptr;
 
-        //if (it->target_hero != nullptr) 
-        //    it->target = it->target_hero->sprite->getPosition();//更新目标英雄位置
-        
-
         if (it->Hitted()) {//子弹射中目标位置
 
-            if (it->target_hero != nullptr&&it->HitHero()) {//打中英雄
-                it->target_hero->current_hp -= it->hurt;//扣血
-                //扣血动画
+            if (it->isAOE == 0) {
+                if (it->target_hero != nullptr && it->HitHero()) {//打中英雄
+                    it->target_hero->current_hp -= it->hurt;//扣血
+                }
             }
-            if (it->target_sprite != nullptr) {//打中小小英雄
+            else
+                it->Boom(it->target_sprite->Hero_fighting);
+
+            if (it->target_sprite != nullptr&&it->isAOE==0) {//打中小小英雄
                 it->target_sprite->current_hp -= it->hurt;//扣血
                 //扣血动画
             }
@@ -307,6 +281,24 @@ void BattleLayer::checkBullet()
         }
     }
 
+}
+
+void BattleLayer::checkUltimate(vector<MyHero>& Hero_fighting,int index)
+{
+    auto it = Hero_fighting.begin();
+    while (it != Hero_fighting.end()) {
+        if (it->current_enemy != nullptr && it->enemyInDistance()) {
+            if (it->current_cooldown_round == it->needed_cooldown_round) {
+                it->current_cooldown_round = 0;
+                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "bullet-3",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+                bullet.push_back(b);
+                this->addChild(b.sprite, 2);//子弹加入场景
+                auto moveTo = MoveTo::create(1, b.target);//子弹飞行动作
+                b.sprite->runAction(moveTo);
+            }
+        }
+        it++;
+    }
 }
 
 void BattleLayer::seekAndMove(vector<MyHero>& blue,vector<MyHero>& red)
@@ -400,10 +392,11 @@ void BattleLayer::addHero(int player,int station,int camp)
 void BattleLayer::addSprite(int index,int camp)
 {
     char num = index + '0';
-    string picture = "Player_";
+    string picture = "Player-";
     picture += num;
     picture += ".png";
     Player[index].sprite = Sprite::create(picture);
+    Player[index].sprite->setContentSize(SpriteSize);
     attribute(Player[index].sprite, SPRITE_BAR_LENGTH, camp);
     if(camp==MY_SPRITE)
         Player[index].sprite->setPosition(player1_px);
@@ -559,8 +552,8 @@ void BattleLayer::attribute_display(vector<MyHero>& Hero_fighting)
     while (it != Hero_fighting.end()) {
         it->sprite->getChildByTag(RED_TAG)->setScaleX(float(it->current_hp) / float(it->full_hp) );
         it->sprite->getChildByTag(BLUE_TAG)->setScaleX(float(it->current_cooldown_round) / float(it->needed_cooldown_round) );
-        if(float(it->current_cooldown_round) / float(it->needed_cooldown_round)==1)
-            it->current_cooldown_round=0;
+        //if(float(it->current_cooldown_round) / float(it->needed_cooldown_round)==1)
+        //    it->current_cooldown_round=0;
         it++;
     }
     Player[player1].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[player1].current_hp) / float(Player[player1].full_hp));
@@ -612,9 +605,11 @@ void BattleLayer::onMouseDown(EventMouse* event)
         mousePos = Director::getInstance()->convertToGL(mousePos);
         mousePos = this->convertToNodeSpace(mousePos);//转化为世界坐标
         // 处理鼠标右键按下事件和鼠标位置
-        auto sprite = this->getChildByTag(MY_SPRITE);
-        auto moveTo = MoveTo::create(2, mousePos);
-        sprite->stopAllActions();
-        sprite->runAction(moveTo);
+        if (ifInWholeMap(mousePos)) {
+            auto sprite = this->getChildByTag(MY_SPRITE);
+            auto moveTo = MoveTo::create(2, mousePos);
+            sprite->stopAllActions();
+            sprite->runAction(moveTo);
+        }
     }
 }
