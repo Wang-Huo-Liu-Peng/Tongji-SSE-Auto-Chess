@@ -27,7 +27,7 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //Client::getInstance()->connect_to_server();
+    Client::getInstance()->connect_to_server();
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -150,6 +150,8 @@ bool HelloWorld::init()
         });
     auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
         [&](Ref* sender) {
+            Player[1].RecoverData();
+            Player[2].RecoverData();
             Player[1].Operator = HUMAN;
             Player[2].Operator = AI;
             Player[1].refresh_shop_free();

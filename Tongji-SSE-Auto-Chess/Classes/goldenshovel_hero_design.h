@@ -289,6 +289,7 @@ public:
     inline void set_a_hero(string hero_name);//将一个英雄从商店选出
     inline void level_up(){ if (this->current_exp >= level_up_exp[this->star_level-1]&&this->star_level<MAX_LEVEL) { this->current_exp = 0; this->star_level++; } }//小小英雄升级判断
     inline void copy();//将court上的英雄复制到fighting上
+    inline void RecoverData();//恢复数据便于进行下一次游戏
     int MAP[8][3] = { 0 };//判断位置是否被占用
 private:
     int star_level;     // 星级
@@ -517,6 +518,15 @@ inline void MySprite::copy()
     }
 }
 
+inline void MySprite::RecoverData()
+{
+    current_hp = full_hp;
+    current_exp = 0;
+    money = 5;
+    star_level = 1;
+    Hero_on_bench.clear();
+    Hero_on_court.clear();
+}
 
 
 class Equipment {

@@ -80,8 +80,8 @@ string five_fee[4] = { "Lucia", "Kaynn", "Qiyan", "Ziggs" };
 
 vector<MySprite> Player = {
 	MySprite(1,100,5),//小小英雄开局等级为1,血量为100，金币为5
-	MySprite(1,20,5),//小小英雄开局等级为1,血量为20，金币为5
-	MySprite(1,20,5),//小小英雄开局等级为1,血量为20，金币为5
+	MySprite(1,100,5),
+	MySprite(1,100,5),
 	MySprite(1,100,5),
 	MySprite(1,100,5),
 	MySprite(1,100,5),
