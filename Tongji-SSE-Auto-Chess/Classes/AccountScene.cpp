@@ -17,7 +17,6 @@ bool AccountScene::init()
         return false;
     }
 
-    Client::getInstance()->connect_to_server();
 
     auto layout = cocos2d::ui::Layout::create();
     layout->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
@@ -93,15 +92,16 @@ void AccountScene::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
         a--;
         if (a == 0)
             break;
-    }
-    CCLOG("%d", Client::getInstance()->csocket._passInfo->_result);
-    if (Client::getInstance()->csocket._passInfo->_result == 2) {
-        Director::getInstance()->pushScene(SelectModeScene::createScene());
-     }
-    else if (Client::getInstance()->csocket._passInfo->_result == 1)
-        PopupManager::displayPopup(this, "fail to login: Password fault");
-    else if (Client::getInstance()->csocket._passInfo->_result == 0)
-        PopupManager::displayPopup(this, "fail to login: account not exist");
+    }*/
+
+        if (Client::getInstance()->csocket._passInfo->_result == 2) {
+            //跳转到选择场景
+            Director::getInstance()->pushScene(SelectModeScene::createScene());
+        }
+        else if (Client::getInstance()->csocket._passInfo->_result == 1)
+            PopupManager::displayPopup(this, "fail to login: Password fault");
+        else if (Client::getInstance()->csocket._passInfo->_result == 0)
+            PopupManager::displayPopup(this, "fail to login: account not exist");
  
     // 示例：简单打印输入的账号和密码
     //CCLOG("Account: %s, Password: %s", account.c_str(), password.c_str());
