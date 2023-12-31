@@ -2,11 +2,16 @@
 #include "BattleScene.h"
 #include "BackGroundLayer.h"
 #include "PrepareLayer.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
 bool PrepareScene::init(int Player)
 {
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+    //SimpleAudioEngine::sharedEngine()->playEffect("effect.mp3", true);
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("bgmeffect.mp3", true);
+
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -33,6 +38,8 @@ bool PrepareScene::init(int Player)
         "CloseNormal.png",
         "CloseSelected.png",
         [&](Ref* sender) {
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->stopAllEffects();
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
             Director::getInstance()->popScene();//释放当前场景，再从场景栈中弹出栈顶的场景，并将其设置为当前运行场景。
         });
     float x = origin.x + visibleSize.width - closeItem->getContentSize().width;

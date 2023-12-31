@@ -44,7 +44,7 @@ bool HelloWorld::init()
     /*****************************************************/
 
 
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("gyz.mp3", true);
     bool sound = UserDefault::getInstance()->getBoolForKey("SOUND"); //ÉùÒô±äÁ¿
     LabelTTF* isSoundBtn; //ÉùÒôÇÐ»»°´Å¥
     if (sound)
@@ -171,12 +171,12 @@ bool HelloWorld::init()
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
+    Client::getInstance()->write_event(Exit);
+    Client::getInstance()->send_msg();
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
     CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-    Client::getInstance()->write_event(Exit);
-    Client::getInstance()->send_msg();
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
