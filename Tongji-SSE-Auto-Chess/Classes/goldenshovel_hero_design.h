@@ -480,7 +480,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
 inline MyHero* set_a_hero(string hero_name, int X,int Y) {
 
-    string filename = hero_name + ".png";
+    string filename = hero_name + "1.png";
 
     // ·ÖÅäÔÚ¶ÑÉÏ
     MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
