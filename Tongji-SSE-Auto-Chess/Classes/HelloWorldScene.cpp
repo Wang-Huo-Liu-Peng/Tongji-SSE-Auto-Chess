@@ -27,8 +27,8 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //Client::getInstance()->connect_to_server();
-    //this->scheduleOnce(schedule_selector(HelloWorld::update),0.1f);
+    
+
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -167,7 +167,6 @@ bool HelloWorld::init()
     TestItem_2->setPosition(Vec2(origin.x ,origin.y -height * 3));
     TestItem_3->setPosition(Vec2(origin.x, origin.y - height * 2));
     TestItem_4->setPosition(Vec2(origin.x, origin.y - height * 1));
-
     MenuItems.pushBack(TestItem_2);
     MenuItems.pushBack(TestItem_4);
     MenuItems.pushBack(TestItem_3);
@@ -176,11 +175,22 @@ bool HelloWorld::init()
     GameMenu->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 2 - height * 2));
     this->addChild(GameMenu, 1);//将整个菜单加入场景中
+
+
+    connectionFuture = connectionPromise.get_future();
+    std::thread([&]() {
+        bool result = Client::getInstance()->connect_to_server();
+        connectionPromise.set_value(result);
+    }).detach();
+
+
+
     Client::getInstance()->begin_send_and_listen();
     if (Client::getInstance()->csocket.isConnected)
         CCLOG("connected");
     else
         CCLOG("not connected");
+
     return true;
 }
 
@@ -198,7 +208,23 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
 
-void HelloWorld::update(float dt)
-{
-    Client::getInstance()->connect_to_server();
+void HelloWorld::update(float delta) {
+    if (connectionFuture.valid() && connectionFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+        // 连接操作已经完成
+        bool connectionResult = connectionFuture.get();
+
+        if (connectionResult) {
+            // 连接成功的处理代码
+            CCLOG("Connected to server!");
+        }
+        else {
+            // 连接不成功的处理代码
+            CCLOG("Failed to connect to server.");
+        }
+
+        // 清除 future 对象，避免再次访问
+        connectionFuture = std::future<bool>();
+    }
+
+    // ... 其他 update 逻辑
 }
