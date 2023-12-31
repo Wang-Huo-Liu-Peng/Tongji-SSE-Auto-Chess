@@ -27,6 +27,14 @@ struct passinfo {
 	char account_number[max_ac_num] = { '0' };
 	char password[max_ac_pw] = { '0' };
 
+	//char hero_name_court[max_hero_num];
+
+	/*char hero_name_court[max_hero_num][max_name_length];
+	char hero_name_bench[max_hero_num][max_name_length];
+	int loaction_x_court[max_hero_num];
+	int loaction_y_court[max_hero_num];
+	int loaction_x_bench[max_hero_num];
+	int loaction_y_bench[max_hero_num];*/
 
 	hero_simple  hero_court[max_hero_num] = {};
 	hero_simple  hero_bench[max_hero_num] = {};
@@ -34,7 +42,7 @@ struct passinfo {
 	int court;
 	int bench;
 
-	int _result=0;
+	int _result;
 	int _already_get_hero;
 };
 
