@@ -17,6 +17,8 @@ bool AccountScene::init()
         return false;
     }
 
+    Client::getInstance()->connect_to_server();
+
     auto layout = cocos2d::ui::Layout::create();
     layout->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
     layout->setBackGroundColor(cocos2d::Color3B(100, 149, 237));
@@ -87,11 +89,11 @@ void AccountScene::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
     Client::getInstance()->send_msg(); 
 
     int a = 9999999;
-    while (1) {
+    /*while (1) {
         a--;
         if (a == 0)
             break;
-    }
+    }*/
 
         if (Client::getInstance()->csocket._passInfo->_result == 2) {
             //跳转到选择场景

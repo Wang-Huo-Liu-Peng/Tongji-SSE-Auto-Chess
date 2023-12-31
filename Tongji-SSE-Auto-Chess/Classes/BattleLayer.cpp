@@ -96,7 +96,9 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player2].copy();//将court中的英雄复制到fighting上
 
     /**********************************************************************************************************************************************************************/
-    auto jiban = Sprite::create("123.png");//创建地图
+    auto jiban = Sprite::create("jiban3.png");//创建地图
+    jiban->setContentSize(Size(210, 310));
+    jiban->setPosition(Vec2(230, 900));
 
     if(check_synergy(Player[player1].Hero_fighting))
     {
@@ -246,7 +248,7 @@ void BattleLayer::update_attack(float dt)
     while (it != Player[player1].Hero_fighting.end()) {
         if (it->current_enemy != nullptr&&it->enemyInDistance()) {
             it->current_cooldown_round++;//蓝条增加
-            Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "123");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "bullet-2");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
             b.sprite->setContentSize(BulletSize);
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
@@ -260,7 +262,8 @@ void BattleLayer::update_attack(float dt)
     while (it2 != Player[player2].Hero_fighting.end()) {
         if (it2->current_enemy != nullptr && it2->enemyInDistance()) {
             it2->current_cooldown_round++;//蓝条增加
-            Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "bullet_1");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            Bullet b(it2->current_enemy, it2->sprite->getPosition(), it2->attack_power, "bullet-3");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            b.sprite->setContentSize(BulletSize);
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
             auto moveTo = MoveTo::create(it2->attack_cd, b.target);//子弹飞行动作
@@ -340,7 +343,7 @@ void BattleLayer::checkUltimate(vector<MyHero>& Hero_fighting,int index)
         if (it->current_enemy != nullptr && it->enemyInDistance()) {
             if (it->current_cooldown_round == it->needed_cooldown_round) {
                 it->current_cooldown_round = 0;
-                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "123",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "bullet-5",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
                 bullet.push_back(b);
                 this->addChild(b.sprite, 2);//子弹加入场景
                 auto moveTo = MoveTo::create(1, b.target);//子弹飞行动作

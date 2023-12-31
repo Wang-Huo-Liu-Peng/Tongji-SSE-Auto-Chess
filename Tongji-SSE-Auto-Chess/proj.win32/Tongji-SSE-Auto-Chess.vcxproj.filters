@@ -16,12 +16,6 @@
     <Filter Include="src\HelloWorldScene">
       <UniqueIdentifier>{17719663-1f26-480d-a0f4-5061f47a29dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\PlayerWithAI">
-      <UniqueIdentifier>{926b9f0c-e937-4d5c-a155-86ed10fb3386}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\PlayerWithPlayer">
-      <UniqueIdentifier>{a00dfbe2-5584-4bab-bca3-25cf9c81d3d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\SelectModeScene">
       <UniqueIdentifier>{bb1e3df8-938f-4afc-a0e0-a40fce2006ce}</UniqueIdentifier>
     </Filter>
@@ -74,12 +68,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src\HelloWorldScene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PlayWithAI.cpp">
-      <Filter>src\PlayerWithAI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PlayWithPlayer.cpp">
-      <Filter>src\PlayerWithPlayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SelectModeScene.cpp">
       <Filter>src\SelectModeScene</Filter>
@@ -139,12 +127,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src\HelloWorldScene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PlayWithAI.h">
-      <Filter>src\PlayerWithAI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PlayWithPlayer.h">
-      <Filter>src\PlayerWithPlayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SelectModeScene.h">
       <Filter>src\SelectModeScene</Filter>
