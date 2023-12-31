@@ -77,13 +77,6 @@ string three_fee[4] = { "Amumu", "Luxss", "Samir", "Neeko" };
 string four_fee[4] = { "Karth", "Viego", "Ezrea", "Poppy" };
 string five_fee[4] = { "Lucia", "Kaynn", "Qiyan", "Ziggs" };
 
-vector <MyHero> Hero_on_court_1;
-vector <MyHero> Hero_on_court_2;
-vector <MyHero> Hero_select_1;
-vector <MyHero> Hero_select_2;
-vector <MyHero> Hero_fighting_1;
-vector <MyHero> Hero_fighting_2;
-
 
 vector<MySprite> Player = {
 	MySprite(1,100,5),//小小英雄开局等级为1,血量为100，金币为5
