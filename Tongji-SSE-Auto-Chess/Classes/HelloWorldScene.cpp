@@ -158,7 +158,7 @@ bool HelloWorld::init()
             Player[1].refresh_shop_free();
             Player[2].refresh_shop_free();
             PrepareScene* prepare1 = PrepareScene::create(1);
-            Director::getInstance()->replaceScene(prepare1);
+            Director::getInstance()->pushScene(prepare1);
         });
 
 
