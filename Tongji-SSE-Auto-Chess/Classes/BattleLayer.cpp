@@ -660,18 +660,26 @@ void BattleLayer::AIPlayerBrain(int ai) {
 
 bool BattleLayer::check_synergy(vector<MyHero>& heroes)
 {
-    vector<string> hero_name;
-    std::transform(heroes.begin(), heroes.end(), std::back_inserter(hero_name), [](const MyHero& hero) {
-        return hero.name;
-        });
-    for (int i = 0; i < synergies.size(); i++)
-    {
-        auto it = find(hero_name.begin(), hero_name.end(), synergies[i]);
-        if (it != hero_name.end())
-        {
-            return true;
-        }
-    }
+//    vector<string> hero_name;
+//    std::transform(heroes.begin(), heroes.end(), std::back_inserter(hero_name), [](const MyHero& hero) {
+//        return hero.name;
+//        });
+//    for (int i = 0; i < synergies.size(); i++)
+//    {
+//        auto it = find(hero_name.begin(), hero_name.end(), synergies[i][0]);
+//        if (it != hero_name.end())
+//        {
+//            it = find(hero_name.begin(), hero_name.end(), synergies[i][1]);
+//            if (it != hero_name.end())
+//            {
+//                it = find(hero_name.begin(), hero_name.end(), synergies[i][2]);
+//                if (it != hero_name.end())
+//                {
+//
+//                }
+//            }
+//        }
+//    }
     return false;
 }
 

@@ -57,18 +57,15 @@ private:
         string str1, str2, str3;
         Synergy(string s1, string s2, string s3) : str1(s1), str2(s2), str3(s3) {}
     };
-    vector<Synergy> synergies = {
-           {"Annie", "Corki", "Taric"},
-           {"Kayle", "Garen", "Twitch"},
-           {"Senna", "Amumu", "Lux"},
-
-
-
-           {"Samira", "Neeko", "Karthus"},
-           {"Viego", "Ezreal", "Poppy"},
-           {"Lucian", "Kayn", "Qiyana"},
-           {"Ziggs", "Evelynn", "Twitch"}
-    };
+	vector<Synergy> synergies = {
+		   {"Annie", "Corki", "Taric"},
+		   {"Kayle", "Garen", "Twitc"},
+		   {"Senna", "Amumu", "Luxss"},
+		   {"Samir", "Neeko", "Karth"},
+		   {"Viego", "Ezrea", "Poppy"},
+		   {"Lucia", "Kaynn", "Qiyan"},
+		   {"Ziggs", "Evely", "Twitc"}
+	};
 };
 
 #endif // __BATTLE_LAYER_H__  
