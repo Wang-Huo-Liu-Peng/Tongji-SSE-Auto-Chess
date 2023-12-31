@@ -13,11 +13,7 @@ public:
 
     int player;       //玩家下标
 
-    int countdown;
-    Label* countdownLabel;//倒计时标签
-
     void goToBattle(float);
-    void updateCountdown(float);
 };
 
 #endif // __PREPARE_SCENE_H__

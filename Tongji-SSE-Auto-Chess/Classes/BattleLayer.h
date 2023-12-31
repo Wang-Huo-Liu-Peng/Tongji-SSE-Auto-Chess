@@ -33,7 +33,7 @@ public:
     void check_death(vector<MyHero>& Hero_fighting);//移出死亡英雄
     void check_enemy(vector<MyHero>& Hero_fighting);//检查目标丢失
     void checkBullet();           //子弹回收，英雄扣血
-    void checkUltimate(vector<MyHero>& Hero_fighting,int index);//蓝条满放大招
+    void checkUltimate(vector<MyHero>& Hero_fighting);//蓝条满放大招
     void seekAndMove(vector<MyHero>&,vector<MyHero>&);//英雄索敌并移动
     bool gameOver(int,int);              //本次对战结束
     void MatchOver(int, int);            //游戏结束
