@@ -27,9 +27,8 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    
-    Client::getInstance()->connect_to_server();
-
+    //Client::getInstance()->connect_to_server();
+    //this->scheduleOnce(schedule_selector(HelloWorld::update),0.1f);
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -197,4 +196,9 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
+
+void HelloWorld::update(float dt)
+{
+    Client::getInstance()->connect_to_server();
 }

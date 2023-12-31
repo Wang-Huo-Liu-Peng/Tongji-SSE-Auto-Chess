@@ -96,7 +96,9 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player2].copy();//将court中的英雄复制到fighting上
 
     /**********************************************************************************************************************************************************************/
-    auto jiban = Sprite::create("123.png");//创建地图
+    auto jiban = Sprite::create("jiban1.png");//创建地图
+    jiban->setContentSize(Size(200, 300));
+    jiban->setPosition(Vec2(230, 900));
 
     if(check_synergy(Player[player1].Hero_fighting))
     {

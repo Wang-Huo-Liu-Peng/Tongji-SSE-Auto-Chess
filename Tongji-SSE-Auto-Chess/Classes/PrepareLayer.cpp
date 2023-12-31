@@ -287,6 +287,16 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
             else
                 Player[player].Hero_on_court[select_index].sprite->setPosition(reverse_map_px(initial_X, initial_Y, ME));
         }
+        else if (ifInBench(touchPoint)) {
+            if (Player[player].Hero_on_bench.size() <= 9) {
+                Player[player].MAP[initial_X][initial_Y] = 0;
+                Player[player].Hero_on_court[select_index].location_x = -1;
+                Player[player].Hero_on_court[select_index].location_y = -1;
+                Player[player].Hero_on_court[select_index].sprite->setPosition(my_bench_px(Player[player].Hero_on_bench.size()));
+                Player[player].Hero_on_bench.push_back(Player[player].Hero_on_court[select_index]);// 加到bench里
+                Player[player].Hero_on_court.erase(Player[player].Hero_on_court.begin() + select_index);// 从court里删除
+            }
+        }
         else
             Player[player].Hero_on_court[select_index].sprite->setPosition(reverse_map_px(initial_X, initial_Y,ME));
     }
@@ -398,8 +408,6 @@ void PrepareLayer::onMouseUp(EventMouse* event)
 {
     //wjy改完我在这里删除
 }
-
-
 
 
 /*----------------------显示部分-------------------------*/

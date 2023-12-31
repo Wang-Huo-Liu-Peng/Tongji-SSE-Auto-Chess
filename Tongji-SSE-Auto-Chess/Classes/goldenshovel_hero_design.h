@@ -607,6 +607,16 @@ inline bool ifInMap(Vec2 pos)
     return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 8 * plaid) &&
         (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 3 * plaid);
 }
+inline bool ifInBench(Vec2 pos)
+{
+    float x1 = 510 - 84;
+    float x2 = 510 + 9 * 168;
+    float y1 = 465 - 84;
+    float y2 = 465 + 84;
+    float x = pos.x;
+    float y = pos.y;
+    return (x >= x1 && x <= x2) && (y >= y1 && y <= y2);
+}
 inline bool ifInWholeMap(Vec2 pos)
 {
     return (pos.x >= Fight_MAP_width-plaid && pos.x <= Fight_MAP_width + 9 * plaid) &&

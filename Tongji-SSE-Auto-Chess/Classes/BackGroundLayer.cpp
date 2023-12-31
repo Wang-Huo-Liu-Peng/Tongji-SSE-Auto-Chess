@@ -39,7 +39,7 @@ bool BackGroundLayer::init()
     platform1->setPosition(platform1_px);
     platform2->setPosition(platform2_px);
 
-    auto jiban = Sprite::create("jiban.png");//创建地图
+    auto jiban = Sprite::create("jiban2.png");//创建地图
     jiban->setContentSize(Size(200,300));
     jiban->setPosition(Vec2(230, 900));
 
