@@ -27,8 +27,8 @@ bool BackGroundLayer::init()
     mySprite->setPosition(origin);
 
     //加入背景图片
-    auto platform1 = Sprite::create("platform.png");//创建平台
-    auto platform2 = Sprite::create("platform.png");//创建平台
+    auto platform1 = Sprite::create("platform.png");//创建小小英雄平台
+    auto platform2 = Sprite::create("platform.png");//创建小小英雄平台
 
     // 设置地图的大小为窗口大小
 
@@ -39,7 +39,8 @@ bool BackGroundLayer::init()
     platform1->setPosition(platform1_px);
     platform2->setPosition(platform2_px);
 
-    auto jiban = Sprite::create("jiban2.png");//创建地图
+    //羁绊显示
+    auto jiban = Sprite::create("jiban2.png");
     jiban->setContentSize(Size(200,300));
     jiban->setPosition(Vec2(230, 900));
 
