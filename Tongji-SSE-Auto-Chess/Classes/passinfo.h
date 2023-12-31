@@ -42,7 +42,7 @@ struct passinfo {
 	int court;
 	int bench;
 
-	int _result;
+	int _result=0;
 	int _already_get_hero;
 };
 

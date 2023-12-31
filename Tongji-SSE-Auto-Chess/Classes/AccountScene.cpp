@@ -89,20 +89,19 @@ void AccountScene::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
     Client::getInstance()->send_msg(); 
 
     int a = 9999999;
-    /*while (1) {
+    while (1) {
         a--;
         if (a == 0)
             break;
-    }*/
-
-        if (Client::getInstance()->csocket._passInfo->_result == 2) {
-            //跳转到选择场景
-            Director::getInstance()->pushScene(SelectModeScene::createScene());
-        }
-        else if (Client::getInstance()->csocket._passInfo->_result == 1)
-            PopupManager::displayPopup(this, "fail to login: Password fault");
-        else if (Client::getInstance()->csocket._passInfo->_result == 0)
-            PopupManager::displayPopup(this, "fail to login: account not exist");
+    }
+    CCLOG("%d", Client::getInstance()->csocket._passInfo->_result);
+    if (Client::getInstance()->csocket._passInfo->_result == 2) {
+        Director::getInstance()->pushScene(SelectModeScene::createScene());
+     }
+    else if (Client::getInstance()->csocket._passInfo->_result == 1)
+        PopupManager::displayPopup(this, "fail to login: Password fault");
+    else if (Client::getInstance()->csocket._passInfo->_result == 0)
+        PopupManager::displayPopup(this, "fail to login: account not exist");
  
     // 示例：简单打印输入的账号和密码
     //CCLOG("Account: %s, Password: %s", account.c_str(), password.c_str());
