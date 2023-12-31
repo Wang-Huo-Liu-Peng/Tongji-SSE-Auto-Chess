@@ -64,8 +64,6 @@ BattleScene* BattleScene::create(int Player1,int Player2)
 void BattleScene::ifGameOver(float dt)
 {
     if (HeroBattle->situation == GameOver) {
-        //PrepareScene* prepare = PrepareScene::create(1);//进入到我的备战场景
-        //Director::getInstance()->replaceScene(prepare);
         this->unschedule(schedule_selector(BattleScene::ifGameOver));
         this->scheduleOnce(schedule_selector(BattleScene::CountDown), 5.0f);
     }
