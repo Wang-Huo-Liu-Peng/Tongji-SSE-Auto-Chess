@@ -92,7 +92,7 @@ void AccountScene::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
         a--;
         if (a == 0)
             break;
-    }*/
+    }
 
         if (Client::getInstance()->csocket._passInfo->_result == 2) {
             //跳转到选择场景
