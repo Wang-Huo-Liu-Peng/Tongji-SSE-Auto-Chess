@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "BackGroundLayer.h"
+#include "goldenshovel_hero_design.h"
 
 USING_NS_CC;
 
@@ -21,8 +22,23 @@ bool BackGroundLayer::init()
     // 设置地图的位置为窗口左下角
     mySprite->setPosition(origin);
 
+    //加入背景图片
+    auto platform1 = Sprite::create("platform.png");//创建平台
+    auto platform2 = Sprite::create("platform.png");//创建平台
+
+    // 设置地图的大小为窗口大小
+
+	platform1->setContentSize(Size(250,250));
+	platform2->setContentSize(Size(250, 250));
+
+    // 设置地图的位置为窗口左下角
+    platform1->setPosition(platform1_px);
+    platform2->setPosition(platform2_px);
+
     // 将地图加入场景
     this->addChild(mySprite, 0);
+    this->addChild(platform1, 0);
+    this->addChild(platform2, 0);
     ///////////////////////////////
 
     return true;
