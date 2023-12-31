@@ -294,22 +294,26 @@ void BattleLayer::checkBullet()
                     it->target_hero->current_hp -= it->hurt;//扣血
                 }
             }
-            else
+            else {
                 it->Boom(it->target_sprite->Hero_fighting);
+                auto emitter = ParticleExplosion::create();//爆炸特效
+                emitter->setPosition(it->target);
+                emitter->setAutoRemoveOnFinish(true); // 特效播放完毕后自动移除
+                this->addChild(emitter, 10);
+            }
 
-            if (it->target_sprite != nullptr&&it->isAOE==0) {//打中小小英雄
+            if (it->target_sprite != nullptr && it->isAOE == 0) {//打中小小英雄
                 it->target_sprite->current_hp -= it->hurt;//扣血
                 //扣血动画
             }
             //子弹回收动画？
             this->removeChild(it->sprite, true);//退场
-            it=bullet.erase(it);
+            it = bullet.erase(it);
         }
         else {
             ++it;
         }
     }
-
 }
 
 void BattleLayer::checkUltimate(vector<MyHero>& Hero_fighting,int index)

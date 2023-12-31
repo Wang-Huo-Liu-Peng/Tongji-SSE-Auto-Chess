@@ -47,9 +47,9 @@ using namespace std;
 #define    AI 0
 #define HUMAN 1
 
-#define SpriteSize Size(127,150)
+#define SpriteSize Size(177,207)
 #define HeroSize   Size(127,150)
-#define BulletSize Size(120,120)
+#define BulletSize Size(37,37)
 
 class MyHero;
 class Equipment;
@@ -577,8 +577,11 @@ inline Vec2 card_px(int i)
 #define refresh_button Vec2(498,335)
 #define buyexp_button Vec2(498,218)
 
-#define player1_px Vec2(418,654)
-#define player2_px Vec2(1895,1335)
+#define player1_px Vec2(418,774)
+#define player2_px Vec2(1895,1455)
+
+#define platform1_px Vec2(418,654)
+#define platform2_px Vec2(1895,1335)
 
 inline int reverse_x(float x)
 {
