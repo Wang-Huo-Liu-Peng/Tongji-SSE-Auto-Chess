@@ -15,6 +15,8 @@ public:
     int player1;       //玩家下标
     int player2;       //玩家下标
 
+    Label* roundLabel;
+
     void ifGameOver(float);
     void CountDown(float dt);
 };

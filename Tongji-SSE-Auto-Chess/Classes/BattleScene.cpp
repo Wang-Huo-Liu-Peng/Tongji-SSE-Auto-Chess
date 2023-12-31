@@ -20,6 +20,14 @@ bool BattleScene::init(int Player1,int Player2)
     //schedule判断本次战斗是否结束
     this->schedule(schedule_selector(BattleScene::ifGameOver));
 
+    //轮数显示
+    static int round = 0;
+    round++;
+    roundLabel = Label::createWithTTF("", "fonts/arial.ttf", 60);
+    roundLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - roundLabel->getContentSize().height));
+    this->addChild(roundLabel);
+    roundLabel->setString(StringUtils::format("ROUND:%d", round));
+
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
