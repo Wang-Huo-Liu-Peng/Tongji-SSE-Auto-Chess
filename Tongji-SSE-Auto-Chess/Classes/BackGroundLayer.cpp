@@ -15,7 +15,7 @@ bool BackGroundLayer::init()
 
     ///////////////////////////////
     //加入背景图片
-    auto mySprite = Sprite::create("fight_map_1.png");//创建地图
+    auto mySprite = Sprite::create("fight_map.png");//创建地图
     
     // 设置地图的锚点为左下角
     mySprite->setAnchorPoint(Vec2(0, 0));

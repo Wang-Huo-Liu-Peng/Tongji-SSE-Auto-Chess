@@ -266,6 +266,7 @@ class MySprite :public MyObject {
     friend class PrepareScene;
     friend class PlayWithAI;
     friend class SelectModeScene;
+    friend class HelloWorld;
 public:
     MySprite() {};
     MySprite(int level, int hp,int money, int x = -1, int y = -1) :        // ¹¹Ôìº¯Êý

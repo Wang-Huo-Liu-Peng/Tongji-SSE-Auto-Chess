@@ -47,9 +47,25 @@ public:
 
     void onMouseDown(EventMouse* event);
 
+    bool check_synergy(vector<MyHero>& heroes);
+
 private:
     int select_index; // 用于存储当前选中的备战席上的英雄的索引
     Vec2 initial_position;// 用于存储英雄的起始坐标
+
+    struct Synergy {
+        string str1, str2, str3;
+        Synergy(string s1, string s2, string s3) : str1(s1), str2(s2), str3(s3) {}
+    };
+	vector<Synergy> synergies = {
+		   {"Annie", "Corki", "Taric"},
+		   {"Kayle", "Garen", "Twitc"},
+		   {"Senna", "Amumu", "Luxss"},
+		   {"Samir", "Neeko", "Karth"},
+		   {"Viego", "Ezrea", "Poppy"},
+		   {"Lucia", "Kaynn", "Qiyan"},
+		   {"Ziggs", "Evely", "Twitc"}
+	};
 };
 
 #endif // __BATTLE_LAYER_H__  
