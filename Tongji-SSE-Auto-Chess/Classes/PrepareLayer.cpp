@@ -280,6 +280,8 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
             if (Player[player].MAP[X][Y] == 0) {//该位置未被占用
                 Player[player].MAP[X][Y] = 1;
                 Player[player].MAP[initial_X][initial_Y] = 0;
+                Player[player].Hero_on_court[select_index].location_x = X;
+                Player[player].Hero_on_court[select_index].location_y = Y;
                 Player[player].Hero_on_court[select_index].sprite->setPosition(reverse_map_px(X, Y, ME));
             }
             else
@@ -288,8 +290,6 @@ void PrepareLayer::onTouchEnded(Touch* touch, Event* event)
         else
             Player[player].Hero_on_court[select_index].sprite->setPosition(reverse_map_px(initial_X, initial_Y,ME));
     }
-
-
 }
 
 void PrepareLayer::onMouseDown(EventMouse* event)

@@ -2,6 +2,10 @@
 #include "BackGroundLayer.h"
 #include "goldenshovel_hero_design.h"
 
+#include "ui/CocosGUI.h"
+
+using namespace ui;
+
 USING_NS_CC;
 
 bool BackGroundLayer::init()
@@ -35,10 +39,15 @@ bool BackGroundLayer::init()
     platform1->setPosition(platform1_px);
     platform2->setPosition(platform2_px);
 
-    // 将地图加入场景
+    auto jiban = Sprite::create("jiban.png");//创建地图
+    jiban->setContentSize(Size(200,300));
+    jiban->setPosition(Vec2(230, 900));
+
+    // 加入场景
     this->addChild(mySprite, 0);
     this->addChild(platform1, 0);
     this->addChild(platform2, 0);
+    this->addChild(jiban, 0);
     ///////////////////////////////
 
     return true;

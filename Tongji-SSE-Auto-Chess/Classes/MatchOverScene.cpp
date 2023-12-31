@@ -14,17 +14,22 @@ bool MatchOverScene::init(int index)
     ///////////////////////////////
     //Ê¤Àû³¡¾°²¼ÖÃ
     char num = index + '0';
-    string picture = "Player_";
+    string picture = "Player-";
     picture += num;
     picture += ".png";
 
     Player[index].sprite = Sprite::create(picture);
     float x1 = visibleSize.width / 2;
     float y1 = visibleSize.height / 2;
-    Player[index].sprite->setPosition(Vec2(origin.x + x1, origin.y + y1));
+    Player[index].sprite->setContentSize(Size(400,550));
+    Player[index].sprite->setPosition(Vec2(origin.x + x1, origin.y + y1-200));
 
     auto Ruobao = Sprite::create("ruobao.png");
-    Ruobao->setPosition(Vec2(50, Player[index].sprite->getContentSize().height + 300));
+    Ruobao->setPosition(Vec2(170, Player[index].sprite->getContentSize().height + 200));
+
+    auto overLabel = Label::createWithSystemFont("WINNER!", "Arial", 120);
+    overLabel->setPosition(Vec2(x1 , 2*y1-overLabel->getContentSize().height));
+    this->addChild(overLabel, 1);
 
     Player[index].sprite->addChild(Ruobao);
     this->addChild(Player[index].sprite);
