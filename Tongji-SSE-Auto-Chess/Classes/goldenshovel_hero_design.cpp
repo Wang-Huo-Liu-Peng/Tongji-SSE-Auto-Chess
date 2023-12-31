@@ -16,7 +16,7 @@ std::map<std::string, MyHero> Hero_list = {
 	//ËþÀï¿Ë https://lol.qq.com/tft/#/championDetail/44
 	{"Taric", MyHero(0, 1, 1, 55, 60, 12, 0, 1, 0.55, 650, -1, -1)},
 	//ÒÁÜ½ÁÕ https://lol.qq.com/tft/#/championDetail/12
-	{"Evelynn", MyHero(0, 1, 1, 45, 60, 12, 0, 1, 2, 550, -1, -1)},
+	{"Evely", MyHero(0, 1, 1, 45, 60, 12, 0, 1, 2, 550, -1, -1)},
 
 
 	//¶þ·Ñ
@@ -25,7 +25,7 @@ std::map<std::string, MyHero> Hero_list = {
 	//¸ÇÂ×
 	{"Garen", MyHero(0, 2, 1, 55, 90, 12, 0, 1, 0.7, 750, -1, -1)},
 	//ÀÏÊó
-	{"Twitch", MyHero(0, 2, 1, 50, 100, 12, 0, 5, 0.7, 550, -1, -1)},
+	{"Twitc", MyHero(0, 2, 1, 50, 100, 12, 0, 5, 0.7, 550, -1, -1)},
 	//ÈûÄÉ
 	{"Senna", MyHero(0, 2, 1, 40, 80, 12, 0, 6, 0.7, 600, -1, -1)},
 
@@ -35,47 +35,47 @@ std::map<std::string, MyHero> Hero_list = {
 	//°¢Ä¾Ä¾ https://tftactics.gg/champions/amumu
 	{"Amumu", MyHero(0, 3, 1, 45, 100, 12, 0, 1, 0.65, 550, -1, -1)},
 	//Â¬¿¨Ë¹ https://tftactics.gg/champions/lux
-	{"Lux", MyHero(0, 3, 1, 40, 100, 12, 0, 4, 0.7, 700, -1, -1)},
+	{"Luxss", MyHero(0, 3, 1, 40, 100, 12, 0, 4, 0.7, 700, -1, -1)},
 	//ÈûÃ×¶û https://tftactics.gg/champions/samira
-	{"Samira", MyHero(0, 3, 1, 60, 100, 12, 0, 4, 0.7, 600, -1, -1)},
+	{"Samir", MyHero(0, 3, 1, 60, 100, 12, 0, 4, 0.7, 600, -1, -1)},
 	//Äá¿Ë https://tftactics.gg/champions/neeko
 	{"Neeko", MyHero(0, 3, 1, 50, 100, 12, 0, 4, 0.6, 850, -1, -1)},
 
 
 	//ËÄ·Ñ
 	//¿¨¶ûÈøË¹ https://lol.qq.com/tft/#/championDetail/28
-	{"Karthus",MyHero(0,4,1,50,125,7,0,4,0.65,700,-1,-1)},
+	{"Karth",MyHero(0,4,1,50,125,7,0,4,0.65,700,-1,-1)},
 	//·ðÒ®¸ê https://lol.qq.com/tft/#/championDetail/234
 	{"Viego",MyHero(0,4,1,80,115,8,0,1,0.85,900,-1,-1)},
 	//ÒÁÔóÈð¶û https://lol.qq.com/tft/#/championDetail/81
-	{"Ezreal",MyHero(0,4,1,50,120,6,0,4,0.85,700,-1,-1)},
+	{"Ezrea",MyHero(0,4,1,50,120,6,0,4,0.85,700,-1,-1)},
 	//²¨±È https://lol.qq.com/tft/#/championDetail/50
 	{"Poppy",MyHero(0,4,1,60,130,7,0,1,0.8,1000,-1,-1)},
 
 	//Îå·Ñ
 	//Â¬Îý°² https://lol.qq.com/tft/#/championDetail/236
-	{"Lucian",MyHero(0,5,1,75,200,6,0,4,0.7,750,-1,-1)},
+	{"Lucia",MyHero(0,5,1,75,200,6,0,4,0.7,750,-1,-1)},
 	//¿­Òþ https://lol.qq.com/tft/#/championDetail/141
-	{"Kayn",MyHero(0,5,1,75,180,5,0,1,0.95,1000,-1,-1)},
+	{"Kaynn",MyHero(0,5,1,75,180,5,0,1,0.95,1000,-1,-1)},
 	//ÆæÑÇÄÈ https://lol.qq.com/tft/#/championDetail/246
-	{"Qiyana",MyHero(0,5,1,70,190,5,0,1,0.9,950,-1,-1)},
+	{"Qiyan",MyHero(0,5,1,70,190,5,0,1,0.9,950,-1,-1)},
 	//¼ª¸ñË¹ https://lol.qq.com/tft/#/championDetail/115
 	{"Ziggs",MyHero(0,5,1,65,220,5,0,4,0.8,800,-1,-1)},
 
 	//Áù·Ñ
 	//²ÌÐìÀ¤
-    {"Kunkun",MyHero(0,6,1,100,300,10,10,10,10,500,-1,-1)},
+    {"Kunku",MyHero(0,6,1,100,300,10,10,10,10,500,-1,-1)},
 
 	//¶¡Õæ
-	{"Dingzhen",MyHero(0,6,1,100,300,10,10,10,10,500,-1,-1)}
+	{"Dingz",MyHero(0,6,1,100,300,10,10,10,10,500,-1,-1)}
 	
 	// ... ÆäËûÓ¢ÐÛ
 };
-string one_fee[4] = { "Annie", "Corki", "Taric", "Evelynn" };
-string two_fee[4] = { "Kayle", "Garen", "Twitch", "Senna" };
-string three_fee[4] = { "Amumu", "Lux", "Samira", "Neeko" };
-string four_fee[4] = { "Karthus", "Viego", "Ezreal", "Poppy" };
-string five_fee[4] = { "Lucian", "Kayn", "Qiyana", "Ziggs" };
+string one_fee[4] = { "Annie", "Corki", "Taric", "Evely" };
+string two_fee[4] = { "Kayle", "Garen", "Twitc", "Senna" };
+string three_fee[4] = { "Amumu", "Luxss", "Samir", "Neeko" };
+string four_fee[4] = { "Karth", "Viego", "Ezrea", "Poppy" };
+string five_fee[4] = { "Lucia", "Kaynn", "Qiyan", "Ziggs" };
 
 vector <MyHero> Hero_on_court_1;
 vector <MyHero> Hero_on_court_2;
