@@ -1,7 +1,5 @@
 #include "SimpleAudioEngine.h"
 #include "SelectModeScene.h"
-#include "PlayWithAI.h"
-#include "PlayWithPlayer.h"
 #include "PrepareScene.h"
 #include "BattleScene.h"
 #include "goldenshovel_hero_design.h"
