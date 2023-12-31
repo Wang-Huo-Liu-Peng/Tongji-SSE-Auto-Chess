@@ -3,6 +3,7 @@
 #include "SimpleAudioEngine.h"
 #include "SettingScene.h"
 #include "AccountScene.h"
+#include "PrepareScene.h"
 #include <Show_Chinese.h>
 
 //#include<vector>
@@ -134,6 +135,7 @@ bool HelloWorld::init()
 
     //菜单所需要的标签
     auto TestLabel_2 = Label::createWithTTF(labelConfig, "Setting");
+    auto TestLabel_3 = Label::createWithTTF(labelConfig, "Practice");
     auto TestLabel_4 = Label::createWithTTF(labelConfig, "Account");
 
     // creating a Menu from a Vector of items
@@ -146,15 +148,26 @@ bool HelloWorld::init()
         [&](Ref* sender) {
             Director::getInstance()->pushScene(AccountScene::createScene());
         });
+    auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
+        [&](Ref* sender) {
+            Player[1].Operator = HUMAN;
+            Player[2].Operator = AI;
+            Player[1].refresh_shop_free();
+            Player[2].refresh_shop_free();
+            PrepareScene* prepare1 = PrepareScene::create(1);
+            Director::getInstance()->replaceScene(prepare1);
+        });
 
 
     //设置各个标签的间距
     const int height = TestItem_2->getContentSize().height;
     TestItem_2->setPosition(Vec2(origin.x ,origin.y -height * 3));
+    TestItem_3->setPosition(Vec2(origin.x, origin.y - height * 2));
     TestItem_4->setPosition(Vec2(origin.x, origin.y - height * 1));
 
     MenuItems.pushBack(TestItem_2);
     MenuItems.pushBack(TestItem_4);
+    MenuItems.pushBack(TestItem_3);
 
     auto GameMenu = Menu::createWithArray(MenuItems);
     GameMenu->setPosition(Vec2(origin.x + visibleSize.width / 2,
