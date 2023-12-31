@@ -11,7 +11,7 @@ using namespace std;
 #pragma comment(lib,"ws2_32.lib") 
 
 #define  BUF_LEN 1024
-#define serverIp  "100.66.149.169"
+#define serverIp  "100.67.170.63"
 //192.168.14.164
 #define serverPort 1986
 
