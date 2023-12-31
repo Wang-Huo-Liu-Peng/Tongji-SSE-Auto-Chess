@@ -36,6 +36,8 @@ bool SelectModeScene::init()
     Vector<MenuItem*> MenuItems;
     auto ModeItem_1 = MenuItemLabel::create(ModeLabel_1,
         [&](Ref* sender) {
+            Player[1].RecoverData();
+            Player[2].RecoverData();
             Player[1].Operator = HUMAN;
             Player[2].Operator = AI;
             Player[1].refresh_shop_free();
@@ -45,6 +47,8 @@ bool SelectModeScene::init()
         });
     auto ModeItem_2 = MenuItemLabel::create(ModeLabel_2,
         [&](Ref* sender) {
+            Player[1].RecoverData();
+            Player[2].RecoverData();
             Player[1].Operator = HUMAN;
             Player[2].Operator = HUMAN;
             Player[1].refresh_shop_free();

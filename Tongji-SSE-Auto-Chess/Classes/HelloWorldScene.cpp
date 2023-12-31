@@ -150,6 +150,8 @@ bool HelloWorld::init()
         });
     auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
         [&](Ref* sender) {
+            Player[1].RecoverData();
+            Player[2].RecoverData();
             Player[1].Operator = HUMAN;
             Player[2].Operator = AI;
             Player[1].refresh_shop_free();

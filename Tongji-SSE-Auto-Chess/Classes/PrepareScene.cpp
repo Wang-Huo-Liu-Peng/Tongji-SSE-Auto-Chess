@@ -28,7 +28,7 @@ bool PrepareScene::init(int Player)
     //µ¹¼ÆÊ±ÏÔÊ¾
     countdown = 10;
     countdownLabel = Label::createWithTTF("", "fonts/arial.ttf", 60);
-    countdownLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - countdownLabel->getContentSize().height));
+    countdownLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - countdownLabel->getContentSize().height-50));
     this->addChild(countdownLabel);
 
     this->schedule(schedule_selector(PrepareScene::updateCountdown), 1.0f);

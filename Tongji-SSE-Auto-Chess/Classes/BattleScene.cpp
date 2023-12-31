@@ -24,7 +24,7 @@ bool BattleScene::init(int Player1,int Player2)
     static int round = 0;
     round++;
     roundLabel = Label::createWithTTF("", "fonts/arial.ttf", 60);
-    roundLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - roundLabel->getContentSize().height));
+    roundLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - roundLabel->getContentSize().height-50));
     this->addChild(roundLabel);
     roundLabel->setString(StringUtils::format("ROUND:%d", round));
 
