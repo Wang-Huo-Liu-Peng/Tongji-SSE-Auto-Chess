@@ -1,10 +1,13 @@
 #include "HelloWorldScene.h"
-#include "Test_Scene_4.h"
+#include "AccountScene.h"
 #include "goldenshovel_hero_design.h" 
 #include "BattleLayer.h"
+#include "MatchOverScene.h"
 #include "GameMap.h"
 #include <ui/UILayout.h>
 #include "Client.h"
+#include "SimpleAudioEngine.h"
+
 //#include"hero_simple.h"
 using namespace std; 
 
@@ -221,6 +224,7 @@ void BattleLayer::myupdate(float dt)
             this->unschedule(schedule_selector(BattleLayer::update_attack));
         }
     }
+    MatchOver(player1, player2);
 }
 
 void BattleLayer::update_attack(float dt)
@@ -288,7 +292,7 @@ void BattleLayer::checkBullet()
             it->target_hero = nullptr;
 
         if (it->Hitted()) {//子弹射中目标位置
-
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("effect.mp3", false);
             if (it->isAOE == 0) {
                 if (it->target_hero != nullptr && it->HitHero()) {//打中英雄
                     it->target_hero->current_hp -= it->hurt;//扣血
@@ -371,6 +375,18 @@ bool BattleLayer::gameOver(int index1,int index2)
         return true;//返回true，表明本次战斗结束
     }
     return false;
+}
+
+void BattleLayer::MatchOver(int index1, int index2)
+{
+    if (Player[index1].current_hp <= 0) {
+        MatchOverScene* over = MatchOverScene::create(index2);
+        Director::getInstance()->replaceScene(over);
+    }
+    if (Player[index2].current_hp <= 0) {
+        MatchOverScene* over = MatchOverScene::create(index1);
+        Director::getInstance()->replaceScene(over);
+    }
 }
 
 void BattleLayer::OverShoot(int index1, int index2)
