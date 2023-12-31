@@ -14,12 +14,16 @@ private:
 	MySprite* target_sprite=nullptr;//目标小小英雄
 	Sprite* sprite;     //内置精灵
 
+	int isAOE = 0;
+
 	Vec2 target;        //目标坐标
 
 	string picture_name;//图片名字
 public:
 	Bullet(MyHero*,Vec2,int,string);      //构造函数
 	Bullet(MySprite*, Vec2, int, string); //构造函数2
+	Bullet(MySprite* ,MyHero*, Vec2, int, string,int);//构造函数3
 	bool Hitted();      //判断是否到达目标位置
 	bool HitHero();     //是否打中英雄（目标位置与英雄位置是否一致）
+	void Boom(vector<MyHero>&);
 };

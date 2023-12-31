@@ -20,6 +20,14 @@ bool PrepareScene::init(int Player)
 
     this->scheduleOnce(schedule_selector(PrepareScene::goToBattle), 10.0f);
 
+    //倒计时显示
+    countdown = 10;
+    countdownLabel = Label::createWithTTF("", "fonts/arial.ttf", 60);
+    countdownLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height - countdownLabel->getContentSize().height));
+    this->addChild(countdownLabel);
+
+    this->schedule(schedule_selector(PrepareScene::updateCountdown), 1.0f);
+
     //退出当前场景的按钮
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
@@ -42,6 +50,21 @@ void PrepareScene::goToBattle(float dt)
 {
     BattleScene* battle = BattleScene::create(1, 2);
     Director::getInstance()->replaceScene(battle);
+}
+
+void PrepareScene::updateCountdown(float dt)
+{
+    countdown--;
+
+    if (countdown >= 0)
+    {
+        countdownLabel->setString(StringUtils::format("%d", countdown));
+    }
+    else
+    {
+        countdownLabel->setString("Go!");
+        this->unschedule(schedule_selector(PrepareScene::updateCountdown));
+    }
 }
 
 PrepareScene* PrepareScene::create(int Player)
