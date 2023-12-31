@@ -5,7 +5,7 @@
 #include "GameMap.h"
 #include <ui/UILayout.h>
 #include"Client.h"
-#include"hero_simple.h"
+//#include"hero_simple.h"
 using namespace std; 
 
 USING_NS_CC;
@@ -23,25 +23,7 @@ bool BattleLayer::init(int Player1,int Player2)
         AIPlayerBrain(player2);//AI更新场上英雄
 
 
-    vector<hero_simple>_hero_on_court;
-    vector<hero_simple>_hero_on_bench;
-    //将我方英雄提取到vector<hero_simple>
-    for (auto hero : Player[player1].Hero_on_bench) {
-        struct hero_simple temp;
-        for (int i = 0; i < hero.name.length(); i++)
-            temp.hero_name[i] = hero.name[i];
-        temp.location_x = hero.location_x;
-        temp.location_y = hero.location_y;
-        _hero_on_bench.push_back(temp);
-    }
-    for (auto hero : Player[player1].Hero_on_court) {
-        struct hero_simple temp;
-        for (int i = 0; i < hero.name.length(); i++)
-            temp.hero_name[i] = hero.name[i];
-        temp.location_x = hero.location_x;
-        temp.location_y = hero.location_y;
-        _hero_on_court.push_back(temp);
-    }
+    
 
 
 
@@ -49,11 +31,39 @@ bool BattleLayer::init(int Player1,int Player2)
     if (Player[player2].Operator == HUMAN) {
         //将我方的英雄信息上传，作为对方的Player2
         Client::getInstance()->write_event(SendHero);//写入事件
+
+        //将我方英雄提取到vector<hero_simple>
+        Client::getInstance()->csocket._passInfo->court=0;
+        for (auto hero : Player[player1].Hero_on_court) {
+
+            for (int i = 0; i < hero.name.length(); i++) {
+                Client::getInstance()->csocket._passInfo->hero_court->hero_name[i] = hero.name[i];
+            }
+
+            Client::getInstance()->csocket._passInfo->hero_court->location_x = hero.location_x;
+            Client::getInstance()->csocket._passInfo->hero_court->location_y = hero.location_y;
+            Client::getInstance()->csocket._passInfo->court++;
+        }
+
+
+        Client::getInstance()->csocket._passInfo->bench = 0;
+        for (auto hero : Player[player1].Hero_on_bench) {
+
+            for (int i = 0; i < hero.name.length(); i++) {
+                Client::getInstance()->csocket._passInfo->hero_bench->hero_name[i] = hero.name[i];
+            }
+
+            Client::getInstance()->csocket._passInfo->hero_bench->location_x = hero.location_x;
+            Client::getInstance()->csocket._passInfo->hero_bench->location_y = hero.location_y;
+            Client::getInstance()->csocket._passInfo->bench++;
+
+        }
+
         
-        Client::getInstance()->write_hero_on_court((void*)(&_hero_on_court));//写入信息
-        Client::getInstance()->write_hero_on_bench((void*)(&_hero_on_bench));
         Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
         Client::getInstance()->send_msg();//发送
+
+
         //接受对方的英雄信息，  作为这边的player2
         while (1) {//阻塞等待接受对面英雄信息
             if (Client::getInstance()->get_get_state() == 1)
@@ -62,20 +72,19 @@ bool BattleLayer::init(int Player1,int Player2)
             }
         }
 
-        vector<hero_simple>* _hero_on_court = (vector<hero_simple>*)(Client::getInstance()->get_hero_on_court());//读取信息并转换为MyHero的vector
-        vector<hero_simple>* _hero_on_bench = (vector<hero_simple>*)Client::getInstance()->get_hero_on_bench();
-        
+
         Player[player2].Hero_on_court.clear();
         Player[player2].Hero_on_bench.clear();
+        
 
-        for (auto hero_s : (*_hero_on_court)) {
-            MyHero* myHero = set_a_hero(hero_s.hero_name, hero_s.location_x, hero_s.location_y);
+        for (int i = 0; i < Client::getInstance()->csocket._passInfo->court; i++) {
+            MyHero* myHero = set_a_hero(Client::getInstance()->csocket._passInfo->hero_court[i].hero_name, Client::getInstance()->csocket._passInfo->hero_court[i].location_x, Client::getInstance()->csocket._passInfo->hero_court[i].location_y);
             Player[player2].Hero_on_court.push_back(*myHero);
         }
-        /*for (auto hero_s : (*_hero_on_bench)) {
-            MyHero* myHero = set_a_hero(hero_s.hero_name, hero_s.location_x, hero_s.location_y);
+        for (int i = 0; i < Client::getInstance()->csocket._passInfo->bench; i++) {
+            MyHero* myHero = set_a_hero(Client::getInstance()->csocket._passInfo->hero_bench[i].hero_name, Client::getInstance()->csocket._passInfo->hero_bench[i].location_x, Client::getInstance()->csocket._passInfo->hero_bench[i].location_y);
             Player[player2].Hero_on_bench.push_back(*myHero);
-        }*/
+        }
 
     }
 

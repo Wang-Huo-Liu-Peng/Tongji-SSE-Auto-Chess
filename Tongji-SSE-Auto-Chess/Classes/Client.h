@@ -27,10 +27,10 @@ public:
 	inline void write_account(char* str);
 	inline void write_password(char* ac_pw);
 	inline void write_event(char* _event);
-	inline void write_hero_on_court(void* hero_on_court);
-	inline void write_hero_on_bench(void* hero_on_bench);
-	inline void* get_hero_on_bench();
-	inline void* get_hero_on_court();
+	//inline void write_hero_on_court(hero_simple hero_on_court[],int num);
+	//inline void write_hero_on_bench(hero_simple hero_on_bench[],int num);
+	//inline hero_simple* get_hero_on_bench();
+	//inline hero_simple* get_hero_on_court();
 	inline void set_get_state(int _get_state);
 	inline int get_get_state();
 	inline int connect_to_server();
@@ -56,21 +56,29 @@ void Client::write_password(char* ac_pw) {
 	strcpy(this->csocket._passInfo->password, ac_pw);
 }
 
-void Client::write_hero_on_court(void* hero_on_court) {
-	this->csocket._passInfo->hero_on_court = hero_on_court;
-}
-
-void* Client::get_hero_on_court() {
-	return this->csocket._passInfo->hero_on_court;
-}
-
-void Client::write_hero_on_bench(void* hero_on_bench) {
-	this->csocket._passInfo->hero_on_bench = hero_on_bench;
-}
-
-void* Client::get_hero_on_bench() {
-	return this->csocket._passInfo->hero_on_bench ;
-}
+//void Client::write_hero_on_court(hero_simple hero_on_court[],int num) {
+//	//this->csocket._passInfo->hero_on_court = hero_on_court;
+//	for (int i = 0; i < num; i++) {
+//		this->csocket._passInfo->hero_on_court[i] = hero_on_court[i];
+//	}
+//	this->csocket._passInfo->court = num;
+//}
+//
+//hero_simple* Client::get_hero_on_court() {
+//	return this->csocket._passInfo->hero_on_court;
+//}
+//
+//void Client::write_hero_on_bench(hero_simple hero_on_bench[],int num) {
+//	//this->csocket._passInfo->hero_on_bench = hero_on_bench;
+//	for (int i = 0; i < num; i++) {
+//		this->csocket._passInfo->hero_on_bench[i] = hero_on_bench[i];
+//	}
+//	this->csocket._passInfo->bench = num;
+//}
+//
+//hero_simple* Client::get_hero_on_bench() {
+//	return this->csocket._passInfo->hero_on_bench ;
+//}
 
 void Client::write_event(char* _event) {
 	strcpy(this->csocket._passInfo->event, _event);
