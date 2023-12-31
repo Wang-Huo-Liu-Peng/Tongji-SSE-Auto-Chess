@@ -32,7 +32,29 @@ bool BattleLayer::init(int Player1,int Player2)
         //将我方的英雄信息上传，作为对方的Player2
         Client::getInstance()->write_event(SendHero);//写入事件
         
-    
+        int pos1 = 0;
+        Client::getInstance()->csocket._passInfo->court = 0;
+        for (auto hero:Player[player1].Hero_on_court) {
+            for(int j=0;j<hero.name.size();j++)
+                Client::getInstance()->csocket._passInfo->hero_court[pos1].hero_name[j] = hero.name[j];
+            CCLOG("%s", Client::getInstance()->csocket._passInfo->hero_court[pos1].hero_name);
+            Client::getInstance()->csocket._passInfo->hero_court[pos1].location_x = hero.location_x;
+            Client::getInstance()->csocket._passInfo->hero_court[pos1].location_y = hero.location_y;
+            Client::getInstance()->csocket._passInfo->court++;
+            pos1++;
+        }
+        pos1 = 0;
+        Client::getInstance()->csocket._passInfo->bench=0;
+        for (auto hero : Player[player1].Hero_on_bench) {
+            for (int j = 0; j < hero.name.size(); j++)
+                Client::getInstance()->csocket._passInfo->hero_bench[pos1].hero_name[j] = hero.name[j];
+            Client::getInstance()->csocket._passInfo->hero_bench[pos1].location_x = hero.location_x;
+            Client::getInstance()->csocket._passInfo->hero_bench[pos1].location_y = hero.location_y;
+            Client::getInstance()->csocket._passInfo->bench++;
+            pos1++;
+        }
+
+
         Client::getInstance()->set_get_state(0);//设置状态为未接受对面英雄
         Client::getInstance()->send_msg();//发送
 
