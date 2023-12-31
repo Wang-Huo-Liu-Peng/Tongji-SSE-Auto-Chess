@@ -45,7 +45,7 @@ bool HelloWorld::init()
    // NetworkManager::getInstance()->checkNetworkConnection();
     /*****************************************************/
 
-
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("gyz.mp3");
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("gyz.mp3", true);
     bool sound = UserDefault::getInstance()->getBoolForKey("SOUND"); //ÉùÒô±äÁ¿
     LabelTTF* isSoundBtn; //ÉùÒôÇĞ»»°´Å¥
