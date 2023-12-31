@@ -75,10 +75,14 @@ bool BattleLayer::init(int Player1,int Player2)
         
 
         for (int i = 0; i < Client::getInstance()->csocket._passInfo->court; i++) {
-            MyHero* myHero = set_a_hero(Client::getInstance()->csocket._passInfo->hero_court[i].hero_name, Client::getInstance()->csocket._passInfo->hero_court[i].location_x, Client::getInstance()->csocket._passInfo->hero_court[i].location_y);
+            if (Client::getInstance()->csocket._passInfo->hero_court[i].hero_name == "")
+                continue;
+            MyHero* myHero = set_a_hero(Client::getInstance()->csocket._passInfo->hero_court[i].hero_name, Client::getInstance()->csocket._passInfo->hero_court[i].location_x, Client::getInstance()->csocket._passInfo->hero_court[i].location_y); 
             Player[player2].Hero_on_court.push_back(*myHero);
         }
         for (int i = 0; i < Client::getInstance()->csocket._passInfo->bench; i++) {
+            if (Client::getInstance()->csocket._passInfo->hero_bench[i].hero_name == "")
+                continue;
             MyHero* myHero = set_a_hero(Client::getInstance()->csocket._passInfo->hero_bench[i].hero_name, Client::getInstance()->csocket._passInfo->hero_bench[i].location_x, Client::getInstance()->csocket._passInfo->hero_bench[i].location_y);
             Player[player2].Hero_on_bench.push_back(*myHero);
         }

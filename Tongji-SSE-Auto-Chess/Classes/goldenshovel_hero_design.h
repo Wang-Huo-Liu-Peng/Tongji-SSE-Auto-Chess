@@ -481,6 +481,8 @@ inline MyHero* set_a_hero(string hero_name, int X,int Y) {
 
     string filename = hero_name + "1.png";
 
+    /*if (hero_name == "")
+        return nullptr;*/
     // ·ÖÅäÔÚ¶ÑÉÏ
     MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
 
