@@ -1,6 +1,7 @@
 #include "goldenshovel_hero_design.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "SettingScene.h"
 #include "Test.h"
 #include <Show_Chinese.h>
 
@@ -25,7 +26,7 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    Client::getInstance()->connect_to_server();
+    //Client::getInstance()->connect_to_server();
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -134,7 +135,7 @@ bool HelloWorld::init()
     //菜单所需要的标签
     auto GameLabel   = Label::createWithTTF(labelConfig, "Game");
     auto TestLabel_1 = Label::createWithTTF(labelConfig, "Test_Scene_1");
-    auto TestLabel_2 = Label::createWithTTF(labelConfig, "Test_Scene_2");
+    auto TestLabel_2 = Label::createWithTTF(labelConfig, "Setting");
     auto TestLabel_3 = Label::createWithTTF(labelConfig, "Test_Scene_3");
     auto TestLabel_4 = Label::createWithTTF(labelConfig, "Test_Scene_4");
 
@@ -151,7 +152,7 @@ bool HelloWorld::init()
         });
     auto TestItem_2 = MenuItemLabel::create(TestLabel_2,
         [&](Ref* sender) {
-            Director::getInstance()->pushScene(Test_Scene_2::createScene());
+            Director::getInstance()->pushScene(SettingScene::createScene());
         });
     auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
         [&](Ref* sender) {

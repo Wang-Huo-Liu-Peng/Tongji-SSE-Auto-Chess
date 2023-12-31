@@ -4,7 +4,7 @@
 #include "BattleLayer.h"
 #include "GameMap.h"
 #include <ui/UILayout.h>
-#include"Client.h"
+#include "Client.h"
 //#include"hero_simple.h"
 using namespace std; 
 
