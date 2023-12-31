@@ -95,15 +95,16 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//将court中的英雄复制到fighting上
 
-    /**/
+    /**********************************************************************************************************************************************************************/
     auto jiban = Sprite::create("123.png");//创建地图
 
     if(check_synergy(Player[player1].Hero_fighting))
     {
+       this->addChild(jiban);
         for (int i = 0; i < Player[player1].Hero_fighting.size(); i++)
         {
             Player[player1].Hero_fighting[i].attack_power += 10;
-            Player[player1].sprite->addChild(jiban);
+           
         }
     }
 
@@ -660,26 +661,26 @@ void BattleLayer::AIPlayerBrain(int ai) {
 
 bool BattleLayer::check_synergy(vector<MyHero>& heroes)
 {
-//    vector<string> hero_name;
-//    std::transform(heroes.begin(), heroes.end(), std::back_inserter(hero_name), [](const MyHero& hero) {
-//        return hero.name;
-//        });
-//    for (int i = 0; i < synergies.size(); i++)
-//    {
-//        auto it = find(hero_name.begin(), hero_name.end(), synergies[i][0]);
-//        if (it != hero_name.end())
-//        {
-//            it = find(hero_name.begin(), hero_name.end(), synergies[i][1]);
-//            if (it != hero_name.end())
-//            {
-//                it = find(hero_name.begin(), hero_name.end(), synergies[i][2]);
-//                if (it != hero_name.end())
-//                {
-//
-//                }
-//            }
-//        }
-//    }
+    vector<string> hero_name;
+    std::transform(heroes.begin(), heroes.end(), std::back_inserter(hero_name), [](const MyHero& hero) {
+        return hero.name;
+        });
+    for (int i = 0; i < synergies.size(); i++)
+    {
+        auto it = find(hero_name.begin(), hero_name.end(), synergies[i].str1);
+        if (it != hero_name.end())
+        {
+            it = find(hero_name.begin(), hero_name.end(), synergies[i].str2);
+            if (it != hero_name.end())
+            {
+                it = find(hero_name.begin(), hero_name.end(), synergies[i].str3);
+                if (it != hero_name.end())
+                {
+                    return true;
+                }
+            }
+        }
+    }
     return false;
 }
 
