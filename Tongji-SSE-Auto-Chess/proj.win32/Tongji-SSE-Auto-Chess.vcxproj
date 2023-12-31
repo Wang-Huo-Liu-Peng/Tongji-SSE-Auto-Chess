@@ -176,13 +176,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\BattleScene.h" />
     <ClInclude Include="..\Classes\Bullet.h" />
     <ClInclude Include="..\Classes\CSocket.h" />
-    <ClInclude Include="..\Classes\GameMap.h" />
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\hero_simple.h" />
     <ClInclude Include="..\Classes\load_server.h" />
     <ClInclude Include="..\Classes\MatchOverScene.h" />
-    <ClInclude Include="..\Classes\NetworkConnection.h" />
     <ClInclude Include="..\Classes\passinfo.h" />
     <ClInclude Include="..\Classes\PopupManager.h" />
     <ClInclude Include="..\Classes\PrepareLayer.h" />
@@ -194,7 +192,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\SettingScene.h" />
     <ClInclude Include="..\Classes\AccountScene.h" />
     <ClInclude Include="..\Classes\ThreadPool.h" />
-    <ClInclude Include="..\Classes\unpack.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

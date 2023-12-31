@@ -31,9 +31,6 @@
     <Filter Include="src\goldenshovel_hero_design">
       <UniqueIdentifier>{c3a49a40-4142-48f9-8ab4-cf1aa96ea737}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Network Connection">
-      <UniqueIdentifier>{c68ce378-a503-4fef-8541-886d63406fad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\PopupManager">
       <UniqueIdentifier>{95da211c-986d-42fa-8a52-e041312a9ad9}</UniqueIdentifier>
     </Filter>
@@ -137,17 +134,11 @@
     <ClInclude Include="..\Classes\BattleLayer.h">
       <Filter>src\BattleLayer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameMap.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Bullet.h">
       <Filter>src\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\goldenshovel_hero_design.h">
       <Filter>src\goldenshovel_hero_design</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\NetworkConnection.h">
-      <Filter>src\Network Connection</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\load_server.h">
       <Filter>src</Filter>
@@ -177,9 +168,6 @@
       <Filter>src\PrepareLayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\passinfo.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\unpack.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MatchOverScene.h">
