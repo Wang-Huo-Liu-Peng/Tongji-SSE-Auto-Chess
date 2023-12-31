@@ -50,6 +50,7 @@ using namespace std;
 
 #define SpriteSize Size(127,150)
 #define HeroSize   Size(127,150)
+#define BulletSize Size(120,120)
 
 class MyHero;
 class Equipment;
