@@ -78,15 +78,26 @@ string four_fee[4] = { "Karth", "Viego", "Ezrea", "Poppy" };
 string five_fee[4] = { "Lucia", "Kaynn", "Qiyan", "Ziggs" };
 
 
+//vector<MySprite> Player = {
+//	MySprite(1,100,5),//小小英雄开局等级为1,血量为100，金币为5
+//	MySprite(1,100,5),
+//	MySprite(1,100,5),
+//	MySprite(1,100,5),
+//	MySprite(1,100,5),
+//	MySprite(1,100,5),
+//	MySprite(1,100,5),
+//	MySprite(1,100,5),
+//};
+
 vector<MySprite> Player = {
-	MySprite(1,100,5),//小小英雄开局等级为1,血量为100，金币为5
-	MySprite(1,100,5),
-	MySprite(1,100,5),
-	MySprite(1,100,5),
-	MySprite(1,100,5),
-	MySprite(1,100,5),
-	MySprite(1,100,5),
-	MySprite(1,100,5),
+	MySprite(1,20,5),//小小英雄开局等级为1,血量为100，金币为5
+	MySprite(1,20,5),
+	MySprite(1,20,5),
+	MySprite(1,20,5),
+	MySprite(1,20,5),
+	MySprite(1,20,5),
+	MySprite(1,20,5),
+	MySprite(1,20,5),
 };
 
 int Posibility_Of_Hero[MAX_LEVEL][5] = {

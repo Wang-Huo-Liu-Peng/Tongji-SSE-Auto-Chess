@@ -85,6 +85,14 @@ void AccountScene::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
     Client::getInstance()->write_account(str_ac);
     Client::getInstance()->write_password(str_pw);
     Client::getInstance()->send_msg(); 
+
+    int a = 9999999;
+    while (1) {
+        a--;
+        if (a == 0)
+            break;
+    }
+
         if (Client::getInstance()->csocket._passInfo->_result == 2) {
             //跳转到选择场景
             Director::getInstance()->pushScene(SelectModeScene::createScene());
