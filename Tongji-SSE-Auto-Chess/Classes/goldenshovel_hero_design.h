@@ -48,6 +48,9 @@ using namespace std;
 #define    AI 0
 #define HUMAN 1
 
+#define SpriteSize Size(127,150)
+#define HeroSize   Size(127,150)
+
 class MyHero;
 class Equipment;
 class MySprite;
@@ -453,7 +456,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
         player.decreasemoney(i);
         CCLOG("money %d", player.getmoney());
 
-        string filename = hero_name + ".png";
+        string filename = hero_name + "1.png";
 
         // 分配在堆上
         MyHero* set_a_new_hero = new MyHero(Hero_list.at(hero_name));
@@ -462,8 +465,7 @@ inline MyHero* set_a_hero(MySprite& player, string hero_name, string Hero_in_sho
 
         auto new_hero_Sprite = Sprite::create(filename);
 
-        Size newSize(127, 127);  // 设置新的宽度为 200 像素，高度为 150 像素
-        //new_hero_Sprite->setContentSize(newSize);
+        new_hero_Sprite->setContentSize(HeroSize);
 
         attribute(new_hero_Sprite,HERO_BAR_LENGTH,HERO);//红蓝条加入子节点
 
@@ -486,8 +488,7 @@ inline MyHero* set_a_hero(string hero_name, int X,int Y) {
 
     auto new_hero_Sprite = Sprite::create(filename);
 
-    Size newSize(127, 127);  // 设置新的宽度为 200 像素，高度为 150 像素
-    //new_hero_Sprite->setContentSize(newSize);
+    new_hero_Sprite->setContentSize(HeroSize);
 
     attribute(new_hero_Sprite, HERO_BAR_LENGTH, HERO);//红蓝条加入子节点
 
@@ -592,7 +593,7 @@ inline bool ifInMap(Vec2 pos)
 }
 inline bool ifInWholeMap(Vec2 pos)
 {
-    return (pos.x >= Fight_MAP_width && pos.x <= Fight_MAP_width + 8 * plaid) &&
+    return (pos.x >= Fight_MAP_width-plaid && pos.x <= Fight_MAP_width + 9 * plaid) &&
         (pos.y >= Fight_MAP_height && pos.y <= Fight_MAP_height + 6 * plaid);
 }
 inline bool ifHasHero(Vec2 pos,MySprite& my)

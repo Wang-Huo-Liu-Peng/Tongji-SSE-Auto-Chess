@@ -286,7 +286,7 @@ void BattleLayer::checkBullet()
             else
                 it->Boom(it->target_sprite->Hero_fighting);
 
-            if (it->target_sprite != nullptr) {//打中小小英雄
+            if (it->target_sprite != nullptr&&it->isAOE==0) {//打中小小英雄
                 it->target_sprite->current_hp -= it->hurt;//扣血
                 //扣血动画
             }
@@ -308,7 +308,7 @@ void BattleLayer::checkUltimate(vector<MyHero>& Hero_fighting,int index)
         if (it->current_enemy != nullptr && it->enemyInDistance()) {
             if (it->current_cooldown_round == it->needed_cooldown_round) {
                 it->current_cooldown_round = 0;
-                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "bullet-2",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "bullet-3",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
                 bullet.push_back(b);
                 this->addChild(b.sprite, 2);//子弹加入场景
                 auto moveTo = MoveTo::create(1, b.target);//子弹飞行动作
@@ -410,10 +410,11 @@ void BattleLayer::addHero(int player,int station,int camp)
 void BattleLayer::addSprite(int index,int camp)
 {
     char num = index + '0';
-    string picture = "Player_";
+    string picture = "Player-";
     picture += num;
     picture += ".png";
     Player[index].sprite = Sprite::create(picture);
+    Player[index].sprite->setContentSize(SpriteSize);
     attribute(Player[index].sprite, SPRITE_BAR_LENGTH, camp);
     if(camp==MY_SPRITE)
         Player[index].sprite->setPosition(player1_px);

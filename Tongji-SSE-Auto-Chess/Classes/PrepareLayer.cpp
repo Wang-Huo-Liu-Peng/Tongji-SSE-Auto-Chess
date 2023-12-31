@@ -22,7 +22,7 @@ bool PrepareLayer::init(int index)
     addHero(player, ON_BENCH, ME);
     addHero(player, ON_COURT, ME);
     //将小小英雄加入场景中
-    //addSprite(player);
+    addSprite(player);
 
 
     /*===================监听器的创建=======================*/
@@ -156,10 +156,11 @@ void PrepareLayer::addHero(int player, int station, int camp)
 void PrepareLayer::addSprite(int index)
 {
     char num = index + '0';
-    string picture = "Player_";
+    string picture = "Player-";
     picture += num;
     picture += ".png";
     Player[index].sprite = Sprite::create(picture);
+    Player[index].sprite->setContentSize(SpriteSize);
     attribute(Player[index].sprite,SPRITE_BAR_LENGTH,MY_SPRITE);
     Player[index].sprite->setPosition(player1_px);
     Player[index].sprite->getChildByTag(RED_TAG)->setScaleX(float(Player[index].current_hp) / float(Player[index].full_hp));

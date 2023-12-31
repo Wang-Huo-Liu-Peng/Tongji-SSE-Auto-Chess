@@ -34,6 +34,8 @@ Bullet::Bullet(MySprite* targetSprite,MyHero* targetHero, Vec2 loc, int h, strin
 	target = targetHero->sprite->getPosition();//目标位置
 	hurt = h;//子弹伤害
 	sprite = Sprite::create(name + ".png");
+	Size newSize(127, 150);  // 设置新的宽度为 200 像素，高度为 150 像素
+	sprite->setContentSize(newSize);
 	sprite->setPosition(loc);//loc为发射子弹的英雄的位置
 	isAOE = AOE;
 }
