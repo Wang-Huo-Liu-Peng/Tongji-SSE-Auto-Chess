@@ -5,6 +5,8 @@
 #include "GameMap.h"
 #include <ui/UILayout.h>
 #include "Client.h"
+#include "SimpleAudioEngine.h"
+
 //#include"hero_simple.h"
 using namespace std; 
 
@@ -288,7 +290,7 @@ void BattleLayer::checkBullet()
             it->target_hero = nullptr;
 
         if (it->Hitted()) {//子弹射中目标位置
-
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("effect.mp3", false);
             if (it->isAOE == 0) {
                 if (it->target_hero != nullptr && it->HitHero()) {//打中英雄
                     it->target_hero->current_hp -= it->hurt;//扣血

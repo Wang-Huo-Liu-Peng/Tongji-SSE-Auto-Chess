@@ -15,7 +15,6 @@ Scene* SelectModeScene::createScene()
 
 bool SelectModeScene::init()
 {
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
