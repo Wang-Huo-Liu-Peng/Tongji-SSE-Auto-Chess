@@ -201,7 +201,8 @@ void BattleLayer::update_attack(float dt)
     while (it != Player[player1].Hero_fighting.end()) {
         if (it->current_enemy != nullptr&&it->enemyInDistance()) {
             it->current_cooldown_round++;//蓝条增加
-            Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "bullet_1");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            Bullet b(it->current_enemy, it->sprite->getPosition(), it->attack_power, "123");//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+            b.sprite->setContentSize(BulletSize);
             bullet.push_back(b);
             this->addChild(b.sprite, 2);//子弹加入场景
             auto moveTo = MoveTo::create(it->attack_cd, b.target);//子弹飞行动作
@@ -290,7 +291,7 @@ void BattleLayer::checkUltimate(vector<MyHero>& Hero_fighting,int index)
         if (it->current_enemy != nullptr && it->enemyInDistance()) {
             if (it->current_cooldown_round == it->needed_cooldown_round) {
                 it->current_cooldown_round = 0;
-                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "bullet-3",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
+                Bullet b(&Player[index], it->current_enemy, it->sprite->getPosition(), it->ace_attack_power, "123",1);//这里先都用篮球，后续写函数根据英雄名字寻找对应的子弹名字
                 bullet.push_back(b);
                 this->addChild(b.sprite, 2);//子弹加入场景
                 auto moveTo = MoveTo::create(1, b.target);//子弹飞行动作
