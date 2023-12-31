@@ -198,6 +198,8 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     Director::getInstance()->end();
     CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+    Client::getInstance()->write_event(Exit);
+    Client::getInstance()->send_msg();
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
