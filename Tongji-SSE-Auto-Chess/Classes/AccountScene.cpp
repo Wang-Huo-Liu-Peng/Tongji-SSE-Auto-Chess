@@ -1,15 +1,16 @@
-#include "Test_Scene_4.h"
-#include"Client.h"
+#include "AccountScene.h"
+#include "Client.h"
 #include <PopupManager.h>
+#include "SelectModeScene.h"
 
 USING_NS_CC;
 
-Scene* Test_Scene_4::createScene()
+Scene* AccountScene::createScene()
 {
-    return Test_Scene_4::create();
+    return AccountScene::create();
 }
 
-bool Test_Scene_4::init()
+bool AccountScene::init()
 {
     if (!Scene::init())
     {
@@ -36,12 +37,12 @@ bool Test_Scene_4::init()
 
     auto registerButton = cocos2d::ui::Button::create("join.png");
     registerButton->setPosition(Vec2(1100, 400));
-    registerButton->addClickEventListener(CC_CALLBACK_1(Test_Scene_4::registerButtonCallback, this, accountInput, passwordInput));
+    registerButton->addClickEventListener(CC_CALLBACK_1(AccountScene::registerButtonCallback, this, accountInput, passwordInput));
     layout->addChild(registerButton);
 
     auto loginButton = cocos2d::ui::Button::create("login.png");
     loginButton->setPosition(Vec2(1500, 400));
-    loginButton->addClickEventListener(CC_CALLBACK_1(Test_Scene_4::loginButtonCallback, this, accountInput, passwordInput));
+    loginButton->addClickEventListener(CC_CALLBACK_1(AccountScene::loginButtonCallback, this, accountInput, passwordInput));
     layout->addChild(loginButton);
 
     addChild(layout);
@@ -66,7 +67,7 @@ bool Test_Scene_4::init()
     return true;
 }
 
-void Test_Scene_4::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextField* accountInput, cocos2d::ui::TextField* passwordInput)
+void AccountScene::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextField* accountInput, cocos2d::ui::TextField* passwordInput)
 {
     std::string account = accountInput->getString();
     std::string password = passwordInput->getString();
@@ -85,8 +86,11 @@ void Test_Scene_4::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
     Client::getInstance()->write_password(str_pw);
     Client::getInstance()->send_msg();
     Sleep(1);
-    if(Client::getInstance() ->csocket._passInfo->_result==2)
-        PopupManager::displayPopup(this, "success to log in");
+    if (Client::getInstance()->csocket._passInfo->_result == 2) {
+        //跳转到选择场景
+        Director::getInstance()->pushScene(SelectModeScene::createScene());
+    }
+
     else if(Client::getInstance()->csocket._passInfo->_result == 1)
         PopupManager::displayPopup(this, "fail to login: Password fault");
     else if (Client::getInstance()->csocket._passInfo->_result == 0)
@@ -96,7 +100,7 @@ void Test_Scene_4::loginButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextFi
 }
 
 
-void Test_Scene_4::registerButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextField* accountInput, cocos2d::ui::TextField* passwordInput)
+void AccountScene::registerButtonCallback(cocos2d::Ref* sender, cocos2d::ui::TextField* accountInput, cocos2d::ui::TextField* passwordInput)
 {
     std::string account = accountInput->getString();
     std::string password = passwordInput->getString();

@@ -2,7 +2,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "SettingScene.h"
-#include "Test.h"
+#include "AccountScene.h"
 #include <Show_Chinese.h>
 
 //#include<vector>
@@ -26,7 +26,7 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //Client::getInstance()->connect_to_server();
+    Client::getInstance()->connect_to_server();
     //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
@@ -126,57 +126,34 @@ bool HelloWorld::init()
     //创建一个TTFConfig对象来设置标签的共同属性
     TTFConfig labelConfig;
     labelConfig.fontFilePath = "fonts/Marker Felt.ttf";
-    labelConfig.fontSize = 52;
+    labelConfig.fontSize = 60;
     labelConfig.glyphs = GlyphCollection::DYNAMIC;
     labelConfig.outlineSize = 0;
     labelConfig.customGlyphs = nullptr;
     labelConfig.distanceFieldEnabled = false;
 
     //菜单所需要的标签
-    auto GameLabel   = Label::createWithTTF(labelConfig, "Game");
-    auto TestLabel_1 = Label::createWithTTF(labelConfig, "Test_Scene_1");
     auto TestLabel_2 = Label::createWithTTF(labelConfig, "Setting");
-    auto TestLabel_3 = Label::createWithTTF(labelConfig, "Test_Scene_3");
-    auto TestLabel_4 = Label::createWithTTF(labelConfig, "Test_Scene_4");
+    auto TestLabel_4 = Label::createWithTTF(labelConfig, "Account");
 
     // creating a Menu from a Vector of items
     Vector<MenuItem*> MenuItems;
-    auto GameItem = MenuItemLabel::create(GameLabel,
-        [&](Ref* sender) {
-            //自定义回调函数，下同
-            Director::getInstance()->pushScene(SelectModeScene::createScene());
-        });
-    auto TestItem_1 = MenuItemLabel::create(TestLabel_1,
-        [&](Ref* sender) {
-            //Director::getInstance()->pushScene(Test_Scene_1::createScene());
-        });
     auto TestItem_2 = MenuItemLabel::create(TestLabel_2,
         [&](Ref* sender) {
             Director::getInstance()->pushScene(SettingScene::createScene());
         });
-    auto TestItem_3 = MenuItemLabel::create(TestLabel_3,
-        [&](Ref* sender) {
-            Director::getInstance()->pushScene(Test_Scene_3::createScene());
-        });
     auto TestItem_4 = MenuItemLabel::create(TestLabel_4,
         [&](Ref* sender) {
-            Director::getInstance()->pushScene(Test_Scene_4::createScene());
+            Director::getInstance()->pushScene(AccountScene::createScene());
         });
-
 
 
     //设置各个标签的间距
-    const int height = GameItem->getContentSize().height;
-    GameItem->setPosition(Vec2(origin.x , origin.y));
-    TestItem_1->setPosition(Vec2(origin.x ,origin.y  -height));
-    TestItem_2->setPosition(Vec2(origin.x ,origin.y  -height*2));
-    TestItem_3->setPosition(Vec2(origin.x, origin.y - height * 3));
-    TestItem_4->setPosition(Vec2(origin.x, origin.y - height * 4));
+    const int height = TestItem_2->getContentSize().height;
+    TestItem_2->setPosition(Vec2(origin.x ,origin.y -height * 3));
+    TestItem_4->setPosition(Vec2(origin.x, origin.y - height * 1));
 
-    MenuItems.pushBack(GameItem);
-    MenuItems.pushBack(TestItem_1);
     MenuItems.pushBack(TestItem_2);
-    MenuItems.pushBack(TestItem_3);
     MenuItems.pushBack(TestItem_4);
 
     auto GameMenu = Menu::createWithArray(MenuItems);

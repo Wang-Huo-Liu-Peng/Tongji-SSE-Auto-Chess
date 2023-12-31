@@ -10,17 +10,11 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Test_Scene_4">
-      <UniqueIdentifier>{8581e557-2c8e-4ddf-951b-3e37364a008c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\AppDelegate">
       <UniqueIdentifier>{d7670255-1c7a-4baa-a35b-39404d75cc49}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\HelloWorldScene">
       <UniqueIdentifier>{17719663-1f26-480d-a0f4-5061f47a29dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Test_Scene_3">
-      <UniqueIdentifier>{0e50130e-7550-46e1-8a28-b116fa5aae43}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\PlayerWithAI">
       <UniqueIdentifier>{926b9f0c-e937-4d5c-a155-86ed10fb3386}</UniqueIdentifier>
@@ -64,6 +58,9 @@
     <Filter Include="src\SettingScene">
       <UniqueIdentifier>{cba44d36-7770-4f33-bf65-3563dafcac71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\AccountScene">
+      <UniqueIdentifier>{8581e557-2c8e-4ddf-951b-3e37364a008c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,12 +68,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\SettingScene.cpp">
       <Filter>src\SettingScene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Test_Scene_3.cpp">
-      <Filter>src\Test_Scene_3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Test_Scene_4.cpp">
-      <Filter>src\Test_Scene_4</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src\AppDelegate</Filter>
@@ -126,13 +117,13 @@
     <ClCompile Include="..\Classes\MatchOverScene.cpp">
       <Filter>src\MatchOverScene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\AccountScene.cpp">
+      <Filter>src\AccountScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Test.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Show_Chinese.h">
       <Filter>src</Filter>
@@ -140,11 +131,8 @@
     <ClInclude Include="..\Classes\SettingScene.h">
       <Filter>src\SettingScene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Test_Scene_3.h">
-      <Filter>src\Test_Scene_3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Test_Scene_4.h">
-      <Filter>src\Test_Scene_4</Filter>
+    <ClInclude Include="..\Classes\AccountScene.h">
+      <Filter>src\AccountScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src\AppDelegate</Filter>
