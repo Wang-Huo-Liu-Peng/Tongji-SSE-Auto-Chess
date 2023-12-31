@@ -30,17 +30,6 @@ bool BattleLayer::init(int Player1,int Player2)
     //如果对手不是AI if (Player[player2].Operator== HUMAN)
     if (Player[player2].Operator == HUMAN) {
 
-        for (int i = 0; i < Client::getInstance()->csocket._passInfo->court; i++) {
-            for (int j = 0; j < max_name_length; j++) {
-                Client::getInstance()->csocket._passInfo->hero_court[i].hero_name[j] = '\0';
-            }
-        }
-
-        for (int i = 0; i < Client::getInstance()->csocket._passInfo->bench; i++) {
-            for (int j = 0; j < max_name_length; j++) {
-                Client::getInstance()->csocket._passInfo->hero_bench[i].hero_name[j] = '\0';
-            }
-        }
 
         //将我方的英雄信息上传，作为对方的Player2
         Client::getInstance()->write_event(SendHero);//写入事件
@@ -73,13 +62,13 @@ bool BattleLayer::init(int Player1,int Player2)
 
 
         for (int i = 0; i < Client::getInstance()->csocket._passInfo->court; i++) {
-            for (int j = 0; j < max_name_length; j++) {
+            for (int j = 0; j < max_hero_num; j++) {
                 Client::getInstance()->csocket._passInfo->hero_court[i].hero_name[j] = '\0';
             }
         }
 
         for (int i = 0; i < Client::getInstance()->csocket._passInfo->bench; i++) {
-            for (int j = 0; j < max_name_length; j++) {
+            for (int j = 0; j < max_hero_num; j++) {
                 Client::getInstance()->csocket._passInfo->hero_bench[i].hero_name[j] = '\0';
             }
         }
