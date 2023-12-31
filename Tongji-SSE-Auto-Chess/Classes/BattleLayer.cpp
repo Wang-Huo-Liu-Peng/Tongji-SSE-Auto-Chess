@@ -61,17 +61,6 @@ bool BattleLayer::init(int Player1,int Player2)
         Client::getInstance()->send_msg();//发送
 
 
-        for (int i = 0; i < Client::getInstance()->csocket._passInfo->court; i++) {
-            for (int j = 0; j < max_hero_num; j++) {
-                Client::getInstance()->csocket._passInfo->hero_court[i].hero_name[j] = '\0';
-            }
-        }
-
-        for (int i = 0; i < Client::getInstance()->csocket._passInfo->bench; i++) {
-            for (int j = 0; j < max_hero_num; j++) {
-                Client::getInstance()->csocket._passInfo->hero_bench[i].hero_name[j] = '\0';
-            }
-        }
 
         //接受对方的英雄信息，  作为这边的player2
         while (1) {//阻塞等待接受对面英雄信息
