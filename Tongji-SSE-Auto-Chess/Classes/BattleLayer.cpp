@@ -95,6 +95,18 @@ bool BattleLayer::init(int Player1,int Player2)
     Player[player1].copy();//将court中的英雄复制到fighting上
     Player[player2].copy();//将court中的英雄复制到fighting上
 
+    /**/
+    auto jiban = Sprite::create("123.png");//创建地图
+
+    if(check_synergy(Player[player1].Hero_fighting))
+    {
+        for (int i = 0; i < Player[player1].Hero_fighting.size(); i++)
+        {
+            Player[player1].Hero_fighting[i].attack_power += 10;
+            Player[player1].sprite->addChild(jiban);
+        }
+    }
+
     //将双方的英雄加入场景中
     addHero(player1, ON_BENCH, ME);
     addHero(player2, ON_BENCH, ENEMY);
@@ -644,6 +656,23 @@ void BattleLayer::AIPlayerBrain(int ai) {
         }
 
     }
+}
+
+bool BattleLayer::check_synergy(vector<MyHero>& heroes)
+{
+    vector<string> hero_name;
+    std::transform(heroes.begin(), heroes.end(), std::back_inserter(hero_name), [](const MyHero& hero) {
+        return hero.name;
+        });
+    for (int i = 0; i < synergies.size(); i++)
+    {
+        auto it = find(hero_name.begin(), hero_name.end(), synergies[i]);
+        if (it != hero_name.end())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 /*----------------监听器-----------------*/
